@@ -16,10 +16,9 @@ interface ReceiveClientProps {
 }
 
 function ReceiveClient({ method, coin, network, user }: ReceiveClientProps) {
-  const [payid, setPayid] = useState(user.name.trim().toLocaleLowerCase())
+  const [payid, setPayid] = useState(user.accountId)
   const [address, setAddress] = useState("0x247c9a48e6713c38f046709f084d82b67ad7f3a0")
   const [copied, setCopied] = useState(false)
-  const qrCanvasRef = useRef<HTMLDivElement>(null)
 
   const coinDetails = CRYPTO_ASSETS.find(asset => {
     return asset.network === network || asset.symbol === coin.toLocaleUpperCase()

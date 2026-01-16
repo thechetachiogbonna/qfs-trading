@@ -29,7 +29,7 @@ function DashboardClient({ coinData, user }: { coinData: CryptoData[], user: Use
   });
 
   const copyAccountId = () => {
-    navigator.clipboard.writeText(user.name).then(() => {
+    navigator.clipboard.writeText(user.accountId).then(() => {
       setShowCopyMessage(true);
       setTimeout(() => setShowCopyMessage(false), 2000);
     });
@@ -61,7 +61,7 @@ function DashboardClient({ coinData, user }: { coinData: CryptoData[], user: Use
           <div className="flex items-center space-x-2">
             <button className="flex items-center space-x-2 hover:text-gray-700 dark:hover:text-gray-300">
               <span className="text-lg font-semibold" id="accountId">
-                {user.name}
+                {user.accountId}
               </span>
               <ChevronDown className="text-sm w-4 h-4" />
             </button>

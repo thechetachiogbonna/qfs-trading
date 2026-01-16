@@ -68,6 +68,7 @@ function Register() {
       name: formData.name,
       email: formData.email,
       password: formData.password,
+      accountId: formData.email.split("@")[0].toLowerCase(),
       callbackURL: "/dashboard"
     }, {
       onError(context) {
