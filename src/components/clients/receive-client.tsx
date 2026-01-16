@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react"
+import { useState } from "react"
 import { ArrowLeft, Copy, Share2 } from "lucide-react"
 import Link from "next/link"
 import CryptoImage from "../crypto-image";
