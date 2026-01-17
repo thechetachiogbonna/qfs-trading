@@ -2,22 +2,15 @@ import { CRYPTO_ITEMS } from '@/constants';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import NotificationContent from './notification-content';
-import { headers } from 'next/headers';
 
 async function SidebarCryptoSection() {
-
-  const fullUrl = (await headers()).get("x-full-url")
-  const pathname = fullUrl?.split(":").at(-1);
-
-  console.log(pathname)
-
   return (
     <div className="mb-8">
       <h2 className="text-yellow-500 text-xl font-semibold mb-4">Crypto</h2>
       <div className="space-y-2">
         {CRYPTO_ITEMS.map((item: (typeof CRYPTO_ITEMS)[number]) => {
           const Icon = item.icon;
-          const isActive = `/${pathname}` === item.href;
+          const isActive = false
 
           return (
             <Link

@@ -1,64 +1,91 @@
 import { NextRequest, NextResponse } from "next/server";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { auth } from "./lib/auth";
+import { verifyToken } from "./lib/jwt";
+import { PASSCODE_TOKEN } from "./lib/utils";
+import { compareValue } from "./lib/bcrypt";
 
 export async function proxy(request: NextRequest) {
-  try {
-    // ✅ clone request headers
-    const requestHeaders = new Headers(request.headers);
+  const { pathname } = request.nextUrl;
 
-    // ✅ attach full URL to REQUEST headers
-    requestHeaders.set("x-full-url", request.nextUrl.href);
+  try {
+    if (
+      pathname.startsWith("/login") ||
+      pathname.startsWith("/register")
+    ) {
+      return NextResponse.next();
+    }
 
     const session = await auth.api.getSession({
-      headers: await headers()
+      headers: await headers(),
     });
 
-    const pathname = request.nextUrl.pathname;
-
     if (!session) {
-      if (pathname.startsWith("/login") || pathname.startsWith("/register")) {
-        // ✅ pass modified REQUEST headers forward
-        return NextResponse.next({
-          request: { headers: requestHeaders },
-        });
-      }
-
       return NextResponse.redirect(
         new URL(`/login?redirectUrl=${pathname}`, request.url)
       );
     }
 
+    if (!session.user.passcode) {
+      if (pathname !== "/passcode/create") {
+        return NextResponse.redirect(
+          new URL("/passcode/create", request.url)
+        );
+      }
+      return NextResponse.next();
+    }
+
+    const passcodeToken = (await cookies()).get(PASSCODE_TOKEN);
+
+    if (!passcodeToken) {
+      if (pathname !== "/passcode") {
+        return NextResponse.redirect(new URL("/passcode", request.url));
+      }
+      return NextResponse.next();
+    }
+
+    const { passcode } = verifyToken(passcodeToken.value);
+
+    const passcodeIsValid = await compareValue(passcode, session.user.passcode);
+
+    if (!passcodeIsValid) {
+      if (pathname !== "/passcode") {
+        return NextResponse.redirect(new URL("/passcode?ok=here", request.url));
+      }
+      return NextResponse.next();
+    }
+
     if (pathname.startsWith("/admin")) {
       if (session.user.role !== "admin") {
         return NextResponse.redirect(
-          new URL(request.headers.get("referer") || "/dashboard", request.url)
+          new URL("/dashboard", request.url)
         );
       }
     }
 
-    // ✅ pass modified REQUEST headers forward
-    return NextResponse.next({
-      request: { headers: requestHeaders },
-    });
-  } catch {
+    return NextResponse.next();
+
+  } catch (err) {
+    console.error("proxy error:", err);
     return NextResponse.redirect(new URL("/login", request.url));
   }
 }
 
 export const config = {
   matcher: [
-    "/dashboard",
-    "/profile",
-    "/buy:path*",
-    "/settings",
-    "/notifications",
-    "/swap",
-    "/card",
-    "/referral",
+    "/dashboard/:path*",
+    "/profile/:path*",
+    "/buy/:path*",
+    "/settings/:path*",
+    "/notifications/:path*",
+    "/passcode/:path*",
+    "/swap/:path*",
+    "/card/:path*",
+    "/referral/:path*",
     "/send/:path*",
     "/bot/:path*",
     "/receive/:path*",
     "/crypto/:path*",
-  ]
+    "/admin/:path*",
+  ],
 };

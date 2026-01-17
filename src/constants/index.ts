@@ -1,4 +1,4 @@
-import { IdCard, Layers, Bell, ArrowDown, ArrowLeftRight, Home, ArrowUp, Cog, Bot, CreditCard, Users, ImageIcon, Smartphone, TrendingUp, Shield, Globe, Send, CheckCircle2, Lock } from "lucide-react";
+import { IdCard, Layers, Bell, ArrowDown, ArrowLeftRight, Home, ArrowUp, Cog, Bot, CreditCard, Users, ImageIcon, Smartphone, TrendingUp, Shield, Globe, Send, CheckCircle2, Lock, User } from "lucide-react";
 
 export const CRYPTO_ASSETS = [
   {
@@ -232,3 +232,11 @@ export const securityFeatures = [
       "Automatic scanning and verification of smart contracts before interaction to prevent malicious transactions.",
   },
 ]
+
+export const navItems = [
+  { href: "/dashboard", icon: Home, label: "Home" },
+  { href: "/card", icon: CreditCard, label: "Cards" },
+  { href: "/swap", icon: ArrowLeftRight, label: "Swap" },
+  { href: "/bots", icon: Bot, label: "Bots" },
+  { href: "/settings", icon: User, label: "Me" },
+];

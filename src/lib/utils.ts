@@ -5,6 +5,8 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+export const PASSCODE_TOKEN = "passcodeToken"
+
 export const getCoinKey = (asset: CryptoData) => {
   return asset.network ? `${asset.symbol}_${asset.network}` : asset.symbol;
 }

@@ -3,15 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Home, CreditCard, ArrowLeftRight, Bot, User } from "lucide-react";
-
-const navItems = [
-  { href: "/dashboard", icon: Home, label: "Home" },
-  { href: "/card", icon: CreditCard, label: "Cards" },
-  { href: "/swap", icon: ArrowLeftRight, label: "Swap" },
-  { href: "/bots", icon: Bot, label: "Bots" },
-  { href: "/settings", icon: User, label: "Me" },
-];
+import { navItems } from "@/constants";
 
 export function BottomNav() {
   const pathname = usePathname();
@@ -35,7 +27,7 @@ export function BottomNav() {
               <Icon className="text-xl" />
               <span className="text-xs mt-1">{item.label}</span>
               {item.label === "Me" && (
-                <span className="absolute top-2 right-2 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center hidden">
+                <span className="absolute top-2 right-2 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
                   0
                 </span>
               )}

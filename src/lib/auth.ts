@@ -11,6 +11,9 @@ export const auth = betterAuth({
   database: mongodbAdapter(mongoose.connection.db!),
   user: {
     additionalFields: {
+      passcode: {
+        type: "string"
+      },
       accountId: {
         type: "string",
         required: true

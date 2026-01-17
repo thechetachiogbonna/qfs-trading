@@ -1,9 +1,7 @@
-import React from 'react'
+import ProfileClient from "@/components/clients/profile-client";
 
 function Profile() {
-  return (
-    <div>Profile</div>
-  )
+  return <ProfileClient />
 }
 
 export default Profile

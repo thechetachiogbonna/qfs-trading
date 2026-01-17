@@ -4,6 +4,7 @@ import type React from "react"
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Lock, ArrowLeft, Delete as Delete2 } from "lucide-react"
+import { verifyPasscode } from "@/actions/passcode.action"
 
 function Passcode() {
   const [passcode, setPasscode] = useState("")
@@ -42,26 +43,22 @@ function Passcode() {
   }
 
   const handleVerify = async (codeToVerify?: string) => {
-    const code = codeToVerify || passcode
+    const code = codeToVerify || passcode;
     if (code.length !== 6) {
       setError("Please enter a 6-digit passcode")
       return
     }
 
+    setError("")
+
     setIsLoading(true)
     try {
-      const response = await fetch("/api/security/verify-passcode", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ passcode: code }),
-      })
+      const { success } = await verifyPasscode(passcode)
 
-      const result = await response.json()
-
-      if (response.ok) {
+      if (success) {
         router.push("/dashboard")
       } else {
-        setError(result.message || "Invalid passcode")
+        setError("Invalid passcode")
         setPasscode("")
       }
     } catch (err) {
