@@ -44,13 +44,20 @@ export async function proxy(request: NextRequest) {
       return NextResponse.next();
     }
 
-    const { passcode } = verifyToken(passcodeToken.value);
+    let passcode = "";
+    try {
+      passcode = verifyToken(passcodeToken.value).passcode;
+    } catch (error) {
+      if (pathname !== "/passcode") {
+        return NextResponse.redirect(new URL("/passcode", request.url));
+      }
+    }
 
     const passcodeIsValid = await compareValue(passcode, session.user.passcode);
 
     if (!passcodeIsValid) {
       if (pathname !== "/passcode") {
-        return NextResponse.redirect(new URL("/passcode?ok=here", request.url));
+        return NextResponse.redirect(new URL("/passcode", request.url));
       }
       return NextResponse.next();
     }
