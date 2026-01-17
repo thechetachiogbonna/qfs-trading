@@ -20,19 +20,6 @@ function Passcode() {
     return () => window.removeEventListener("resize", handleResize)
   }, [])
 
-  const handleAddNumber = (num: number) => {
-    if (passcode.length < 6) {
-      const newPasscode = passcode + num
-      setPasscode(newPasscode)
-      setError("")
-
-      // Auto-submit when 6 digits are entered
-      if (newPasscode.length === 6) {
-        handleVerify(newPasscode)
-      }
-    }
-  }
-
   const handleDelete = () => {
     setPasscode(passcode.slice(0, -1))
   }
@@ -42,8 +29,8 @@ function Passcode() {
     setError("")
   }
 
-  const handleVerify = async (codeToVerify?: string) => {
-    const code = codeToVerify || passcode;
+  const handleVerify = async (codeToVerify: string) => {
+    const code = codeToVerify;
     if (code.length !== 6) {
       setError("Please enter a 6-digit passcode")
       return
@@ -53,7 +40,7 @@ function Passcode() {
 
     setIsLoading(true)
     try {
-      const { success } = await verifyPasscode(passcode)
+      const { success } = await verifyPasscode(code)
 
       if (success) {
         router.push("/dashboard")
@@ -69,9 +56,22 @@ function Passcode() {
     }
   }
 
+  const handleAddNumber = async (num: number) => {
+    if (passcode.length < 6) {
+      const newPasscode = passcode + num
+      setPasscode(newPasscode)
+      setError("")
+
+      // Auto-submit when 6 digits are entered
+      if (newPasscode.length === 6) {
+        await handleVerify(newPasscode)
+      }
+    }
+  }
+
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    handleVerify()
+    handleVerify(passcode)
   }
 
   if (!isMobile) {

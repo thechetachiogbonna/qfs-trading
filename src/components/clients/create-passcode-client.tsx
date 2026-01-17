@@ -65,8 +65,8 @@ function CreatePasscodeClient() {
     setError("")
   }
 
-  const handleVerifyMatch = async (confirmCode?: string) => {
-    const code = confirmCode || confirmPasscode
+  const handleVerifyMatch = async (confirmCode: string) => {
+    const code = confirmCode
 
     if (code.length !== 6) {
       setError("Please enter a 6-digit passcode")
@@ -81,7 +81,7 @@ function CreatePasscodeClient() {
 
     setIsLoading(true)
     try {
-      const { success } = await createPasscode(passcode);
+      const { success } = await createPasscode(code);
       if (success) {
         setTimeout(() => {
           setStep("success")
@@ -114,7 +114,7 @@ function CreatePasscodeClient() {
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (step === "confirm") {
-      handleVerifyMatch()
+      handleVerifyMatch(passcode)
     } else if (step === "create") {
       setStep("confirm")
     }
