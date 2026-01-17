@@ -12,8 +12,7 @@ function Register() {
     name: "",
     email: "",
     password: "",
-    password_confirmation: "",
-    referral_code: "",
+    password_confirmation: ""
   })
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -78,6 +77,7 @@ function Register() {
       onSuccess() {
         setIsLoading(false)
         toast.success("Account created successfully.")
+        router.push("/login")
       }
     })
   }
@@ -181,27 +181,6 @@ function Register() {
               onChange={handleChange}
               placeholder="••••••••"
               autoComplete="new-password"
-              className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-gray-700/50 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-yellow-500 dark:focus:ring-yellow-600 focus:border-transparent dark:text-gray-200 text-sm transition-all duration-300 placeholder-gray-400 dark:placeholder-gray-500 group-hover:border-yellow-500 dark:group-hover:border-yellow-600"
-            />
-          </div>
-        </div>
-
-        {/* Referral Code Field */}
-        <div className="space-y-2 animate-slideUp" style={{ animationDelay: "450ms" }}>
-          <label htmlFor="referral_code" className="block text-sm font-medium text-gray-700 dark:text-gray-300">
-            Referral Code (Optional)
-          </label>
-          <div className="relative group">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Users className="h-5 w-5 text-gray-400 dark:text-gray-500" />
-            </div>
-            <input
-              id="referral_code"
-              type="text"
-              name="referral_code"
-              value={formData.referral_code}
-              onChange={handleChange}
-              placeholder="Enter referral code"
               className="w-full pl-10 pr-4 py-3 bg-gray-50 dark:bg-gray-700/50 border-2 border-gray-200 dark:border-gray-600 rounded-xl focus:ring-2 focus:ring-yellow-500 dark:focus:ring-yellow-600 focus:border-transparent dark:text-gray-200 text-sm transition-all duration-300 placeholder-gray-400 dark:placeholder-gray-500 group-hover:border-yellow-500 dark:group-hover:border-yellow-600"
             />
           </div>

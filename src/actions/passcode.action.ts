@@ -23,7 +23,7 @@ export const createPasscode = async (passcode: string) => {
       httpOnly: true,
       sameSite: "strict",
       expires: thirtyMinutesFromNow,
-      // secure: process.env.NODE_ENV !== "development",
+      secure: process.env.NODE_ENV !== "development"
     })
 
     return { success: true }
@@ -60,7 +60,7 @@ export const verifyPasscode = async (passcode: string) => {
       httpOnly: true,
       sameSite: "strict",
       expires: expiresAt,
-      // secure: process.env.NODE_ENV !== "development",
+      secure: process.env.NODE_ENV !== "development"
     });
 
     return { success: true };

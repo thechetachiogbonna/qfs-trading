@@ -1,4 +1,4 @@
-import { IdCard, Layers, Bell, ArrowDown, ArrowLeftRight, Home, ArrowUp, Cog, Bot, CreditCard, Users, ImageIcon, Smartphone, TrendingUp, Shield, Globe, Send, CheckCircle2, Lock, User } from "lucide-react";
+import { IdCard, Layers, Bell, ArrowDown, ArrowLeftRight, Home, ArrowUp, Cog, Bot, CreditCard, ImageIcon, Smartphone, TrendingUp, Shield, Globe, Send, CheckCircle2, Lock, User } from "lucide-react";
 
 export const CRYPTO_ASSETS = [
   {
@@ -140,7 +140,6 @@ export const enum MenuItems {
   Withdraw = "Withdraw",
   Bots = "Bots",
   Card = "Card",
-  Referral = "Referral",
   Settings = "Settings"
 }
 export const enum CryptoItems {
@@ -156,7 +155,6 @@ export const MENU_ITEMS = [
   { href: "#", icon: ArrowUp, label: MenuItems.Withdraw, clickable: true },
   { href: "/bots", icon: Bot, label: MenuItems.Bots },
   { href: "/card", icon: CreditCard, label: MenuItems.Card },
-  { href: "/referral", icon: Users, label: MenuItems.Referral },
   { href: "/settings", icon: Cog, label: MenuItems.Settings },
 ];
 
