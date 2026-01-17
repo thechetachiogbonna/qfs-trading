@@ -35,14 +35,14 @@ function SettingsClient() {
         <div className="space-y-0 bg-transparent">
           <Link
             href="/kyc"
-            className="flex items-center p-4 hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-700 transition-colors"
+            className="flex items-center p-2 hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-700 transition-colors"
           >
             <i className="fas fa-user-check mr-3 text-gray-600 dark:text-gray-400 w-5"></i>
             <span>Account verification</span>
           </Link>
           <Link
             href="/profile"
-            className="flex items-center p-4 hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-700 transition-colors"
+            className="flex items-center p-2 hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-700 transition-colors"
           >
             <i className="fas fa-lock mr-3 text-gray-600 dark:text-gray-400 w-5"></i>
             <span>Password settings</span>
@@ -55,7 +55,7 @@ function SettingsClient() {
         <div className="hover:bg-gray-50 dark:hover:bg-gray-700 text-red-500 transition-colors">
           <button
             onClick={() => setShowLogoutModal(true)}
-            className="flex items-center w-full p-4 bg-transparent ml-8"
+            className="flex items-center w-full p-2 bg-transparent ml-8"
           >
             <LogOut className="w-5 h-5 mr-3" />
             <span>Logout</span>
