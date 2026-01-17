@@ -209,7 +209,7 @@ function SwapClient({ coinData, user }: { coinData: CryptoData[], user: User }) 
   const rate = Number.parseFloat(fromAmount) > 0 ? Number.parseFloat(toAmount) / Number.parseFloat(fromAmount) : 0
 
   return (
-    <section className="p-2 px-4 pb-24 md:pb-4 text-[15px]">
+    <section className="p-2 px-1 md:px-4 pb-24 md:pb-4 text-[15px]">
       {/* Header with Back Button */}
       <div className="flex items-center justify-between mb-8">
         <Link href="/dashboard" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
@@ -274,19 +274,19 @@ function SwapClient({ coinData, user }: { coinData: CryptoData[], user: User }) 
               placeholder="0.00"
               min="0"
               step="any"
-              className="bg-transparent text-right text-2xl w-max focus:outline-none dark:text-white"
+              className="bg-transparent text-right text-sm w-max focus:outline-none dark:text-white"
             />
           </div>
 
           <div className="flex items-center justify-between mb-4">
-            <div className="flex gap-2">
+            <div className="flex gap-1 md:gap-2">
               {[25, 50, 75, 100].map((pct) => (
                 <button
                   key={pct}
                   type="button"
                   onClick={() => setAmount(pct)}
                   disabled={isLoading}
-                  className="px-3 py-1 rounded-md bg-gray-800 dark:bg-gray-700 text-white text-[13px] hover:opacity-80 transition-opacity"
+                  className="px-3 py-1 rounded-md bg-gray-800 dark:bg-gray-700 text-white text-xs md:text-[13px] hover:opacity-80 transition-opacity"
                 >
                   {pct}%
                 </button>
@@ -356,7 +356,7 @@ function SwapClient({ coinData, user }: { coinData: CryptoData[], user: User }) 
               readOnly
               disabled={isLoading}
               placeholder="0.00"
-              className="bg-transparent text-right text-2xl w-max focus:outline-none dark:text-white"
+              className="bg-transparent text-right text-sm w-max focus:outline-none dark:text-white"
             />
           </div>
 
