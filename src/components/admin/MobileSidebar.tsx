@@ -15,11 +15,9 @@ function MobileSidebar() {
           <SheetHeader className="-mt-2">
             <Link
               href="/"
-              className="flex flex-wrap gap-1 text-lg sm:text-xl md:text-2xl font-bold"
+              className="text-3xl font-bold text-transparent bg-clip-text bg-linear-to-r from-purple-600 to-pink-600"
             >
-              <span className="text-[#F87171]">Backup</span>
-              <span className="text-[#DAA520]">Web3</span>
-              <span className="text-[#4169E1]">Vault</span>
+              QFS Trading
             </Link>
           </SheetHeader>
           <nav className="flex flex-col gap-4 pl-5">

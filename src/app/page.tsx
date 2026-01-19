@@ -28,7 +28,7 @@ function Home() {
             href="/"
             className="text-3xl font-bold text-transparent bg-clip-text bg-linear-to-r from-purple-600 to-pink-600"
           >
-            Defibit
+            QFS Trading
           </Link>
           <nav className="hidden md:flex space-x-6">
             <a href="#features" className="hover:text-purple-600 transition-colors">
