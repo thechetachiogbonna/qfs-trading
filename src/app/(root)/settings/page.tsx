@@ -25,11 +25,11 @@ function Settings() {
             return (
               <Link
                 key={item.label}
-                href="/notifications"
+                href={item.href}
                 className="relative flex items-center p-4 hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-700 transition-colors"
               >
                 <Icon className="mr-3 text-gray-600 dark:text-gray-400 w-5" />
-                <span>Notification</span>
+                <span>{item.label}</span>
                 <span className="absolute top-5 right-4 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
                   <NotificationContent />
                 </span>
@@ -39,11 +39,11 @@ function Settings() {
           return (
             <Link
               key={item.label}
-              href="/crypto/manage"
+              href={item.href}
               className="flex items-center p-4 hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-700 transition-colors"
             >
               <Icon className="mr-3 text-gray-600 dark:text-gray-400 w-5" />
-              <span>Manage Crypto</span>
+              <span>{item.label}</span>
             </Link>
           )
         })}
