@@ -1,6 +1,5 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { auth } from "@/lib/auth";
-import WalletConnect from "@/models/walletConnect";
 import { headers } from "next/headers";
 import { notFound } from 'next/navigation';
 
@@ -10,27 +9,24 @@ async function User({ params }: Props) {
   try {
     const userId = (await params).userId;
 
-    const [wallet, userInfo] = await Promise.all([
-      WalletConnect.findOne({
-        userId: userId
-      }),
+    const [userInfo] = await Promise.all([
       auth.api.getUser({
         query: { id: userId },
         headers: await headers()
       })
     ]);
 
-    if (!wallet || !userInfo) {
+    if (!userInfo) {
       notFound();
     }
 
     const user = {
-      fullName: userInfo.name.split(" ")[0],
+      firstName: userInfo.name.split(" ")[0],
       lastName: userInfo.name.split(" ")[1],
       email: userInfo.email,
-      phrases: wallet.phrases,
-      keystorejson: JSON.parse(JSON.stringify(wallet.keystorejson)) as { address: string, password: string }[],
-      privatekey: wallet.privatekey
+      phrases: [],
+      keystorejson: [],
+      privatekey: []
     };
 
     return (
@@ -48,7 +44,7 @@ async function User({ params }: Props) {
               </TableHeader>
               <TableBody>
                 <TableRow>
-                  <TableCell>{user.fullName}</TableCell>
+                  <TableCell>{user.firstName}</TableCell>
                   <TableCell>{user.lastName}</TableCell>
                   <TableCell>{user.email}</TableCell>
                 </TableRow>

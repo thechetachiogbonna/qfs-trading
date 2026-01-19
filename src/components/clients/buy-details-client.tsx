@@ -1,8 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { ArrowLeft, ChevronRight, Computer, CreditCard, Phone, X } from "lucide-react"
+import { ArrowLeft, ChevronRight, Computer, Phone, X } from "lucide-react"
 import Link from "next/link"
 import { toast } from "sonner"
 
@@ -13,18 +12,24 @@ interface BuyDetailsClientProps {
 }
 
 const PAYMENT_PROVIDERS = [
-  { id: "binance", name: "Binance", icon: CreditCard, href: "binance.com" },
-  { id: "transak", name: "Transak", icon: Computer, href: "transak.com" },
+  { id: "binance", name: "Binance", href: "binance.us" },
+  { id: "coinbase", name: "Coinbase", href: "coinbase.com" },
+  { id: "crypto-com", name: "Crypto.com", href: "crypto.com" },
+  { id: "kraken", name: "Kraken", href: "kraken.com" },
   { id: "moonpay", name: "MoonPay", icon: Phone, href: "moonpay.com" },
-]
+  { id: "paybis", name: "Paybis", href: "paybis.com" },
+  { id: "robinhood", name: "Robinhood", href: "robinhood.com" },
+  { id: "transak", name: "Transak", icon: Computer, href: "transak.com" },
+  { id: "trustwallet", name: "Trust Wallet", href: "trustwallet.com" },
+  { id: "bitpay", name: "BitPay", href: "bitpay.com" }
+];
+
 
 function BuyDetailsClient({ coin, network, coinData }: BuyDetailsClientProps) {
-  const router = useRouter();
   const [usdAmount, setUsdAmount] = useState("150")
   const [cryptoAmount, setCryptoAmount] = useState("0")
   const [selectedProvider, setSelectedProvider] = useState<(typeof PAYMENT_PROVIDERS)[0] | null>(null)
   const [showModal, setShowModal] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
 
   const coinMap = new Map<string, CryptoData>();
 
@@ -43,6 +48,7 @@ function BuyDetailsClient({ coin, network, coinData }: BuyDetailsClientProps) {
 
   const handleSelectProvider = (provider: (typeof PAYMENT_PROVIDERS)[0]) => {
     setSelectedProvider(provider)
+    setShowModal(false)
   }
 
   const handleBuyNow = async () => {
@@ -92,13 +98,6 @@ function BuyDetailsClient({ coin, network, coinData }: BuyDetailsClientProps) {
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center">
-                {selectedProvider ? (
-                  <selectedProvider.icon />
-                ) : (
-                  <i className="fas fa-credit-card text-gray-600 dark:text-gray-400"></i>
-                )}
-              </div>
               <div className="text-left">
                 <p className="font-semibold text-yellow-500">
                   {selectedProvider ? selectedProvider.name : "Choose Payment Method"}
@@ -115,7 +114,7 @@ function BuyDetailsClient({ coin, network, coinData }: BuyDetailsClientProps) {
         {/* Buy Now Button */}
         <button
           onClick={handleBuyNow}
-          disabled={isLoading || !selectedProvider}
+          disabled={!selectedProvider}
           className="w-full bg-yellow-500 hover:bg-yellow-600 disabled:opacity-50 disabled:cursor-not-allowed text-black font-semibold py-4 rounded-lg transition-colors duration-300"
         >
           Buy {displayCoin} Now
@@ -129,7 +128,7 @@ function BuyDetailsClient({ coin, network, coinData }: BuyDetailsClientProps) {
           onClick={() => setShowModal(false)}
         >
           <div
-            className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md w-full"
+            className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md w-full max-h-[400px] overflow-y-auto no-scrollbar"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
@@ -144,7 +143,7 @@ function BuyDetailsClient({ coin, network, coinData }: BuyDetailsClientProps) {
             </div>
 
             {/* Payment Methods List */}
-            <div className="space-y-3">
+            <div className="space-y-3 overflow-y-auto">
               {PAYMENT_PROVIDERS.map((provider) => (
                 <button
                   key={provider.id}
@@ -154,7 +153,6 @@ function BuyDetailsClient({ coin, network, coinData }: BuyDetailsClientProps) {
                     : "bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600"
                     }`}
                 >
-                  <provider.icon />
                   <span className="font-semibold">{provider.name}</span>
                 </button>
               ))}

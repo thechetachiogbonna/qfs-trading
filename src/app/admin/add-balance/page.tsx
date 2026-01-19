@@ -40,12 +40,12 @@ async function AddBalance() {
                     <TableCell className="text-gray-500">
                       <select className="w-[100px] border rounded px-3 py-2 focus:outline-none focus:border-[#42a5f5]">
                         <option>Old balance</option>
-                        {Object.entries(JSON.parse(user.coins) as UserCoins).map(([symbol, value]) => {
+                        {Object.entries(JSON.parse(user.coins) as UserCoin).map(([symbol, coin]) => {
                           return (
                             <option
                               key={symbol}
                             >
-                              {symbol}: {value}
+                              {symbol}: {coin.balance}
                             </option>
                           )
                         })}

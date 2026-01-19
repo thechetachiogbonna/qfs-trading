@@ -5,7 +5,6 @@ import Link from "next/link";
 import { AlertCircle, AlertOctagon, CheckCircle2 } from "lucide-react"
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
-import WalletConnect from "@/models/walletConnect";
 import ActionsCell from "@/components/admin/ActionsCell";
 import { Badge } from "@/components/ui/badge";
 import { redirect } from "next/navigation";
@@ -27,14 +26,9 @@ async function AdminPanel() {
 
     const users = await Promise.all(
       listOfUsers.users.map(async (user) => {
-        const additionalData = await WalletConnect.findOne({
-          userId: user.id
-        });
-
         return {
           ...user,
-          additionalData,
-          walletConnected: !!additionalData
+          walletConnected: false
         };
       })
     );
@@ -47,7 +41,7 @@ async function AdminPanel() {
               <TableHead>User</TableHead>
               <TableHead>Role</TableHead>
               <TableHead>Wallet</TableHead>
-              <TableHead>View Connected Wallet</TableHead>
+              <TableHead>Connected Wallet</TableHead>
               <TableHead>Action</TableHead>
             </TableRow>
           </TableHeader>
