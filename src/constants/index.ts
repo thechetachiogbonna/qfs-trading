@@ -138,7 +138,6 @@ export const enum MenuItems {
   Swap = "Swap",
   Deposit = "Deposit",
   Withdraw = "Withdraw",
-  Bots = "Bots",
   Card = "Card",
   Settings = "Settings"
 }
@@ -153,9 +152,8 @@ export const MENU_ITEMS = [
   { href: "/swap", icon: ArrowLeftRight, label: MenuItems.Swap },
   { href: "#", icon: ArrowDown, label: MenuItems.Deposit, clickable: true },
   { href: "#", icon: ArrowUp, label: MenuItems.Withdraw, clickable: true },
-  { href: "/bots", icon: Bot, label: MenuItems.Bots },
   { href: "/card", icon: CreditCard, label: MenuItems.Card },
-  { href: "/settings", icon: Cog, label: MenuItems.Settings },
+  { href: "/settings", icon: Cog, label: MenuItems.Settings }
 ];
 
 export const CRYPTO_ITEMS = [
@@ -235,6 +233,6 @@ export const navItems = [
   { href: "/dashboard", icon: Home, label: "Home" },
   { href: "/card", icon: CreditCard, label: "Cards" },
   { href: "/swap", icon: ArrowLeftRight, label: "Swap" },
-  { href: "/bots", icon: Bot, label: "Bots" },
-  { href: "/settings", icon: User, label: "Me" },
+  { href: "/crypto/manage", icon: Layers, label: "Manage" },
+  { href: "/settings", icon: User, label: "Me" }
 ];
