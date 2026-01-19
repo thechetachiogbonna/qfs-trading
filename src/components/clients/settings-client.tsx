@@ -30,24 +30,14 @@ function SettingsClient() {
   return (
     <>
       {/* Security Section */}
-      <div className="mt-8">
-        <h2 className="text-yellow-500 font-semibold text-lg text-center mb-4">Security</h2>
-        <div className="space-y-0 bg-transparent">
-          <Link
-            href="/kyc"
-            className="flex items-center p-4 hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-700 transition-colors"
-          >
-            <UserCheck className="mr-3 text-gray-600 dark:text-gray-400 w-5" />
-            <span>Account verification</span>
-          </Link>
-          <Link
-            href="/profile"
-            className="flex items-center p-4 hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-700 transition-colors"
-          >
-            <Lock className="mr-3 text-gray-600 dark:text-gray-400 w-5" />
-            <span>Password settings</span>
-          </Link>
-        </div>
+      <div className="space-y-0 bg-transparent">
+        <Link
+          href="/profile"
+          className="flex items-center p-4 hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-700 transition-colors"
+        >
+          <Lock className="mr-3 text-gray-600 dark:text-gray-400 w-5" />
+          <span>Password settings</span>
+        </Link>
       </div>
 
       {/* Logout Button */}

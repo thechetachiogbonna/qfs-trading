@@ -15,7 +15,7 @@ function MobileSidebar() {
           <SheetHeader className="-mt-2">
             <Link
               href="/"
-              className="text-3xl font-bold text-transparent bg-clip-text bg-linear-to-r from-purple-600 to-pink-600"
+              className="text-xl font-bold text-transparent bg-clip-text bg-linear-to-r from-purple-600 to-pink-600"
             >
               QFS Trading
             </Link>
