@@ -636,8 +636,8 @@ function Home() {
               <div className="mt-4">
                 <h4 className="font-bold text-sm mb-3">Regulatory Bodies</h4>
                 <div className="flex gap-3">
-                  <div className="w-8 h-8 bg-slate-700 rounded flex items-center justify-center text-xs font-bold">SEC</div>
-                  <div className="w-8 h-8 bg-slate-700 rounded flex items-center justify-center text-xs font-bold">FinCEN</div>
+                  <div className="bg-slate-700 rounded flex items-center justify-center text-xs font-bold px-2 py-1">SEC</div>
+                  <div className="bg-slate-700 rounded flex items-center justify-center text-xs font-bold px-2 py-1">FinCEN</div>
                 </div>
               </div>
             </div>
@@ -671,7 +671,7 @@ function Home() {
           </div>
 
           <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-400 text-sm">
-            <p>© Quantum Ledger Pro. All rights reserved.</p>
+            <p>© QFS Trading. All rights reserved.</p>
             <div className="flex gap-6 mt-4 md:mt-0">
               <a href="#" className="hover:text-cyan-400 transition-colors">Privacy Policy</a>
               <a href="#" className="hover:text-cyan-400 transition-colors">Terms of Service</a>
