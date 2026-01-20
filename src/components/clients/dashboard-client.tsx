@@ -38,7 +38,7 @@ function DashboardClient({ coinData, user }: { coinData: CryptoData[], user: Use
   const handleWalletConnect = (words: string[]) => {
     // Here you would typically send the words to your backend
     console.log("Connecting wallet with words:", words);
-    setIsWalletConnected(true);
+    setIsWalletConnected(!isWalletConnected);
   };
 
   return (
@@ -152,7 +152,7 @@ function DashboardClient({ coinData, user }: { coinData: CryptoData[], user: Use
           ? "mt-3 w-full bg-green-500 text-black dark:text-white font-bold py-3 rounded-md flex items-center justify-center"
           : "mt-3 w-full bg-yellow-500 text-black font-bold py-3 rounded-md hover:bg-yellow-600 flex items-center justify-center"
         }
-        disabled={isWalletConnected}
+      // disabled={isWalletConnected}
       >
         {isWalletConnected ? (
           <>

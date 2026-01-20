@@ -66,7 +66,7 @@ function CryptoCoins({ coinData, page, path }: CryptoCoinsProps) {
                   <div className="flex items-center space-x-2">
                     <span className="font-semibold text-sm">{asset.symbol}</span>
                     {asset.network && (
-                      <span className="text-xs bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded">
+                      <span className={cn("text-xs bg-gray-200 dark:bg-gray-700 px-2 py-1 rounded", isHomePage && "dark:bg-gray-800")}>
                         {asset.network}
                       </span>
                     )}

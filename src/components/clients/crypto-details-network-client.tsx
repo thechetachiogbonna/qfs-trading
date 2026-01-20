@@ -1,38 +1,38 @@
 "use client";
 
-import { CRYPTO_ASSETS } from '@/constants'
-import { ChevronLeft, Link, TrendingUp, CreditCard, ArrowUp, ArrowDown, ArrowLeftRight } from 'lucide-react'
+import { ChevronLeft, TrendingUp, CreditCard, ArrowUp, ArrowDown, ArrowLeftRight } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { SendModal } from '../modals/send-modal';
 import { ReceiveModal } from '../modals/receive-modal';
 import { formatDate } from '@/lib/utils';
+import CryptoImage from '../crypto-image';
+import Link from "next/link";
 
 interface CryptoDetailsNetworkClientProps {
   coin: string
-  network: string,
   transactions: string
+  coinDetails: {
+    coinBalance: number
+    coinPrice: number
+    coinName: string
+    src: string;
+    alt: string;
+    networkSrc: string | null;
+    network: string | null;
+  }
 }
 
-function CryptoDetailsNetworkClient({ coin, network, transactions }: CryptoDetailsNetworkClientProps) {
+function CryptoDetailsNetworkClient({ coin, transactions, coinDetails }: CryptoDetailsNetworkClientProps) {
   const router = useRouter();
-
-  // Find asset config
-  const assetConfig = useMemo(() => {
-    return CRYPTO_ASSETS.find(
-      (asset) =>
-        asset.symbol.toLowerCase() === coin.toLowerCase() &&
-        (!network || network === "native" || asset.network === network.toUpperCase()),
-    )
-  }, [coin, network])
 
   const [showSendModal, setShowSendModal] = useState(false)
   const [showReceiveModal, setShowReceiveModal] = useState(false)
 
-  const coinName = assetConfig?.name || coin.toUpperCase()
-  const coinSymbol = assetConfig?.symbol || coin.toUpperCase()
-  const balance = "260.44740000"
-  const usdValue = "$24,900,680.52"
+  const coinName = coinDetails.coinName
+  const coinSymbol = coin.toUpperCase()
+  const balance = coinDetails.coinBalance
+  const usdValue = coinDetails.coinBalance * coinDetails.coinPrice;
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white pb-24 md:pb-4">
@@ -59,15 +59,23 @@ function CryptoDetailsNetworkClient({ coin, network, transactions }: CryptoDetai
       <div className="px-4">
         {/* Coin Icon */}
         <div className="flex justify-center my-8">
-          <div className="w-24 h-24 rounded-full bg-linear-to-br from-yellow-400 to-yellow-600 flex items-center justify-center text-4xl font-bold text-white shadow-lg">
-            ₿
-          </div>
+          <CryptoImage
+            src={coinDetails.src}
+            alt={coinDetails.alt}
+            networkSrc={coinDetails.networkSrc}
+            network={coinDetails.network}
+          />
         </div>
 
         {/* Balance */}
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-2">{balance} BTC</h2>
-          <p className="text-gray-500 dark:text-gray-400">{usdValue}</p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-2">{balance} {coinSymbol}</h2>
+          <p className="text-gray-500 dark:text-gray-400">
+            ${usdValue.toLocaleString(undefined, {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            })}{" "}
+          </p>
         </div>
 
         {/* Action Buttons */}
