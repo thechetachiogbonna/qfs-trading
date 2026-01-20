@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Menu, X, ChevronDown, ChevronUp, Shield, Lock, TrendingUp, Bolt, Currency, DollarSign, KeySquareIcon, ShieldCheck, Cloud, UserPlus, ShieldHalfIcon, BarChart, Smartphone, Zap, Verified, Star } from "lucide-react"
+import { authClient } from "@/lib/auth-client"
 
 function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -49,6 +50,8 @@ function Home() {
     { question: "Is customer assistance available?", answer: "Certainly! Round-the-clock support is available through multiple channels including live chat, email, and telephone. Our dedicated specialists are prepared to assist." },
   ]
 
+  const user = authClient.useSession().data?.user;
+
   return (
     <div className="min-h-screen bg-dark-bg text-white">
       {/* Header */}
@@ -69,12 +72,28 @@ function Home() {
           </div>
 
           <div className="hidden md:flex items-center gap-3">
-            <Link href="/login">
-              <button className="px-6 py-2 text-gray-300 hover:text-white transition-colors">Log In</button>
-            </Link>
-            <Link href="/register">
-              <button className="px-6 py-2 bg-linear-to-r from-cyan-500 to-cyan-600 text-slate-950 font-bold rounded-xl hover:shadow-lg hover:shadow-cyan-500/50 transition-all">Get Started</button>
-            </Link>
+
+            {user
+              ? (
+                <Link href="/dashboard">
+                  <Image
+                    src="/images/default.png"
+                    alt="profile"
+                    width={50}
+                    height={50}
+                    className="rounded-full"
+                  />
+                </Link>
+              ) : (
+                <>
+                  <Link href="/login">
+                    <button className="px-6 py-2 text-gray-300 hover:text-white transition-colors">Log In</button>
+                  </Link>
+                  <Link href="/register">
+                    <button className="px-6 py-2 bg-linear-to-r from-cyan-500 to-cyan-600 text-slate-950 font-bold rounded-xl hover:shadow-lg hover:shadow-cyan-500/50 transition-all">Get Started</button>
+                  </Link>
+                </>
+              )}
           </div>
 
           <button className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
@@ -88,8 +107,25 @@ function Home() {
             <a href="#features" className="block px-4 py-2 text-gray-300 hover:text-cyan-400">Features</a>
             <a href="#security" className="block px-4 py-2 text-gray-300 hover:text-cyan-400">Security</a>
             <a href="#faq" className="block px-4 py-2 text-gray-300 hover:text-cyan-400">About</a>
-            <Link href="/login" className="block px-4 py-2">Log In</Link>
-            <Link href="/register" className="block px-4 py-2 bg-cyan-500 text-slate-950 rounded-lg font-bold">Get Started</Link>
+            {user
+              ? (
+                <Link
+                  href="/dashboard"
+                  className="block px-4 py-2 bg-cyan-500 text-slate-950 rounded-lg font-bold"
+                >
+                  Dashboard
+                </Link>
+              ) : (
+                <>
+                  <Link href="/login" className="block px-4 py-2">Log In</Link>
+                  <Link
+                    href="/register"
+                    className="block px-4 py-2 bg-cyan-500 text-slate-950 rounded-lg font-bold"
+                  >
+                    Get Started
+                  </Link>
+                </>
+              )}
           </div>
         )}
       </header>

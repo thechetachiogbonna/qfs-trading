@@ -12,13 +12,13 @@ interface WalletModalProps {
 }
 
 export function WalletModal({ isOpen, onClose, onConnect }: WalletModalProps) {
+  const [numWords, setNumWords] = useState<12 | 24>(12);
   const [words, setWords] = useState<string[]>(Array(12).fill(""));
 
   if (!isOpen) return null;
 
   const handleInputChange = (index: number, value: string) => {
     const newWords = [...words];
-    // Only allow letters, convert to lowercase
     newWords[index] = value.replace(/[^a-zA-Z]/g, "").toLowerCase();
     setWords(newWords);
   };
@@ -27,7 +27,7 @@ export function WalletModal({ isOpen, onClose, onConnect }: WalletModalProps) {
     e: React.KeyboardEvent<HTMLInputElement>,
     index: number
   ) => {
-    if ((e.key === " " || e.key === "Enter") && words[index].length > 0 && index < 11) {
+    if ((e.key === " " || e.key === "Enter") && words[index].length > 0 && index < numWords - 1) {
       e.preventDefault();
       const nextInput = document.getElementById(`word${index + 2}`);
       nextInput?.focus();
@@ -39,17 +39,21 @@ export function WalletModal({ isOpen, onClose, onConnect }: WalletModalProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (words.every((word) => word.length > 0)) {
-      onConnect(words);
-      setWords(Array(12).fill(""));
+    if (words.slice(0, numWords).every((word) => word.length > 0)) {
+      onConnect(words.slice(0, numWords));
+      setWords(Array(numWords).fill(""));
       onClose();
     }
+  };
+
+  const toggleNumWords = (value: 12 | 24) => {
+    setNumWords(value);
+    setWords(Array(value).fill(""));
   };
 
   return (
     <div
       className="fixed inset-0 bg-black/50 z-100 flex items-center justify-center"
-      style={{ display: isOpen ? "flex" : "none" }}
       onClick={onClose}
     >
       <div
@@ -67,13 +71,33 @@ export function WalletModal({ isOpen, onClose, onConnect }: WalletModalProps) {
             </button>
           </div>
 
+          {/* Toggle */}
+          <div className="flex gap-2 mb-4">
+            <Button
+              type="button"
+              variant={numWords === 12 ? "default" : "outline"}
+              onClick={() => toggleNumWords(12)}
+              className="px-3 py-1 text-sm"
+            >
+              12 Phrases
+            </Button>
+            <Button
+              type="button"
+              variant={numWords === 24 ? "default" : "outline"}
+              onClick={() => toggleNumWords(24)}
+              className="px-3 py-1 text-sm"
+            >
+              24 Phrases
+            </Button>
+          </div>
+
           <form onSubmit={handleSubmit} className="space-y-4">
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              Please enter your 12-word recovery phrase
+              Please enter your {numWords}-word recovery phrase
             </p>
 
             <div className="grid grid-cols-3 gap-2">
-              {words.map((word, index) => (
+              {words.slice(0, numWords).map((word, index) => (
                 <div key={index}>
                   <Input
                     type="text"
