@@ -102,17 +102,17 @@ function Home() {
             <span className="inline-block bg-cyan-400 rounded-full animate-pulse">
               <Verified size={12} />
             </span>
-            <span className="text-sm font-semibold text-cyan-300">Quantum Ledger Pro</span>
+            <span className="text-sm font-semibold text-cyan-300">QFS Trading</span>
           </div>
 
           <h1 className="text-5xl md:text-6xl font-black mb-6 leading-tight">
-            The Quantum Ledger Pro Platform
+            The QFS Trading Platform
           </h1>
           <p className="text-xl md:text-2xl text-cyan-300 mb-6 font-semibold">
             Unlock Access to Advanced, Intelligent, and Next-Generation Digital Asset Solutions
           </p>
           <p className="text-lg text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed">
-            Quantum Ledger Pro features a fortified encrypted ledger powered by quantum-grade security measures, designed to shield your holdings against cyber threats, market volatility, and infrastructure disruptions. Your asset integrity remains uncompromised and protected from any breach.
+            QFS Trading features a fortified encrypted ledger powered by quantum-grade security measures, designed to shield your holdings against cyber threats, market volatility, and infrastructure disruptions. Your asset integrity remains uncompromised and protected from any breach.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
@@ -500,7 +500,7 @@ function Home() {
                 ))}
               </div>
               <p className="text-gray-400 mb-6 leading-relaxed">
-                "The security and ease of use are unmatched. Quantum Ledger Pro has transformed how we
+                "The security and ease of use are unmatched. QFS Trading has transformed how we
                 manage our digital assets."
               </p>
               <div className="flex items-center gap-3">
