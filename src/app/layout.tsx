@@ -8,7 +8,8 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Qfs Trading",
-  description: "Qfs Trading Platform"
+  description: "Qfs Trading Platform",
+  manifest: "/manifest.json"
 };
 
 export default function RootLayout({
