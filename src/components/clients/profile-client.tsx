@@ -5,6 +5,7 @@ import type React from "react"
 import { useState } from "react"
 import { ArrowLeft, Eye, EyeOff } from "lucide-react"
 import Link from "next/link"
+import { authClient } from "@/lib/auth-client"
 
 function ProfileClient() {
   const [showPasscode, setShowPasscode] = useState(false)
@@ -16,10 +17,9 @@ function ProfileClient() {
   const [error, setError] = useState("")
 
   const [formData, setFormData] = useState({
-    passcode: "",
     currentPassword: "",
     newPassword: "",
-    confirmPassword: "",
+    confirmPassword: ""
   })
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,12 +34,6 @@ function ProfileClient() {
     e.preventDefault()
     setError("")
     setSuccess(false)
-
-    // Validation
-    if (!formData.passcode || formData.passcode.length !== 6) {
-      setError("Passcode must be 6 digits")
-      return
-    }
 
     if (!formData.currentPassword) {
       setError("Current password is required")
@@ -57,24 +51,26 @@ function ProfileClient() {
     }
 
     setLoading(true)
-    try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500))
 
-      setSuccess(true)
-      setFormData({
-        passcode: "",
-        currentPassword: "",
-        newPassword: "",
-        confirmPassword: "",
-      })
-
-      setTimeout(() => setSuccess(false), 3000)
-    } catch (err) {
-      setError("Failed to update password. Please try again.")
-    } finally {
-      setLoading(false)
-    }
+    authClient.changePassword({
+      newPassword: formData.newPassword,
+      currentPassword: formData.currentPassword,
+      revokeOtherSessions: true
+    }, {
+      onError(context) {
+        setError(context.error.message || "Failed to update password. Please try again.")
+        setLoading(false)
+      },
+      onSuccess() {
+        setSuccess(true)
+        setFormData({
+          currentPassword: "",
+          newPassword: "",
+          confirmPassword: "",
+        })
+        setLoading(false)
+      }
+    })
   }
 
   return (
@@ -107,32 +103,6 @@ function ProfileClient() {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Six Digit Passcode */}
-          <div className="space-y-2">
-            <label htmlFor="passcode" className="block text-sm font-medium text-gray-500 dark:text-gray-300">
-              Your Six Digit Passcode
-            </label>
-            <div className="relative">
-              <input
-                type={showPasscode ? "text" : "password"}
-                id="passcode"
-                name="passcode"
-                maxLength={6}
-                value={formData.passcode}
-                onChange={handleChange}
-                className="w-full bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg py-3 px-4 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:border-yellow-500 dark:focus:border-yellow-500"
-                placeholder="Enter six-digit passcode"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPasscode(!showPasscode)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
-              >
-                {showPasscode ? <Eye className="w-5 h-5" /> : <EyeOff className="w-5 h-5" />}
-              </button>
-            </div>
-          </div>
-
           {/* Current Password */}
           <div className="space-y-2">
             <label htmlFor="currentPassword" className="block text-sm font-medium text-gray-500 dark:text-gray-300">

@@ -5,16 +5,12 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'www.cryptocompare.com',
-      },
-      {
-        protocol: 'https',
-        hostname: 'qfs.developerplug.com',
+        hostname: 'i.pravatar.cc',
       },
       {
         protocol: 'https',
         hostname: 'assets.coingecko.com',
-      },
+      }
     ],
     unoptimized: false,
     minimumCacheTTL: 60,

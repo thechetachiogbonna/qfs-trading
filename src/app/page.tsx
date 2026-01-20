@@ -2,366 +2,694 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
-import { useTheme } from "next-themes"
-import {
-  Moon,
-  Sun,
-  Lock,
-  Mail
-} from "lucide-react"
-import { features, securityFeatures } from "@/constants"
+import Image from "next/image"
+import { Menu, X, ChevronDown, ChevronUp, Shield, Lock, TrendingUp, Bolt, Currency, DollarSign, KeySquareIcon, ShieldCheck, Cloud, UserPlus, ShieldHalfIcon, BarChart, Smartphone, Zap, Verified, Star } from "lucide-react"
 
 function Home() {
-  const { theme, setTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [openFaq, setOpenFaq] = useState<number | null>(null)
+  const [showBackToTop, setShowBackToTop] = useState(false)
 
   useEffect(() => {
-    setMounted(true)
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 400)
+    }
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" })
+  }
+
+  const steps = [
+    { number: 1, icon: "👤", title: "Create Account", description: "Sign up in minutes with just your email. Simple and secure registration." },
+    { number: 2, icon: "🔒", title: "Secure Wallet", description: "Set up multi-factor authentication and secure your digital wallet." },
+    { number: 3, icon: "💱", title: "Refine Assets", description: "Deposit funds and begin refining your collectible assets." },
+    { number: 4, icon: "📈", title: "Watch Growth", description: "Monitor your portfolio with real analytics and updates." },
+  ]
+
+  const features = [
+    { title: "Secure Wallet", icon: "🔒", description: "The Secure Wallet on QuantumLedgerPro keeps your digital assets safe and protected at all times. With advanced encryption and strong security layers, your funds stay locked away from hackers and unauthorized access. It's a reliable, easy-to-use wallet built for total peace of mind." },
+    { title: "Multi Currency", icon: "💱", description: "Multi-currency features lets you hold and manage multiple currencies in one place—no hassle, no extra steps. From digital coins to traditional currencies, you can easily switch, store, and track everything securely." },
+    { title: "Instant Transactions", icon: "⚡", description: "Send and receive assets instantly with QuantumLedgerPro. No waiting, no processing delays—just fast, secure transfers whenever you need them. It's speed and simplicity you can count on." },
+  ]
+
+  const securityFeatures = [
+    { icon: "🛡️", title: "2FA Authentication", description: "QuantumLedgerPro uses advanced two-factor authentication to ensure only authorized users can access your secure ledger environment. By requiring both your password and a second verification method, 2FA adds a powerful layer of protection." },
+    { icon: "🔐", title: "Quantum Encryption", description: "Experience unmatched protection with QuantumLedgerPro's quantum encryption technology. This next-generation security framework shields your assets with cryptographic defenses." },
+    { icon: "❄️", title: "Cold Storage", description: "QuantumLedgerPro offers secure cold storage to keep your assets completely offline and protected from digital threats. By isolating your data from internet systems." },
+    { icon: "✓", title: "Insurance Protected", description: "Your assets on QuantumLedgerPro are housed within a security framework supported by comprehensive protection policies." },
+  ]
+
+  const faqs = [
+    { question: "What level of protection does my wallet receive?", answer: "Your wallet benefits from military-grade 256-bit encryption, dual-factor authentication, and 95% of holdings remain in offline vault storage." },
+    { question: "What transaction costs should I expect?", answer: "We provide competitive rates beginning at 0.1% per trade. High-volume participants receive preferential pricing structures." },
+    { question: "What's the timeline for fund withdrawals?", answer: "Digital asset withdrawals complete within 15-30 minutes. Traditional bank transfers typically take 1-3 business days." },
+    { question: "Is customer assistance available?", answer: "Certainly! Round-the-clock support is available through multiple channels including live chat, email, and telephone. Our dedicated specialists are prepared to assist." },
+  ]
+
   return (
-    <div className="min-h-screen bg-linear-to-br from-white to-gray-100 dark:from-gray-900 dark:to-gray-800 text-gray-900 dark:text-white transition-colors duration-300">
+    <div className="min-h-screen bg-dark-bg text-white">
       {/* Header */}
-      <header className="border-b border-gray-200 dark:border-gray-700">
-        <div className="container mx-auto px-4 py-6 flex justify-between items-center">
-          <Link
-            href="/"
-            className="text-3xl font-bold text-transparent bg-clip-text bg-linear-to-r from-purple-600 to-pink-600"
-          >
-            QFS Trading
-          </Link>
-          <nav className="hidden md:flex space-x-6">
-            <a href="#features" className="hover:text-purple-600 transition-colors">
-              Features
-            </a>
-            <a href="#security" className="hover:text-purple-600 transition-colors">
-              Security
-            </a>
-          </nav>
-          <div className="flex items-center space-x-4">
-            <Link href="/dashboard">
-              <button className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-full text-sm transition-colors duration-300">
-                Open Wallet
-              </button>
-            </Link>
-            {mounted && (
-              <button
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="p-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-              >
-                {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
-              </button>
-            )}
+      <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-slate-950/30 border-b border-cyan-900/30">
+        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-2 text-xl font-bold">
+            <div className="w-8 h-8 bg-linear-to-br from-cyan-400 to-cyan-600 rounded flex items-center justify-center">
+              <span className="text-slate-950 font-black">Q</span>
+            </div>
+            <span>QFS Trading</span>
           </div>
-        </div>
+
+          <div className="hidden md:flex items-center gap-8">
+            <a href="#features" className="text-gray-300 hover:text-cyan-400 transition-colors">Features</a>
+            <a href="#security" className="text-gray-300 hover:text-cyan-400 transition-colors">Security</a>
+            <a href="#faq" className="text-gray-300 hover:text-cyan-400 transition-colors">About</a>
+            <a href="#contact" className="text-gray-300 hover:text-cyan-400 transition-colors">Contact</a>
+          </div>
+
+          <div className="hidden md:flex items-center gap-3">
+            <Link href="/login">
+              <button className="px-6 py-2 text-gray-300 hover:text-white transition-colors">Log In</button>
+            </Link>
+            <Link href="/register">
+              <button className="px-6 py-2 bg-linear-to-r from-cyan-500 to-cyan-600 text-slate-950 font-bold rounded-xl hover:shadow-lg hover:shadow-cyan-500/50 transition-all">Get Started</button>
+            </Link>
+          </div>
+
+          <button className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </nav>
+
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden bg-slate-900 border-t border-cyan-900/30 p-4 space-y-2">
+            <a href="#features" className="block px-4 py-2 text-gray-300 hover:text-cyan-400">Features</a>
+            <a href="#security" className="block px-4 py-2 text-gray-300 hover:text-cyan-400">Security</a>
+            <a href="#faq" className="block px-4 py-2 text-gray-300 hover:text-cyan-400">About</a>
+            <Link href="/login" className="block px-4 py-2">Log In</Link>
+            <Link href="/register" className="block px-4 py-2 bg-cyan-500 text-slate-950 rounded-lg font-bold">Get Started</Link>
+          </div>
+        )}
       </header>
 
       {/* Hero Section */}
-      <main className="container mx-auto px-4 py-12">
-        <section className="relative mb-24">
-          {/* Decorative elements */}
-          <div className="absolute top-0 right-0 w-72 h-72 bg-purple-600/10 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 left-0 w-72 h-72 bg-pink-600/10 rounded-full blur-3xl"></div>
+      <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden hero-section">
+        <div className="absolute inset-0 pointer-events-none hero-section-overlay" />
+        <div className="max-w-5xl mx-auto text-center relative z-10">
+          <div className="inline-flex items-center gap-2 px-4 py-2 backdrop-blur-sm rounded-full mb-8 border border-cyan-900/50 bg-cyan-900/40">
+            <span className="inline-block bg-cyan-400 rounded-full animate-pulse">
+              <Verified size={12} />
+            </span>
+            <span className="text-sm font-semibold text-cyan-300">Quantum Ledger Pro</span>
+          </div>
 
-          <div className="relative z-10 grid lg:grid-cols-2 gap-12 items-center">
-            {/* Left column */}
-            <div className="text-center lg:text-left">
-              <h2 className="text-5xl md:text-7xl font-bold mb-6">
-                Your{" "}
-                <span className="text-transparent bg-clip-text bg-linear-to-r from-purple-600 to-pink-600">
-                  Universal
-                </span>{" "}
-                Wallet
-              </h2>
-              <p className="text-xl md:text-2xl mb-8 text-gray-600 dark:text-gray-300">
-                One secure wallet for all your digital assets. Trade and manage your portfolio with confidence.
-              </p>
+          <h1 className="text-5xl md:text-6xl font-black mb-6 leading-tight">
+            The Quantum Ledger Pro Platform
+          </h1>
+          <p className="text-xl md:text-2xl text-cyan-300 mb-6 font-semibold">
+            Unlock Access to Advanced, Intelligent, and Next-Generation Digital Asset Solutions
+          </p>
+          <p className="text-lg text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed">
+            Quantum Ledger Pro features a fortified encrypted ledger powered by quantum-grade security measures, designed to shield your holdings against cyber threats, market volatility, and infrastructure disruptions. Your asset integrity remains uncompromised and protected from any breach.
+          </p>
 
-              <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 mb-12">
-                <Link href="/register">
-                  <button className="px-8 py-4 bg-linear-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-full hover:opacity-90 transform transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl">
-                    Create Free Wallet
-                  </button>
-                </Link>
-              </div>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+            <Link href="/register">
+              <button className="px-8 py-4 bg-linear-to-r from-cyan-500 to-cyan-600 text-slate-950 font-black rounded-xl hover:shadow-2xl hover:shadow-cyan-500/50 transition-all text-lg">
+                Get Started
+              </button>
+            </Link>
+            <Link href="/login">
+              <button className="px-8 py-4 border-2 border-cyan-900/50 text-white font-bold rounded-xl hover:border-cyan-400 hover:text-cyan-400 transition-all">
+                Login Now
+              </button>
+            </Link>
+          </div>
 
-              {/* Stats */}
-              <div className="grid grid-cols-3 gap-8">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-purple-600">$2B+</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">Assets Managed</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-pink-600">1M+</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">Active Users</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-purple-600">150+</div>
-                  <div className="text-sm text-gray-600 dark:text-gray-400">Supported Coins</div>
-                </div>
-              </div>
+          <div className="flex justify-center gap-4 text-sm text-gray-400">
+            <div className="flex items-center gap-1">
+              <Shield size={16} className="text-cyan-400" />
+              SOC 2 Certified
             </div>
-
-            {/* Right column - Wallet Preview */}
-            <div className="relative">
-              <div className="relative bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-6 transform transition-all duration-300 hover:scale-105">
-                <div className="flex items-center justify-between mb-6">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-linear-to-r from-purple-600 to-pink-600 rounded-full"></div>
-                    <div>
-                      <div className="font-semibold">Total Balance</div>
-                      <div className="text-sm text-gray-600 dark:text-gray-400">Updated just now</div>
-                    </div>
-                  </div>
-                  <div className="text-2xl font-bold">$25,432.95</div>
-                </div>
-
-                {/* Asset preview */}
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-xl">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 bg-yellow-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
-                        ₿
-                      </div>
-                      <div>Bitcoin</div>
-                    </div>
-                    <div className="text-right">
-                      <div className="font-semibold">0.45 BTC</div>
-                      <div className="text-sm text-green-500">+3.54%</div>
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-700 rounded-xl">
-                    <div className="flex items-center space-x-3">
-                      <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
-                        Ξ
-                      </div>
-                      <div>Ethereum</div>
-                    </div>
-                    <div className="text-right">
-                      <div className="font-semibold">4.21 ETH</div>
-                      <div className="text-sm text-green-500">+5.23%</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Decorative elements */}
-              <div className="absolute -top-4 -right-4 w-24 h-24 bg-purple-600/20 rounded-full blur-xl"></div>
-              <div className="absolute -bottom-4 -left-4 w-24 h-24 bg-pink-600/20 rounded-full blur-xl"></div>
+            <div className="flex items-center gap-1">
+              <Lock size={16} className="text-cyan-400" />
+              256-bit Encryption
+            </div>
+            <div className="flex items-center gap-1">
+              <TrendingUp size={16} className="text-cyan-400" />
+              GDPR Compliant
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Features Section */}
-        <section id="features" className="mb-24">
+      {/* Stats Section */}
+      <section className="py-20 bg-dark-bg border-b border-cyan-900/40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="text-center stat-counter">
+              <div className="text-4xl md:text-5xl font-black text-gradient mb-2">$500M+</div>
+              <div className="text-gray-400 font-medium">Assets Refined</div>
+            </div>
+            <div className="text-center stat-counter">
+              <div className="text-4xl md:text-5xl font-black text-gradient mb-2">120K+</div>
+              <div className="text-gray-400 font-medium">Active Wallets</div>
+            </div>
+            <div className="text-center stat-counter">
+              <div className="text-4xl md:text-5xl font-black text-gradient mb-2">0.01s</div>
+              <div className="text-gray-400 font-medium">Latency</div>
+            </div>
+            <div className="text-center stat-counter">
+              <div className="text-4xl md:text-5xl font-black text-gradient mb-2">24/7</div>
+              <div className="text-gray-400 font-medium">Live Support</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Features Section */}
+      <section id="features" className="py-24 bg-linear-to-b from-dark-bg to-dark-card">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Powerful Features for Your{" "}
-              <span className="text-transparent bg-clip-text bg-linear-to-r from-purple-600 to-pink-600">
-                Digital Assets
-              </span>
+            <h2 className="font-display text-4xl md:text-5xl font-black text-white mb-4">
+              Advanced Quantum Capabilities
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-              Everything you need to manage your cryptocurrency portfolio in one secure platform
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+              Harnessing quantum technology to enable rapid, seamless financial operations
             </p>
           </div>
 
-          {/* Features Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {features.map((feature, index) => {
-              const Icon = feature.icon
-              const bgColor =
-                feature.color === "purple" ? "bg-purple-100 dark:bg-purple-900/30" : "bg-pink-100 dark:bg-pink-900/30"
-              const textColor = feature.color === "purple" ? "text-purple-600" : "text-pink-600"
-              const tagBg =
-                feature.color === "purple" ? "bg-purple-100 dark:bg-purple-900/30" : "bg-pink-100 dark:bg-pink-900/30"
+            <div className="rounded-2xl p-8 border border-cyan-900/40 hover:shadow-cyan-500/40 card-hover bg-slate-800/60">
+              <div className="w-14 h-14 rounded-xl flex items-center justify-center mb-4 bg-cyan-900/40">
+                <span className="material-symbols-outlined text-cyan-400 text-3xl">
+                  <KeySquareIcon />
+                </span>
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-3">Secure Wallet</h3>
+              <p className="text-gray-400 leading-relaxed">
+                QuantumLedgerPro's Protected Vault maintains your digital holdings in absolute safety through military-grade protection and layered security protocols, ensuring your investments remain secure from unauthorized breaches. Experience complete peace of mind with our fortress-level security architecture.
+              </p>
+            </div>
 
-              return (
-                <div
-                  key={index}
-                  className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
-                >
-                  <div className={`w-12 h-12 ${bgColor} rounded-lg flex items-center justify-center mb-6`}>
-                    <Icon className={`w-6 h-6 ${textColor}`} />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
-                  <p className="text-gray-600 dark:text-gray-400 mb-4">{feature.description}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {feature.tags.map((tag, tagIndex) => (
-                      <span key={tagIndex} className={`px-3 py-1 ${tagBg} ${textColor} rounded-full text-sm`}>
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              )
-            })}
+            <div className="rounded-2xl p-8 border border-cyan-900/40 hover:shadow-cyan-500/40 card-hover bg-slate-800/60">
+              <div className="w-14 h-14 rounded-xl flex items-center justify-center mb-4 bg-amber-900/40">
+                <span className="material-symbols-outlined text-gold text-3xl">
+                  <DollarSign />
+                </span>
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-3">Multi Currency</h3>
+              <p className="text-gray-400 leading-relaxed">
+                Our Multi-Asset Hub enables unified management of diverse currencies and digital tokens across a single integrated platform, simplifying your portfolio without the complications of separate systems. Seamlessly manage everything in one secure location.
+              </p>
+            </div>
+
+            <div className="rounded-2xl p-8 border border-cyan-900/40 hover:shadow-cyan-500/40 card-hover bg-slate-800/60">
+              <div className="w-14 h-14 rounded-xl flex items-center justify-center mb-4 bg-cyan-900/40">
+                <span className="material-symbols-outlined text-cyan-400 text-3xl">
+                  <Bolt />
+                </span>
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-3">Instant Transactions</h3>
+              <p className="text-gray-400 leading-relaxed">
+                Transfer and acquire holdings immediately using QuantumLedgerPro's rapid settlement system—no delays, just dependable speed and security whenever required. Experience lightning-fast transactions you can rely on.
+              </p>
+            </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Security Section */}
-        <section id="security" className="mb-24 relative">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-purple-600/5 rounded-full blur-3xl -z-10"></div>
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-pink-600/5 rounded-full blur-3xl -z-10"></div>
-
+      {/* Security Section */}
+      <section id="security" className="py-24 bg-dark-bg">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Bank-Grade{" "}
-              <span className="text-transparent bg-clip-text bg-linear-to-r from-purple-600 to-pink-600">
-                Security
-              </span>{" "}
-              Protocols
+            <h2 className="font-display text-4xl md:text-5xl font-black text-white mb-4">
+              Enterprise-Grade Quantum Protection
             </h2>
-            <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-              Your assets are protected by multiple layers of cutting-edge security measures
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+              Advanced quantum-powered defenses safeguard your portfolio
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-8">
-            {/* Security visualization */}
-            <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg flex items-center justify-center min-h-[400px]">
-              <div className="relative w-64 h-64">
-                <div
-                  className="absolute inset-0 rounded-full border-4 border-dashed border-purple-200 dark:border-purple-900 animate-spin"
-                  style={{ animationDuration: "20s" }}
-                ></div>
-                <div
-                  className="absolute inset-8 rounded-full border-4 border-dashed border-pink-200 dark:border-pink-900 animate-spin"
-                  style={{ animationDuration: "15s", animationDirection: "reverse" }}
-                ></div>
-                <div className="absolute inset-16 rounded-full bg-linear-to-br from-purple-600/20 to-pink-600/20 flex items-center justify-center">
-                  <Lock className="w-12 h-12 text-purple-600" />
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="rounded-2xl p-8 text-center security-badge border border-cyan-900/40 hover:shadow-cyan-500/40 bg-slate-800/60">
+              <div className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 bg-cyan-900/40">
+                <span className="material-symbols-outlined text-cyan-400 text-4xl">
+                  <ShieldCheck />
+                </span>
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">2FA Authentication</h3>
+              <p className="text-sm text-gray-400">Dual-verification security on QuantumLedgerPro provides reinforced access controls through advanced two-step validation protocols. This layered approach ensures comprehensive protection against unauthorized entry, fraud attempts, and security breaches, keeping your holdings completely secure.</p>
+            </div>
+
+            <div className="rounded-2xl p-8 text-center security-badge border hover:shadow-cyan-500/40"
+              style={{ background: "rgba(26, 41, 66, 0.6); border-color: rgba(0, 212, 255, 0.1)" }}>
+              <div className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4"
+                style={{ background: "rgba(212, 175, 55, 0.1)" }}>
+                <span className="material-symbols-outlined text-gold text-4xl">
+                  <Lock />
+                </span>
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">Quantum Encryption</h3>
+              <p className="text-sm text-gray-400">Benefit from cutting-edge quantum-grade cryptographic defense architecture that provides unparalleled protection for your holdings. This advanced security framework withstands sophisticated threats and ensures your data remains protected against evolving cyber dangers.</p>
+            </div>
+
+            <div className="rounded-2xl p-8 text-center security-badge border border-cyan-900/40 hover:shadow-cyan-500/40 bg-slate-800/60">
+              <div className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 bg-cyan-900/40">
+                <span className="material-symbols-outlined text-cyan-400 text-4xl">
+                  <Cloud />
+                </span>
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">Cold Storage</h3>
+              <p className="text-sm text-gray-400">Offline-vault storage solutions through QuantumLedgerPro maintain maximum protection by keeping your holdings completely disconnected from online networks. This isolated approach eliminates exposure to digital threats while ensuring long-term preservation and security.</p>
+            </div>
+
+            <div className="rounded-2xl p-8 text-center security-badge border border-cyan-900/40 hover:shadow-cyan-500/40 bg-slate-800/60">
+              <div className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-4 bg-amber-900/40">
+                <span className="material-symbols-outlined text-amber-500 text-4xl">
+                  <ShieldCheck />
+                </span>
+              </div>
+              <h3 className="text-lg font-bold text-white mb-2">Insurance Protected</h3>
+              <p className="text-sm text-gray-400">Holdings maintained on QuantumLedgerPro benefit from insurance-backed security protocols that provide additional safeguards for your assets. This comprehensive protection framework ensures your digital portfolio maintains maximum security and peace of mind.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How It Works Section */}
+      <section className="py-24 bg-linear-to-b from-dark-bg to-dark-card">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="font-display text-4xl md:text-5xl font-black text-white mb-4">
+              How It Works
+            </h2>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+              Begin optimizing your holdings through a straightforward four-phase process
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {/* Step 1 */}
+            <div className="text-center">
+              <div className="flex flex-col items-center mb-6">
+                <div className="step-number mb-4 text-dark-bg font-bold">
+                  <span>1</span>
+                </div>
+                <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4"
+                  style={{ background: "rgba(0, 212, 255, 0.1)" }}>
+                  <span className="material-symbols-outlined text-cyan-400 text-4xl">
+                    <UserPlus />
+                  </span>
+                </div>
+              </div>
+              <h3 className="text-xl font-bold text-white mb-3">Create Account</h3>
+              <p className="text-gray-400 leading-relaxed">
+                Register quickly using minimal information. Fast and straightforward setup process.
+              </p>
+            </div>
+
+            {/* Step 2 */}
+            <div className="text-center">
+              <div className="flex flex-col items-center mb-6">
+                <div className="step-number mb-4 text-dark-bg font-bold">
+                  <span>2</span>
+                </div>
+                <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4"
+                  style={{ background: "rgba(212, 175, 55, 0.1)" }}>
+                  <span className="material-symbols-outlined text-gold text-4xl">
+                    <ShieldHalfIcon />
+                  </span>
+                </div>
+              </div>
+              <h3 className="text-xl font-bold text-white mb-3">Secure Wallet</h3>
+              <p className="text-gray-400 leading-relaxed">
+                Configure dual-factor protection and fortify your digital holdings.
+              </p>
+            </div>
+
+            {/* Step 3 */}
+            <div className="text-center">
+              <div className="flex flex-col items-center mb-6">
+                <div className="step-number mb-4 text-dark-bg font-bold">
+                  <span>3</span>
+                </div>
+                <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4"
+                  style={{ background: "rgba(0, 212, 255, 0.1)" }}>
+                  <span className="material-symbols-outlined text-cyan-400 text-4xl">
+                    <DollarSign />
+                  </span>
+                </div>
+              </div>
+              <h3 className="text-xl font-bold text-white mb-3">Refine Assets</h3>
+              <p className="text-gray-400 leading-relaxed">
+                Fund your account and start optimizing your valuable holdings.
+              </p>
+            </div>
+
+            {/* Step 4 */}
+            <div className="text-center">
+              <div className="flex flex-col items-center mb-6">
+                <div className="step-number mb-4 text-dark-bg font-bold">
+                  <span>4</span>
+                </div>
+                <div className="w-16 h-16 rounded-2xl flex items-center justify-center mb-4"
+                  style={{ background: "rgba(212, 175, 55, 0.1)" }}>
+                  <span className="material-symbols-outlined text-gold text-4xl">
+                    <TrendingUp />
+                  </span>
+                </div>
+              </div>
+              <h3 className="text-xl font-bold text-white mb-3">Watch Growth</h3>
+              <p className="text-gray-400 leading-relaxed">
+                Track your investments through live performance metrics and insights.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Quantum Platform Section */}
+      <section id="platform" className="py-24 bg-dark-bg border-t border-cyan-900/40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="font-display text-4xl md:text-5xl font-black text-white mb-4">
+              Quantum Platform
+            </h2>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+              Experience institutional-grade trading and quantum portfolio management
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12 items-center mb-16">
+            {/* Main Dashboard Preview */}
+            <div className="screenshot-hover rounded-2xl overflow-hidden shadow-2xl border border-cyan-900/40 shadow-cyan-900/40">
+              <Image src="/images/platform_showcase_1.jpg" alt="Dashboard Analytics" width={600} height={400}
+                className="w-full h-auto opacity-90 hover:opacity-100 transition-opacity" />
+              <div className="screenshot-label">
+                <span className="px-6 py-3 rounded-full font-bold text-gray-900 shadow-xl bg-cyan-400 shadow-cyan-500/40">
+                  Quantum Analytics Dashboard
+                </span>
+              </div>
+            </div>
+
+            <div className="space-y-6 mb-16">
+              <div className="flex gap-4">
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-cyan-900/40">
+                  <span className="material-symbols-outlined text-cyan-400 text-2xl">
+                    <Zap />
+                  </span>
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-2">Real-Time Quantum Data</h3>
+                  <p className="text-gray-400 leading-relaxed">
+                    Lightning-fast updates with millisecond-precision market data from global
+                    exchanges via quantum links.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-4">
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-amber-900/40">
+                  <span className="material-symbols-outlined text-amber-500 text-2xl">
+                    <BarChart />
+                  </span>
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-2">Advanced Analytics</h3>
+                  <p className="text-gray-400 leading-relaxed">
+                    Professional charting tools, technical indicators, and AI-powered insights.
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex gap-4">
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-cyan-900/40">
+                  <span className="material-symbols-outlined text-cyan-400 text-2xl">
+                    <Smartphone />
+                  </span>
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-white mb-2">Mobile Trading</h3>
+                  <p className="text-gray-400 leading-relaxed">
+                    Trade on-the-go with our native mobile apps for iOS and Android.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          {/* Additional Feature Screenshots */}
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="screenshot-hover rounded-xl overflow-hidden shadow-lg border border-cyan-900/40">
+              <Image src="/images/platform_showcase_2.jpg" alt="Secure Wallet" width={300} height={256}
+                className="w-full h-64 object-cover opacity-80 hover:opacity-100 transition-opacity" />
+              <div className="screenshot-label">
+                <span className="px-4 py-2 rounded-full font-bold text-sm text-gray-900 shadow-xl bg-cyan-400 text-nowrap">
+                  Secure Wallet
+                </span>
+              </div>
+            </div>
+
+            <div className="screenshot-hover rounded-xl overflow-hidden shadow-lg border border-cyan-900/40">
+              <Image src="/images/ledger-main.png" alt="Transaction History" width={300} height={256}
+                className="w-full h-64 object-cover opacity-80 hover:opacity-100 transition-opacity" />
+              <div className="screenshot-label">
+                <span className="px-4 py-2 rounded-full font-bold text-sm text-gray-900 shadow-xl bg-amber-500 text-nowrap">
+                  Transaction History
+                </span>
+              </div>
+            </div>
+
+            <div className="screenshot-hover rounded-xl overflow-hidden shadow-lg border border-cyan-900/40">
+              <Image src="/images/ledge3.jpg" alt="Portfolio Management" width={300} height={256}
+                className="w-full h-64 object-cover opacity-80 hover:opacity-100 transition-opacity" />
+              <div className="screenshot-label">
+                <span className="px-4 py-2 rounded-full font-bold text-sm text-gray-900 shadow-xl bg-cyan-400 text-nowrap">
+                  Portfolio Management
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-24 bg-linear-to-b from-dark-card to-dark-bg">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="font-display text-4xl md:text-5xl font-black text-white mb-4">
+              Trusted by Leaders
+            </h2>
+            <p className="text-xl text-gray-400">
+              Join thousands of satisfied clients worldwide
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8">
+            <div className="rounded-2xl p-8 border hover:shadow-cyan-500/40 card-hover"
+              style={{ background: "rgba(10, 22, 40, 0.6); border-color: rgba(0, 212, 255, 0.1)" }}>
+              <div className="flex items-center gap-1 mb-4">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <span key={index} className="material-symbols-outlined text-gold">
+                    <Star />
+                  </span>
+                ))}
+              </div>
+              <p className="text-gray-400 mb-6 leading-relaxed">
+                "The security and ease of use are unmatched. Quantum Ledger Pro has transformed how we
+                manage our digital assets."
+              </p>
+              <div className="flex items-center gap-3">
+                <Image src="https://i.pravatar.cc/450?img=12" alt="Michael Chen"
+                  className="w-12 h-12 rounded-full border-2 border-cyan-500/30" width={50} height={50} />
+                <div>
+                  <div className="font-bold text-white">Michael Chen</div>
+                  <div className="text-sm text-cyan-400">CEO, TechVentures</div>
                 </div>
               </div>
             </div>
 
-            {/* Security features */}
-            <div className="space-y-6">
-              {securityFeatures.map((feature, index) => {
-                const Icon = feature.icon
-                return (
-                  <div key={index} className="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg">
-                    <div className="flex items-start space-x-4">
-                      <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center shrink-0">
-                        <Icon className="w-6 h-6 text-purple-600" />
-                      </div>
-                      <div>
-                        <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
-                        <p className="text-gray-600 dark:text-gray-400">{feature.description}</p>
-                      </div>
-                    </div>
-                  </div>
-                )
-              })}
+            <div className="rounded-2xl p-8 border hover:shadow-cyan-500/40 card-hover"
+              style={{ background: "rgba(10, 22, 40, 0.6); border-color: rgba(0, 212, 255, 0.1)" }}>
+              <div className="flex items-center gap-1 mb-4">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <span key={index} className="material-symbols-outlined text-gold">
+                    <Star />
+                  </span>
+                ))}
+              </div>
+              <p className="text-gray-400 mb-6 leading-relaxed">
+                "Professional service with exceptional support. Their asset recovery team helped us
+                retrieve significant holdings."
+              </p>
+              <div className="flex items-center gap-3">
+                <Image src="https://i.pravatar.cc/450?img=47" alt="Sarah Martinez"
+                  className="w-12 h-12 rounded-full border-2 border-cyan-500/30" width={50} height={50} />
+                <div>
+                  <div className="font-bold text-white">Sarah Martinez</div>
+                  <div className="text-sm text-cyan-400">Investor</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-2xl p-8 border hover:shadow-cyan-500/40 card-hover"
+              style={{ background: "rgba(10, 22, 40, 0.6); border-color: rgba(0, 212, 255, 0.1)" }}>
+              <div className="flex items-center gap-1 mb-4">
+                {Array.from({ length: 5 }).map((_, index) => (
+                  <span key={index} className="material-symbols-outlined text-gold">
+                    <Star />
+                  </span>
+                ))}
+              </div>
+              <p className="text-gray-400 mb-6 leading-relaxed">
+                "Best platform for institutional investors. The analytics and reporting tools are second
+                to none."
+              </p>
+              <div className="flex items-center gap-3">
+                <Image src="https://i.pravatar.cc/450?img=33" alt="David Thompson"
+                  className="w-12 h-12 rounded-full border-2 border-cyan-500/30" width={50} height={50} />
+                <div>
+                  <div className="font-bold text-white">David Thompson</div>
+                  <div className="text-sm text-cyan-400">Fund Manager</div>
+                </div>
+              </div>
             </div>
           </div>
-        </section>
-      </main>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section id="faq" className="py-20 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-3xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-black mb-4">Frequently Asked Questions</h2>
+            <p className="text-xl text-gray-400">Find answers to common questions about our platform</p>
+          </div>
+
+          <div className="space-y-4">
+            {faqs.map((faq, index) => (
+              <div key={index} className="bg-slate-800 border border-slate-700 rounded-2xl overflow-hidden hover:border-cyan-900/50 transition-all">
+                <button
+                  onClick={() => setOpenFaq(openFaq === index ? null : index)}
+                  className="w-full px-6 py-4 flex items-center justify-between text-left font-bold text-lg hover:bg-slate-700/50 transition-colors"
+                >
+                  {faq.question}
+                  <ChevronDown size={20} className={`transform transition-transform ${openFaq === index ? "rotate-180" : ""}`} />
+                </button>
+                {openFaq === index && (
+                  <div className="px-6 py-4 border-t border-slate-700 text-gray-400">
+                    {faq.answer}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-12 text-center">
+            <p className="text-gray-400 mb-4">Still have questions?</p>
+            <button className="px-8 py-3 bg-cyan-500 text-slate-950 font-bold rounded-xl hover:bg-cyan-400 transition-colors">
+              Contact Support
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-linear-to-b from-transparent to-cyan-900/40">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-4xl md:text-5xl font-black mb-6">Ready to Secure Your Digital Future?</h2>
+          <p className="text-xl text-gray-400 mb-12">Join 120,000+ users managing over $500M in digital assets</p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link href="/(auth)/register">
+              <button className="px-8 py-4 bg-linear-to-r from-cyan-500 to-cyan-600 text-slate-950 font-black rounded-xl hover:shadow-2xl hover:shadow-cyan-500/50 transition-all text-lg">
+                Get Started
+              </button>
+            </Link>
+            <Link href="/(auth)/login">
+              <button className="px-8 py-4 border-2 border-cyan-900/50 text-white font-bold rounded-xl hover:border-cyan-400 hover:text-cyan-400 transition-all">
+                Login Now
+              </button>
+            </Link>
+          </div>
+        </div>
+      </section>
 
       {/* Footer */}
-      <footer className="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
-        <div className="container mx-auto px-4 py-16">
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8 space-y-8">
+      <footer className="border-t border-slate-800 bg-slate-950 py-16 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-4 gap-12 mb-12">
             <div>
-              <h3 className="text-2xl font-bold text-transparent bg-clip-text bg-linear-to-r from-purple-600 to-pink-600 mb-4">
-                Defibit
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400 mb-4">
-                Secure, reliable, and user-friendly crypto wallet for the next generation of digital finance.
+              <div className="flex items-center gap-2 text-xl font-bold mb-4">
+                <div className="w-8 h-8 bg-linear-to-br from-cyan-400 to-cyan-600 rounded flex items-center justify-center">
+                  <span className="text-slate-950 font-black">Q</span>
+                </div>
+                <span>QFS Trading</span>
+              </div>
+              <p className="text-gray-400 text-sm leading-relaxed">
+                State-of-the-art digital refining platform for secure, efficient, and user-friendly asset management.
               </p>
-              <div className="flex space-x-4">
-                <a href="#" className="text-gray-600 dark:text-gray-400 hover:text-purple-600 transition-colors">
-                  <Mail size={20} />
-                </a>
+              <div className="mt-4">
+                <h4 className="font-bold text-sm mb-3">Regulatory Bodies</h4>
+                <div className="flex gap-3">
+                  <div className="w-8 h-8 bg-slate-700 rounded flex items-center justify-center text-xs font-bold">SEC</div>
+                  <div className="w-8 h-8 bg-slate-700 rounded flex items-center justify-center text-xs font-bold">FinCEN</div>
+                </div>
               </div>
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4">Quick Links</h4>
-              <ul className="space-y-2 text-gray-600 dark:text-gray-400">
-                <li>
-                  <a href="#features" className="hover:text-purple-600 transition-colors">
-                    Features
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-purple-600 transition-colors">
-                    Security
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-purple-600 transition-colors">
-                    Staking
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-purple-600 transition-colors">
-                    Supported Assets
-                  </a>
-                </li>
+              <h4 className="font-bold text-lg mb-4">Services</h4>
+              <ul className="space-y-2 text-gray-400 text-sm">
+                <li><a href="#" className="hover:text-cyan-400 transition-colors">Secure Wallet</a></li>
+                <li><a href="#" className="hover:text-cyan-400 transition-colors">Asset Refining</a></li>
+                <li><a href="#" className="hover:text-cyan-400 transition-colors">Quantum Exchange</a></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4">Support</h4>
-              <ul className="space-y-2 text-gray-600 dark:text-gray-400">
-                <li>
-                  <a href="#" className="hover:text-purple-600 transition-colors">
-                    Help Center
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-purple-600 transition-colors">
-                    Documentation
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-purple-600 transition-colors">
-                    API Reference
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-purple-600 transition-colors">
-                    Status
-                  </a>
-                </li>
+              <h4 className="font-bold text-lg mb-4">Company</h4>
+              <ul className="space-y-2 text-gray-400 text-sm">
+                <li><a href="#" className="hover:text-cyan-400 transition-colors">About Us</a></li>
+                <li><a href="#" className="hover:text-cyan-400 transition-colors">Features</a></li>
+                <li><a href="#" className="hover:text-cyan-400 transition-colors">Contact</a></li>
               </ul>
             </div>
 
             <div>
-              <h4 className="font-semibold mb-4">Stay Updated</h4>
-              <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
-                Subscribe to our newsletter for the latest updates and features.
-              </p>
-              <div className="flex flex-col gap-2">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="flex-1 px-4 py-2 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-600"
-                />
-                <button className="px-4 py-2 bg-linear-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-lg hover:opacity-90 transition-opacity">
-                  Subscribe
-                </button>
-              </div>
+              <h4 className="font-bold text-lg mb-4">Legal</h4>
+              <ul className="space-y-2 text-gray-400 text-sm">
+                <li><a href="#" className="hover:text-cyan-400 transition-colors">Privacy Policy</a></li>
+                <li><a href="#" className="hover:text-cyan-400 transition-colors">Terms of Service</a></li>
+                <li><a href="#" className="hover:text-cyan-400 transition-colors">Cookie Policy</a></li>
+              </ul>
             </div>
           </div>
 
-          <div className="border-t border-gray-200 dark:border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-600 dark:text-gray-400 text-sm">
-            <p>© 2026 Defibit. All rights reserved.</p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="#" className="hover:text-purple-600 transition-colors">
-                Privacy Policy
-              </a>
-              <a href="#" className="hover:text-purple-600 transition-colors">
-                Terms of Service
-              </a>
-              <a href="#" className="hover:text-purple-600 transition-colors">
-                Cookie Policy
-              </a>
+          <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center text-gray-400 text-sm">
+            <p>© Quantum Ledger Pro. All rights reserved.</p>
+            <div className="flex gap-6 mt-4 md:mt-0">
+              <a href="#" className="hover:text-cyan-400 transition-colors">Privacy Policy</a>
+              <a href="#" className="hover:text-cyan-400 transition-colors">Terms of Service</a>
+              <a href="#" className="hover:text-cyan-400 transition-colors">Cookie Policy</a>
             </div>
           </div>
         </div>
       </footer>
+
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-8 right-8 w-12 h-12 bg-linear-to-r from-cyan-500 to-cyan-600 rounded-full flex items-center justify-center text-slate-950 hover:shadow-2xl hover:shadow-cyan-500/50 hover:-translate-y-1 transition-all z-40 animate-bounce"
+        >
+          <ChevronUp size={24} />
+        </button>
+      )}
     </div>
   )
 }

@@ -9,6 +9,7 @@
   --color-dark-700: #1f2937;
   --color-dark-800: #111827;
   --color-dark-900: #0f172a;
+  --color-dark-bg: #13253f;
   --color-yellow-500: #eab308;
   --color-yellow-600: #ca8a04;
   --color-green-500: #22c55e;
@@ -148,6 +149,8 @@ button {
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --gold: #d4af37;
+  --cyan: #00d4ff;
 }
 
 .dark {
@@ -191,5 +194,84 @@ button {
 
   body {
     @apply min-h-dvh bg-white text-gray-700 dark:bg-dark-800 dark:text-white;
+  }
+}
+
+@layer utilities {
+  .hero-section {
+    background-image: url(/images/hero-bg.jpg);
+    background-repeat: no-repeat;
+    background-position: cover;
+    background-size: cover;
+  }
+
+  .hero-section-overlay {
+    background: linear-gradient(135deg,
+        rgba(45, 68, 104, 0.92) 0%,
+        rgba(0, 212, 255, 0.15) 50%,
+        rgba(197, 164, 57, 0.15) 100%);
+  }
+
+  .text-gradient-hero {
+    background: linear-gradient(135deg, var(--cyan) 0%, var(--gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient {
+    background: linear-gradient(135deg, var(--cyan) 0%, var(--gold) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .step-number {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--cyan) 0%, var(--gold) 100%);
+    color: #0a1628;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 800;
+    box-shadow: 0 10px 25px -5px rgba(0, 212, 255, 0.6);
+  }
+
+  .security-badge {
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+
+  .screenshot-hover {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .screenshot-label {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .screenshot-hover:hover .screenshot-label {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 30px rgba(37, 99, 235, 0.5);
   }
 }
