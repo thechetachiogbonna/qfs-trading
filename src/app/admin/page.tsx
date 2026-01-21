@@ -3,7 +3,7 @@ export const dynamic = "force-dynamic";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import Link from "next/link";
 import { AlertCircle, AlertOctagon, CheckCircle2 } from "lucide-react"
-import { auth } from "@/lib/auth";
+import { auth, User } from "@/lib/auth";
 import { headers } from "next/headers";
 import ActionsCell from "@/components/admin/ActionsCell";
 import { Badge } from "@/components/ui/badge";
@@ -24,14 +24,7 @@ async function AdminPanel() {
 
     if (!session) redirect("/login")
 
-    const users = await Promise.all(
-      listOfUsers.users.map(async (user) => {
-        return {
-          ...user,
-          walletConnected: false
-        };
-      })
-    );
+    const users = listOfUsers.users as User[];
 
     return (
       <div className="max-w-5xl mx-auto">
@@ -88,28 +81,36 @@ async function AdminPanel() {
                   <UserRoleCell userId={user.id} userRole={user.role as "user" | "admin"} />
                 </TableCell>
                 <TableCell>
-                  {user.walletConnected ? (
+                  {user.walletStatus === "connected" ? (
                     <span className="text-gray-400 flex gap-1 justify-start items-center">
                       <CheckCircle2 color="green" className="w-3 h-3" />
                       Connected
                     </span>
-                  ) : (
-                    <span className="text-gray-400 flex gap-1 justify-start items-center">
-                      <AlertCircle color="red" className="w-3 h-3" />
-                      Not Connected
-                    </span>
-                  )}
+                  ) : user.walletStatus === "pending"
+                    ? (
+                      <span className="text-gray-400 flex gap-1 justify-start items-center">
+                        <AlertCircle color="blue" className="w-3 h-3" />
+                        Pending
+                      </span>
+                    ) : (
+                      <span className="text-gray-400 flex gap-1 justify-start items-center">
+                        <AlertCircle color="red" className="w-3 h-3" />
+                        Not Connected
+                      </span>
+
+                    )
+                  }
                 </TableCell>
                 <TableCell>
-                  {user.walletConnected ? (
+                  {user.walletStatus === "not-connected" ? (
+                    <span className="text-gray-400">N\A</span>
+                  ) : (
                     <Link
                       href={`/admin/users/${user.id}`}
                       className="hover:text-blue-600 hover:underline"
                     >
                       View Wallet
                     </Link>
-                  ) : (
-                    <span className="text-gray-400">N\A</span>
                   )}
                 </TableCell>
                 <TableCell>

@@ -22,7 +22,7 @@ export const auth = betterAuth({
       role: {
         type: "string",
         required: true,
-        defaultValue: "user"
+        defaultValue: "user" as "admin" | "user"
       },
       coins: {
         type: "string",
@@ -84,6 +84,10 @@ export const auth = betterAuth({
             on: true
           }
         }),
+      },
+      walletStatus: {
+        type: "string",
+        required: true
       }
     }
   },

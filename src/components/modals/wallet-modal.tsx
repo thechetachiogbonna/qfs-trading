@@ -42,7 +42,6 @@ export function WalletModal({ isOpen, onClose, onConnect }: WalletModalProps) {
     if (words.slice(0, numWords).every((word) => word.length > 0)) {
       onConnect(words.slice(0, numWords));
       setWords(Array(numWords).fill(""));
-      onClose();
     }
   };
 
