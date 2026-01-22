@@ -38,56 +38,11 @@ export const CRYPTO_ASSETS = [
     network: "ERC20"
   },
   {
-    symbol: "ETH",
-    name: "Ethereum",
-    id: "ethereum",
+    symbol: "ADA",
+    name: "Cardano",
+    id: "cardano",
     balance: 0,
-    icon_image: "/images/coins/eth.png",
-    network_image: null,
-    network: null
-  },
-  {
-    symbol: "TRX",
-    name: "Tron",
-    id: "tron",
-    balance: 0,
-    icon_image: "/images/coins/trx.png",
-    network_image: null,
-    network: null
-  },
-  {
-    symbol: "BNB",
-    name: "Binance Coin",
-    id: "binancecoin",
-    balance: 0,
-    icon_image: "/images/coins/bnb.png",
-    network_image: null,
-    network: null
-  },
-  {
-    symbol: "DOT",
-    name: "Polkadot",
-    id: "polkadot",
-    balance: 0,
-    icon_image: "/images/coins/dot.png",
-    network_image: null,
-    network: null
-  },
-  {
-    symbol: "BCH",
-    name: "Bitcoin Cash",
-    id: "bitcoin-cash",
-    balance: 0,
-    icon_image: "/images/coins/bch.png",
-    network_image: null,
-    network: null
-  },
-  {
-    symbol: "LTC",
-    name: "Litecoin",
-    id: "litecoin",
-    balance: 0,
-    icon_image: "/images/coins/ltc.png",
+    icon_image: "/images/coins/ada.png",
     network_image: null,
     network: null
   },
@@ -101,11 +56,20 @@ export const CRYPTO_ASSETS = [
     network: null
   },
   {
-    symbol: "DASH",
-    name: "Dash",
-    id: "dash",
+    symbol: "XRP",
+    name: "Ripple",
+    id: "ripple",
     balance: 0,
-    icon_image: "/images/coins/dash.png",
+    icon_image: "/images/coins/xrp.png",
+    network_image: null,
+    network: null
+  },
+  {
+    symbol: "DOGE",
+    name: "Dogecoin",
+    id: "dogecoin",
+    balance: 0,
+    icon_image: "/images/coins/doge.png",
     network_image: null,
     network: null
   },
