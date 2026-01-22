@@ -9,7 +9,7 @@ function SidebarMenuSection() {
   const pathname = usePathname();
 
   return (
-    <div className="mb-8">
+    <div>
       <h2 className="text-yellow-500 text-xl font-semibold mb-4">Menu</h2>
       <nav className="space-y-2">
         {MENU_ITEMS.map((item: (typeof MENU_ITEMS)[number]) => {

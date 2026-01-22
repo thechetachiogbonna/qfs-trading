@@ -98,8 +98,7 @@ export const MENU_ITEMS = [
   { href: "/dashboard", icon: Home, label: MenuItems.Home },
   { href: "/kyc", icon: UserCheck, label: MenuItems.Kyc },
   { href: "/card", icon: CreditCard, label: MenuItems.Card },
-  { href: "/settings", icon: Cog, label: MenuItems.Settings },
-  { href: "/notifications", icon: Bell, label: MenuItems.Notification }
+  { href: "/settings", icon: Cog, label: MenuItems.Settings }
 ];
 
 export const features = [
