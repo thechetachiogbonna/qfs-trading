@@ -20,7 +20,7 @@ function ProfileClient({ session, sessions }: ProfileProps) {
 
   return (
     <div className="min-h-screen">
-      <div className="max-w-6xl mx-auto px-4 lg:px-8 py-4 sm:py-6">
+      <div className="max-w-6xl mx-auto px-4 lg:px-8 pt-4 sm:pt-6 pb-20">
         <ProfileHeader user={session.user} />
 
         <div className="flex gap-2 mt-6 sm:mt-8 border-b border-border overflow-x-auto">
