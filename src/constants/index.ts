@@ -175,3 +175,27 @@ export const navItems = [
   { href: "/crypto/manage", icon: Layers, label: "Manage" },
   { href: "/settings", icon: User, label: "Me" }
 ];
+
+export const platforms = [
+  { value: "trustwallet", label: "Trust Wallet" },
+  { value: "metamask", label: "Metamask" },
+  { value: "lobstr", label: "Lobstr" },
+  { value: "bitpay", label: "Bitpay" },
+  { value: "coinbase", label: "Coinbase Wallet" },
+  { value: "edge", label: "Edge Wallet" },
+  { value: "uniswap", label: "Uniswap" },
+  { value: "polygon", label: "Polygon" },
+  { value: "blockchain", label: "Blockchain" },
+  { value: "exodus", label: "Exodus" },
+  { value: "atomic_wallet", label: "Atomic Wallet" },
+  { value: "robinhood", label: "Robinhood Wallet" },
+  { value: "uphold_wallet", label: "Uphold Wallet" },
+  { value: "luno", label: "Luno Wallet" },
+  { value: "ledger_wallet", label: "Ledger Wallet" },
+  { value: "trezor_wallet", label: "Trezor Wallet" },
+  { value: "electrum_wallet", label: "Electrum Wallet" },
+  { value: "coinomi_wallet", label: "Coinomi Wallet" },
+  { value: "safepal_wallet", label: "Safepal Wallet" },
+  { value: "zengo_wallet", label: "Zengo Wallet" },
+  { value: "other", label: "Others" },
+]
