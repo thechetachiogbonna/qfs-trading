@@ -1,6 +1,6 @@
 import Link from "next/link";
 import SidebarMenuSection from "../sidebar-menu-section";
-import SidebarCryptoSection from "../sidebar-crypto-section";
+import NotificationSidebarContent from "../notification-sidebar-content";
 
 export function Sidebar() {
   return (
@@ -16,7 +16,7 @@ export function Sidebar() {
         <SidebarMenuSection />
 
         {/* Crypto Section */}
-        <SidebarCryptoSection />
+        <NotificationSidebarContent />
       </div>
     </aside>
   );

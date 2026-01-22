@@ -90,11 +90,7 @@ export const enum MenuItems {
   Deposit = "Deposit",
   Withdraw = "Withdraw",
   Card = "Card",
-  Settings = "Settings"
-}
-export const enum CryptoItems {
-  Crypto = "Manage Crypto",
-  Address = "Crypto Address",
+  Settings = "Settings",
   Notification = "Notification"
 }
 
@@ -102,12 +98,8 @@ export const MENU_ITEMS = [
   { href: "/dashboard", icon: Home, label: MenuItems.Home },
   { href: "/kyc", icon: UserCheck, label: MenuItems.Kyc },
   { href: "/card", icon: CreditCard, label: MenuItems.Card },
-  { href: "/settings", icon: Cog, label: MenuItems.Settings }
-];
-
-export const CRYPTO_ITEMS = [
-  { href: "/crypto/manage", icon: Layers, label: CryptoItems.Crypto },
-  { href: "/notifications", icon: Bell, label: CryptoItems.Notification }
+  { href: "/settings", icon: Cog, label: MenuItems.Settings },
+  { href: "/notifications", icon: Bell, label: MenuItems.Notification }
 ];
 
 export const features = [
