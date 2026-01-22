@@ -12,7 +12,7 @@ interface BuyDetailsClientProps {
 }
 
 const PAYMENT_PROVIDERS = [
-  { id: "binance", name: "Binance", href: "binance.us" },
+  { id: "binance", name: "Binance", href: "binance.com" },
   { id: "coinbase", name: "Coinbase", href: "coinbase.com" },
   { id: "crypto-com", name: "Crypto.com", href: "crypto.com" },
   { id: "kraken", name: "Kraken", href: "kraken.com" },
@@ -56,7 +56,11 @@ function BuyDetailsClient({ coin, network, coinData }: BuyDetailsClientProps) {
       return toast.error("Please select a payment method");
     }
 
-    window.location.href = `https://${selectedProvider.href}`
+    window.open(
+      `https://${selectedProvider.href}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
   }
 
   return (
