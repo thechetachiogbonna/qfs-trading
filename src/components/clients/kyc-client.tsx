@@ -5,21 +5,22 @@ import { useTheme } from "next-themes"
 import { Shield, CheckCircle, AlertCircle, Clock } from "lucide-react"
 import { User } from "@/lib/auth"
 import Link from "next/link"
+import { uploadKyc } from "@/actions/kyc.action"
 
 function KycClient({ user }: { user: User }) {
   const { theme } = useTheme()
   const isDark = theme === "dark"
 
 
-  const [kycStatus, setKYCStatus] = useState<KYCStatus>(user.kyc.status)
+  const [kycStatus, setKYCStatus] = useState<KYCStatus>(user.kyc.status || "none")
   const [currentStep, setCurrentStep] = useState<Step>("submit")
   const [showModal, setShowModal] = useState(false)
   const [modalType, setModalType] = useState<"success" | "error">("success")
   const [errorMessage, setErrorMessage] = useState("")
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const [kycFile, setKycFile] = useState<File | null>(null)
   const [kycType, setKycType] = useState("")
-  console.log(kycStatus)
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
@@ -28,13 +29,16 @@ function KycClient({ user }: { user: User }) {
     }
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!kycType && !kycFile) {
+    if (kycType && kycFile) {
+      setIsSubmitting(true)
+      await uploadKyc(kycType, kycFile)
+      setShowModal(true)
+      setModalType("success")
       setKYCStatus("pending")
       setCurrentStep("approval")
-      setModalType("success")
-      setShowModal(true)
+      setIsSubmitting(false)
     } else {
       setModalType("error")
       setErrorMessage("Please select a document type and upload a file")
@@ -117,6 +121,60 @@ function KycClient({ user }: { user: User }) {
       <div className="w-full min-h-screen">
         <div className="max-w-2xl mx-auto px-4 pt-8 pb-20">
           {getStatusBanner()}
+
+          {showModal && (
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+              <div
+                className={`rounded-lg p-8 max-w-md w-full ${isDark ? "bg-slate-900 border border-slate-700" : "bg-white border border-gray-200"
+                  }`}
+              >
+                {modalType === "success" ? (
+                  <>
+                    <div className="flex justify-center mb-4">
+                      <CheckCircle className="w-16 h-16 text-emerald-500" />
+                    </div>
+                    <h2
+                      className={`text-2xl font-bold text-center mb-2 ${isDark ? "text-white" : "text-gray-900"
+                        }`}
+                    >
+                      Submitted Successfully
+                    </h2>
+                    <p
+                      className={`text-center mb-6 ${isDark ? "text-gray-400" : "text-gray-600"}`}
+                    >
+                      Your documents have been submitted for review. We'll verify your information within 24-48 hours.
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex justify-center mb-4">
+                      <AlertCircle className="w-16 h-16 text-red-500" />
+                    </div>
+                    <h2
+                      className={`text-2xl font-bold text-center mb-2 ${isDark ? "text-white" : "text-gray-900"
+                        }`}
+                    >
+                      Error
+                    </h2>
+                    <p
+                      className={`text-center mb-6 ${isDark ? "text-gray-400" : "text-gray-600"}`}
+                    >
+                      {errorMessage}
+                    </p>
+                  </>
+                )}
+                <button
+                  onClick={() => setShowModal(false)}
+                  className={`w-full py-2 rounded-lg font-semibold transition-all ${isDark
+                    ? "bg-blue-600 hover:bg-blue-700 text-white"
+                    : "bg-blue-500 hover:bg-blue-600 text-white"
+                    }`}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     )
@@ -226,10 +284,7 @@ function KycClient({ user }: { user: User }) {
                 type="file"
                 accept="image/*"
                 onChange={(e) => handleFileChange(e,)}
-                className={`block w-full text-sm ${isDark
-                  ? "file:bg-slate-800 file:border-slate-600 file:text-white text-white"
-                  : "file:bg-gray-100 file:border-gray-300 file:text-gray-900 text-gray-900"
-                  } file:border file:rounded-lg file:px-4 file:py-2 file:cursor-pointer hover:file:opacity-75`}
+                className="block w-full text-sm dark:file:bg-slate-800 dark:file:border-slate-600 dark:file:text-white dark:text-white file:bg-gray-100 file:border-gray-300 file:text-gray-900 text-gray-900 file:border file:rounded-lg file:px-4 file:py-2 file:cursor-pointer hover:file:opacity-75"
               />
               <p
                 className={`text-xs mt-2 ${isDark ? "text-gray-400" : "text-gray-600"}`}
@@ -253,12 +308,13 @@ function KycClient({ user }: { user: User }) {
             {/* Submit Button */}
             <button
               type="submit"
+              disabled={isSubmitting}
               className={`w-full py-3 rounded-lg font-semibold transition-all ${isDark
                 ? "bg-blue-600 hover:bg-blue-700 text-white"
                 : "bg-blue-500 hover:bg-blue-600 text-white"
                 }`}
             >
-              Submit for Verification
+              {isSubmitting ? "Submitting..." : "Submit for Verification"}
             </button>
           </form>
         </div>
