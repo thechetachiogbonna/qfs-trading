@@ -1,4 +1,4 @@
-import { IdCard, Layers, Bell, ArrowDown, ArrowLeftRight, Home, ArrowUp, Cog, Bot, CreditCard, ImageIcon, Smartphone, TrendingUp, Shield, Globe, Send, CheckCircle2, Lock, User } from "lucide-react";
+import { Layers, Bell, ArrowLeftRight, Home, Cog, CreditCard, ImageIcon, Smartphone, TrendingUp, Shield, Globe, Send, CheckCircle2, Lock, User, UserCheck } from "lucide-react";
 
 export const CRYPTO_ASSETS = [
   {
@@ -135,7 +135,7 @@ export const CRYPTO_ASSETS = [
 
 export const enum MenuItems {
   Home = "Home",
-  Swap = "Swap",
+  Kyc = "Kyc",
   Deposit = "Deposit",
   Withdraw = "Withdraw",
   Card = "Card",
@@ -149,17 +149,14 @@ export const enum CryptoItems {
 
 export const MENU_ITEMS = [
   { href: "/dashboard", icon: Home, label: MenuItems.Home },
-  { href: "/swap", icon: ArrowLeftRight, label: MenuItems.Swap },
-  { href: "#", icon: ArrowDown, label: MenuItems.Deposit, clickable: true },
-  { href: "#", icon: ArrowUp, label: MenuItems.Withdraw, clickable: true },
+  { href: "/kyc", icon: UserCheck, label: MenuItems.Kyc },
   { href: "/card", icon: CreditCard, label: MenuItems.Card },
   { href: "/settings", icon: Cog, label: MenuItems.Settings }
 ];
 
 export const CRYPTO_ITEMS = [
   { href: "/crypto/manage", icon: Layers, label: CryptoItems.Crypto },
-  { href: "/crypto/address", icon: IdCard, label: CryptoItems.Address },
-  { href: "/notifications", icon: Bell, label: CryptoItems.Notification },
+  { href: "/notifications", icon: Bell, label: CryptoItems.Notification }
 ];
 
 export const features = [

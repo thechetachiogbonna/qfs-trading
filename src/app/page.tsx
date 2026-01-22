@@ -641,12 +641,12 @@ function Home() {
           <p className="text-xl text-gray-400 mb-12">Join 120,000+ users managing over $500M in digital assets</p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link href="/(auth)/register">
+            <Link href="/register">
               <button className="px-8 py-4 bg-linear-to-r from-cyan-500 to-cyan-600 text-slate-950 font-black rounded-xl hover:shadow-2xl hover:shadow-cyan-500/50 transition-all text-lg">
                 Get Started
               </button>
             </Link>
-            <Link href="/(auth)/login">
+            <Link href="/login">
               <button className="px-8 py-4 border-2 border-cyan-900/50 text-white font-bold rounded-xl hover:border-cyan-400 hover:text-cyan-400 transition-all">
                 Login Now
               </button>

@@ -7,6 +7,16 @@ import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { User } from '@/lib/auth'
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 export function TopNav({ user }: { user: User }) {
   const { theme, setTheme } = useTheme();
@@ -38,20 +48,39 @@ export function TopNav({ user }: { user: User }) {
 
       {/* Dark Mode Toggle */}
       <div className="flex items-center space-x-4">
-        {user.role === "admin"
-          ? (
-            <Link 
-              href="/admin"
-              className="w-10 h-10 rounded-full bg-blue-500 flex justify-center items-center"
-            >
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline">
               {user.name.split("")[0]}
-            </Link>
-          ): (
-            <div className="w-10 h-10 rounded-full bg-blue-500 flex justify-center items-center">
-              {user.name.split("")[0]}
-            </div>
-          )
-        }
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuGroup>
+              {user.role === "admin" && (
+                <DropdownMenuItem
+                  asChild
+                  className="cursor-pointer"
+                >
+                  <Link
+                    href="/admin"
+                  >
+                    Admin
+                  </Link>
+                </DropdownMenuItem>
+              )}
+              <DropdownMenuItem
+                asChild
+                className="cursor-pointer"
+              >
+                <Link
+                  href="/profile"
+                >
+                  Profile
+                </Link>
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
 
         <div className="flex items-center space-x-2">
           <Sun className="text-sm w-4 h-4" />

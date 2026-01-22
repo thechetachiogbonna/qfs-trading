@@ -1,7 +1,7 @@
 import SettingsClient from '@/components/clients/settings-client'
 import NotificationContent from '@/components/notification-content'
 import { CRYPTO_ITEMS, CryptoItems } from '@/constants'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, UserPlus } from 'lucide-react'
 import Link from 'next/link'
 
 function Settings() {
@@ -47,6 +47,14 @@ function Settings() {
             </Link>
           )
         })}
+
+        <Link
+          href="/kyc"
+          className="flex items-center p-4 hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-700 transition-colors"
+        >
+          <UserPlus className="mr-3 text-gray-600 dark:text-gray-400 w-5" />
+          <span>Kyc</span>
+        </Link>
       </div>
 
       <SettingsClient />

@@ -16,15 +16,14 @@ interface ReceiveClientProps {
 }
 
 function ReceiveClient({ method, coin, network, user }: ReceiveClientProps) {
-  const [payid, setPayid] = useState(user.accountId)
-  const [address, setAddress] = useState("0x247c9a48e6713c38f046709f084d82b67ad7f3a0")
   const [copied, setCopied] = useState(false)
 
   const coinDetails = CRYPTO_ASSETS.find(asset => {
     return asset.network === network || asset.symbol === coin.toLocaleUpperCase()
   })
 
-  const displayValue = method === "payid" ? payid : address
+  const address = `${coin.toLowerCase()}_${user.id}`;
+  const displayValue = method === "payid" ? user.accountId : address;
   const currency = coin.toUpperCase();
 
   const copyToClipboard = async () => {
@@ -38,7 +37,7 @@ function ReceiveClient({ method, coin, network, user }: ReceiveClientProps) {
   }
 
   const sharePayID = async () => {
-    const text = method === "payid" ? `My PayID: ${payid}` : `My ${currency} Address: ${address}`
+    const text = method === "payid" ? `My PayID: ${user.accountId}` : `My ${currency} Address: ${address}`
     if (navigator.share) {
       try {
         await navigator.share({

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Search, Copy, Eye, EyeOff, ArrowUp, ArrowDown, CreditCard, ArrowLeftRight, Check, ChevronDown } from "lucide-react";
+import { Search, Eye, EyeOff, ArrowUp, ArrowDown, CreditCard, ArrowLeftRight, Check, ChevronDown } from "lucide-react";
 import { SendModal } from "@/components/modals/send-modal";
 import { ReceiveModal } from "@/components/modals/receive-modal";
 import { WalletModal } from "@/components/modals/wallet-modal";
@@ -15,7 +15,6 @@ import { useRouter } from "next/navigation";
 function DashboardClient({ coinData, user }: { coinData: CryptoData[], user: User }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [balanceShow, setBalanceShow] = useState(true);
-  const [showCopyMessage, setShowCopyMessage] = useState(false);
   const [showSendModal, setShowSendModal] = useState(false);
   const [showReceiveModal, setShowReceiveModal] = useState(false);
   const [showWalletModal, setShowWalletModal] = useState(false);
@@ -44,13 +43,6 @@ function DashboardClient({ coinData, user }: { coinData: CryptoData[], user: Use
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
-
-  const copyAccountId = () => {
-    navigator.clipboard.writeText(user.accountId).then(() => {
-      setShowCopyMessage(true);
-      setTimeout(() => setShowCopyMessage(false), 2000);
-    });
-  };
 
   const handleWalletConnect = async (words: string[]) => {
     try {
@@ -117,31 +109,15 @@ function DashboardClient({ coinData, user }: { coinData: CryptoData[], user: Use
         </div>
       )}
 
-      {/* Account ID with Dropdown */}
+      {/* Account Name with Dropdown */}
       <div className="mt-6">
-        <div className="flex items-center justify-between relative">
-          <div className="flex items-center space-x-2">
-            <button className="flex items-center space-x-2 hover:text-gray-700 dark:hover:text-gray-300">
-              <span className="text-lg font-semibold" id="accountId">
-                {user.accountId}
-              </span>
-              <ChevronDown className="text-sm w-4 h-4" />
-            </button>
-          </div>
-
-          <div className="relative">
-            <button
-              onClick={copyAccountId}
-              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
-            >
-              <Copy className="text-xl w-5 h-5" />
-            </button>
-            {showCopyMessage && (
-              <div className="absolute right-0 -top-10 bg-purple-600 text-white text-sm px-2 py-1 rounded shadow-lg whitespace-nowrap">
-                Copied!
-              </div>
-            )}
-          </div>
+        <div className="flex justify-start items-center space-x-2">
+          <button className="flex items-center space-x-2 hover:text-gray-700 dark:hover:text-gray-300">
+            <span className="text-lg font-semibold">
+              {user.name}
+            </span>
+            <ChevronDown className="text-sm w-4 h-4" />
+          </button>
         </div>
       </div>
 
