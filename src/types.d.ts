@@ -94,3 +94,6 @@ type NotificationType = {
   createdAt: string;
   updatedAt: string;
 };
+
+type KYCStatus = "none" | "pending" | "approved" | "rejected"
+type Step = "register" | "email" | "submit" | "approval"

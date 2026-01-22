@@ -11,6 +11,14 @@ export const auth = betterAuth({
   database: mongodbAdapter(mongoose.connection.db!),
   user: {
     additionalFields: {
+      kyc: {
+        type: "json",
+        defaultValue: {
+          status: "none",
+          image: "",
+          type: ""
+        }
+      },
       passcode: {
         type: "string",
         required: false

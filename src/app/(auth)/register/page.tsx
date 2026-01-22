@@ -69,6 +69,11 @@ function Register() {
       password: formData.password,
       accountId: formData.email.split("@")[0].toLowerCase(),
       walletStatus: "not-connected",
+      kyc: {
+        status: "none",
+        image: "",
+        type: ""
+      },
       callbackURL: "/dashboard"
     }, {
       onError(context) {
