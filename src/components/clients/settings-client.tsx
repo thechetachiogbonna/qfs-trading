@@ -1,6 +1,6 @@
 "use client"
 import { useState } from "react"
-import { Loader2, Lock, LogOut, UserCheck } from "lucide-react"
+import { Loader2, Lock, LogOut } from "lucide-react"
 import Link from "next/link"
 import { authClient } from "@/lib/auth-client"
 import { toast } from "sonner"

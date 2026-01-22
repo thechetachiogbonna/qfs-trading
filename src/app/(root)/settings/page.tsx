@@ -1,7 +1,6 @@
 import SettingsClient from '@/components/clients/settings-client'
 import NotificationContent from '@/components/notification-content'
-import { CRYPTO_ITEMS, CryptoItems } from '@/constants'
-import { ArrowLeft, UserPlus } from 'lucide-react'
+import { ArrowLeft, Bell, UserPlus } from 'lucide-react'
 import Link from 'next/link'
 
 function Settings() {
@@ -18,35 +17,16 @@ function Settings() {
 
       {/* Main Settings Section */}
       <div className="space-y-0 bg-transparent">
-        {CRYPTO_ITEMS.map((item) => {
-          const Icon = item.icon;
-
-          if (item.label === CryptoItems.Notification)
-            return (
-              <Link
-                key={item.label}
-                href={item.href}
-                className="relative flex items-center p-4 hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-700 transition-colors"
-              >
-                <Icon className="mr-3 text-gray-600 dark:text-gray-400 w-5" />
-                <span>{item.label}</span>
-                <span className="absolute top-5 right-4 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
-                  <NotificationContent />
-                </span>
-              </Link>
-            )
-
-          return (
-            <Link
-              key={item.label}
-              href={item.href}
-              className="flex items-center p-4 hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-700 transition-colors"
-            >
-              <Icon className="mr-3 text-gray-600 dark:text-gray-400 w-5" />
-              <span>{item.label}</span>
-            </Link>
-          )
-        })}
+        <Link
+          href="/notifications"
+          className="relative flex items-center p-4 hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-200 dark:border-gray-700 transition-colors"
+        >
+          <Bell className="mr-3 text-gray-600 dark:text-gray-400 w-5" />
+          <span>Notifications</span>
+          <span className="absolute top-5 right-4 bg-red-500 text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">
+            <NotificationContent />
+          </span>
+        </Link>
 
         <Link
           href="/kyc"
