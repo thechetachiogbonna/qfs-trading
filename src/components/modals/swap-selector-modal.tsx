@@ -47,8 +47,7 @@ function SwapSelectorModal({
           {CRYPTO_ASSETS.map((asset) => {
             const coinKey = asset.network ? `${asset.symbol}_${asset.network}` : asset.symbol;
             const coin = coins[coinKey as keyof UserCoin]
-            if (!coin.on) return null
-            console.log(from.symbol, to.symbol)
+
             if (from.symbol === asset.symbol && currentSelector === "to") return null
             if (to.symbol === asset.symbol && currentSelector === "from") return null
 

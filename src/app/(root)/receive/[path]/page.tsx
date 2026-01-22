@@ -80,8 +80,7 @@ async function Receive({ params }: Props) {
 
     return {
       ...coin,
-      balance: Number(userCoins[coinSymbol as keyof typeof userCoins].balance),
-      on: userCoins[coinSymbol as keyof typeof userCoins].on
+      balance: Number(userCoins[coinSymbol as keyof typeof userCoins].balance)
     }
   })
 

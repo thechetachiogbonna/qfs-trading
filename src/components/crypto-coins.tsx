@@ -35,10 +35,6 @@ function CryptoCoins({ coinData, page, path }: CryptoCoinsProps) {
   return (
     <div className={cn("space-y-4", !isHomePage && "space-y-2")}>
       {coinData.map((asset) => {
-        if (!asset.on) {
-          return null;
-        }
-
         const href = getHref(asset);
 
         const isPositive = asset.change24h >= 0;

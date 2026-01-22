@@ -36,7 +36,6 @@ function DashboardClient({ coinData, user }: { coinData: CryptoData[], user: Use
   };
 
   const totalBalanceOn = coinData
-    .filter((coin) => coin.on)
     .reduce((sum, coin) => sum + coin.balance * coin.price, 0);
 
   const balance = totalBalanceOn.toLocaleString(undefined, {

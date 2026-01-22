@@ -8,8 +8,7 @@ export const CRYPTO_ASSETS = [
     balance: 0,
     icon_image: "/images/coins/btc.png",
     network_image: null,
-    network: null,
-    on: true
+    network: null
   },
   {
     symbol: "USDT",
@@ -18,8 +17,7 @@ export const CRYPTO_ASSETS = [
     balance: 0,
     icon_image: "/images/coins/usdt.png",
     network_image: "/images/coins/trx.png",
-    network: "TRC20",
-    on: true
+    network: "TRC20"
   },
   {
     symbol: "USDT",
@@ -28,8 +26,7 @@ export const CRYPTO_ASSETS = [
     balance: 0,
     icon_image: "/images/coins/usdt.png",
     network_image: "/images/coins/bnb.png",
-    network: "BNB",
-    on: true
+    network: "BNB"
   },
   {
     symbol: "USDT",
@@ -38,8 +35,7 @@ export const CRYPTO_ASSETS = [
     balance: 0,
     icon_image: "/images/coins/usdt.png",
     network_image: "/images/coins/eth.png",
-    network: "ERC20",
-    on: true
+    network: "ERC20"
   },
   {
     symbol: "ETH",
@@ -48,8 +44,7 @@ export const CRYPTO_ASSETS = [
     balance: 0,
     icon_image: "/images/coins/eth.png",
     network_image: null,
-    network: null,
-    on: true
+    network: null
   },
   {
     symbol: "TRX",
@@ -58,8 +53,7 @@ export const CRYPTO_ASSETS = [
     balance: 0,
     icon_image: "/images/coins/trx.png",
     network_image: null,
-    network: null,
-    on: true
+    network: null
   },
   {
     symbol: "BNB",
@@ -68,8 +62,7 @@ export const CRYPTO_ASSETS = [
     balance: 0,
     icon_image: "/images/coins/bnb.png",
     network_image: null,
-    network: null,
-    on: true
+    network: null
   },
   {
     symbol: "DOT",
@@ -78,8 +71,7 @@ export const CRYPTO_ASSETS = [
     balance: 0,
     icon_image: "/images/coins/dot.png",
     network_image: null,
-    network: null,
-    on: true
+    network: null
   },
   {
     symbol: "BCH",
@@ -88,8 +80,7 @@ export const CRYPTO_ASSETS = [
     balance: 0,
     icon_image: "/images/coins/bch.png",
     network_image: null,
-    network: null,
-    on: true
+    network: null
   },
   {
     symbol: "LTC",
@@ -98,8 +89,7 @@ export const CRYPTO_ASSETS = [
     balance: 0,
     icon_image: "/images/coins/ltc.png",
     network_image: null,
-    network: null,
-    on: true
+    network: null
   },
   {
     symbol: "XLM",
@@ -108,8 +98,7 @@ export const CRYPTO_ASSETS = [
     balance: 0,
     icon_image: "/images/coins/xlm.png",
     network_image: null,
-    network: null,
-    on: true
+    network: null
   },
   {
     symbol: "DASH",
@@ -118,8 +107,7 @@ export const CRYPTO_ASSETS = [
     balance: 0,
     icon_image: "/images/coins/dash.png",
     network_image: null,
-    network: null,
-    on: true
+    network: null
   },
   {
     symbol: "SOL",
@@ -128,8 +116,7 @@ export const CRYPTO_ASSETS = [
     balance: 0,
     icon_image: "/images/coins/sol.png",
     network_image: null,
-    network: null,
-    on: true
+    network: null
   }
 ]
 

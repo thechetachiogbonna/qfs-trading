@@ -66,7 +66,6 @@ function SwapClient({ coinData, user }: { coinData: CryptoData[], user: User }) 
         icon_image: coin.icon_image,
         network_image: coin.network_image,
         network: coin.network,
-        on: coin.on,
         price
       },
     }));

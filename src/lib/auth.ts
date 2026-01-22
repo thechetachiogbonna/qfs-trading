@@ -38,58 +38,33 @@ export const auth = betterAuth({
         defaultValue: JSON.stringify({
           BTC: {
             balance: 0,
-            on: true
           },
           "USDT_TRC20": {
             balance: 0,
-            on: true,
             network: "TRC20"
           },
           "USDT_BNB": {
             balance: 0,
-            on: true,
             network: "BNB"
           },
           "USDT_ERC20": {
             balance: 0,
-            on: true,
             network: "ERC20"
           },
-          ETH: {
+          ADA: {
             balance: 0,
-            on: true
-          },
-          TRX: {
-            balance: 0,
-            on: true
-          },
-          BNB: {
-            balance: 0,
-            on: true
-          },
-          DOT: {
-            balance: 0,
-            on: true
-          },
-          BCH: {
-            balance: 0,
-            on: true
-          },
-          LTC: {
-            balance: 0,
-            on: true
           },
           XLM: {
             balance: 0,
-            on: true
           },
-          DASH: {
+          XRP: {
             balance: 0,
-            on: true
+          },
+          DOGE: {
+            balance: 0,
           },
           SOL: {
             balance: 0,
-            on: true
           }
         }),
       },

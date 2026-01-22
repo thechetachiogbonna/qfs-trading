@@ -26,7 +26,6 @@ const getCryptoAssets = async () => {
         icon_image: coin.icon_image,
         network_image: coin.network_image,
         network: coin.network,
-        on: coin.on,
         price: Number(data[coin.id]?.usd || 0),
         change24h: Number(data[coin.id]?.usd_24h_change || 0),
         volume_24h: Number(data[coin.id]?.usd_24h_vol || 0),
@@ -74,8 +73,7 @@ async function BuyCoinNetwork({ params }: Params) {
 
     return {
       ...coin,
-      balance: Number(userCoins[coinSymbol as keyof typeof userCoins].balance),
-      on: userCoins[coinSymbol as keyof typeof userCoins].on
+      balance: Number(userCoins[coinSymbol as keyof typeof userCoins].balance)
     } as CryptoData
   })
 

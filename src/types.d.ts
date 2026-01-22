@@ -6,7 +6,6 @@ interface CryptoData {
   icon_image: string;
   network_image: string | null;
   network: string | null;
-  on: boolean;
   price: number;
   change24h: number;
   volume_24h: number;
@@ -15,59 +14,34 @@ interface CryptoData {
 
 type UserCoin = {
   BTC: {
-    balance: number,
-    on: boolean
+    balance: number
   },
   "USDT_TRC20": {
     balance: number,
-    on: boolean,
     network: "TRC20"
   },
   "USDT_BNB": {
     balance: number,
-    on: boolean,
     network: "BNB"
   },
   "USDT_ERC20": {
     balance: number,
-    on: boolean,
     network: "ERC20"
   },
-  ETH: {
-    balance: number,
-    on: boolean
-  },
-  TRX: {
-    balance: number,
-    on: boolean
-  },
-  BNB: {
-    balance: number,
-    on: boolean
-  },
-  DOT: {
-    balance: number,
-    on: boolean
-  },
-  BCH: {
-    balance: number,
-    on: boolean
-  },
-  LTC: {
-    balance: number,
-    on: boolean
+  ADA: {
+    balance: number
   },
   XLM: {
-    balance: number,
-    on: boolean
+    balance: number
   },
-  DASH: {
-    balance: number,
-    on: boolean
+  XRP: {
+    balance: number
+  },
+  DOGE: {
+    balance: number
   },
   SOL: {
-    balance: number,
-    on: boolean
+    balance: number
   }
 }
 
@@ -76,9 +50,8 @@ type FromAndTo = {
   name: string
   balance: number
   icon_image: string
-  network_image: string | null,
-  network: string | null,
-  on: boolean
+  network_image: string | null
+  network: string | null
   price: number
 }
 
