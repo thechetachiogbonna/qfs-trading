@@ -206,9 +206,9 @@ function DashboardClient({ coinData, user }: { coinData: CryptoData[], user: Use
         )}
       </button>
 
-      {/* Crypto Assets */}
+      {/* Assets */}
       <div className="mt-8">
-        <h2 className="text-xl font-bold mb-4">Crypto</h2>
+        <h2 className="text-xl font-bold mb-4">Assets</h2>
 
         <CryptoCoins coinData={coinData} page="dashboard" path={undefined} />
       </div>
