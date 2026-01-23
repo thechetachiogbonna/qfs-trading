@@ -1,7 +1,7 @@
 "use server";
 
 import { auth } from "@/lib/auth";
-import { v2 as cloudinary, UploadApiResponse } from "cloudinary";
+import { v2 as cloudinary } from "cloudinary";
 import { headers } from "next/headers";
 
 cloudinary.config({
@@ -36,7 +36,7 @@ export async function uploadImage(file: File): Promise<string> {
 
 export const uploadKyc = async (type: string, file: File) => {
   const url = await uploadImage(file);
-  console.log(url)
+
   auth.api.updateUser({
     body: {
       kyc: {

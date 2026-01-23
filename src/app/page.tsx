@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Menu, X, ChevronDown, ChevronUp, Shield, Lock, TrendingUp, Bolt, Currency, DollarSign, KeySquareIcon, ShieldCheck, Cloud, UserPlus, ShieldHalfIcon, BarChart, Smartphone, Zap, Verified, Star } from "lucide-react"
+import { Menu, X, ChevronDown, ChevronUp, Shield, Lock, TrendingUp, Bolt, DollarSign, KeySquareIcon, ShieldCheck, Cloud, UserPlus, ShieldHalfIcon, BarChart, Smartphone, Zap, Verified, Star } from "lucide-react"
 import { authClient } from "@/lib/auth-client"
 
 function Home() {
@@ -22,26 +22,6 @@ function Home() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
-
-  const steps = [
-    { number: 1, icon: "👤", title: "Create Account", description: "Sign up in minutes with just your email. Simple and secure registration." },
-    { number: 2, icon: "🔒", title: "Secure Wallet", description: "Set up multi-factor authentication and secure your digital wallet." },
-    { number: 3, icon: "💱", title: "Refine Assets", description: "Deposit funds and begin refining your collectible assets." },
-    { number: 4, icon: "📈", title: "Watch Growth", description: "Monitor your portfolio with real analytics and updates." },
-  ]
-
-  const features = [
-    { title: "Secure Wallet", icon: "🔒", description: "The Secure Wallet on QuantumLedgerPro keeps your digital assets safe and protected at all times. With advanced encryption and strong security layers, your funds stay locked away from hackers and unauthorized access. It's a reliable, easy-to-use wallet built for total peace of mind." },
-    { title: "Multi Currency", icon: "💱", description: "Multi-currency features lets you hold and manage multiple currencies in one place—no hassle, no extra steps. From digital coins to traditional currencies, you can easily switch, store, and track everything securely." },
-    { title: "Instant Transactions", icon: "⚡", description: "Send and receive assets instantly with QuantumLedgerPro. No waiting, no processing delays—just fast, secure transfers whenever you need them. It's speed and simplicity you can count on." },
-  ]
-
-  const securityFeatures = [
-    { icon: "🛡️", title: "2FA Authentication", description: "QuantumLedgerPro uses advanced two-factor authentication to ensure only authorized users can access your secure ledger environment. By requiring both your password and a second verification method, 2FA adds a powerful layer of protection." },
-    { icon: "🔐", title: "Quantum Encryption", description: "Experience unmatched protection with QuantumLedgerPro's quantum encryption technology. This next-generation security framework shields your assets with cryptographic defenses." },
-    { icon: "❄️", title: "Cold Storage", description: "QuantumLedgerPro offers secure cold storage to keep your assets completely offline and protected from digital threats. By isolating your data from internet systems." },
-    { icon: "✓", title: "Insurance Protected", description: "Your assets on QuantumLedgerPro are housed within a security framework supported by comprehensive protection policies." },
-  ]
 
   const faqs = [
     { question: "What level of protection does my wallet receive?", answer: "Your wallet benefits from military-grade 256-bit encryption, dual-factor authentication, and 95% of holdings remain in offline vault storage." },
@@ -226,7 +206,7 @@ function Home() {
               </div>
               <h3 className="text-2xl font-bold text-white mb-3">Secure Wallet</h3>
               <p className="text-gray-400 leading-relaxed">
-                QuantumLedgerPro's Protected Vault maintains your digital holdings in absolute safety through military-grade protection and layered security protocols, ensuring your investments remain secure from unauthorized breaches. Experience complete peace of mind with our fortress-level security architecture.
+                QFS Trading's Protected Vault maintains your digital holdings in absolute safety through military-grade protection and layered security protocols, ensuring your investments remain secure from unauthorized breaches. Experience complete peace of mind with our fortress-level security architecture.
               </p>
             </div>
 
@@ -250,7 +230,7 @@ function Home() {
               </div>
               <h3 className="text-2xl font-bold text-white mb-3">Instant Transactions</h3>
               <p className="text-gray-400 leading-relaxed">
-                Transfer and acquire holdings immediately using QuantumLedgerPro's rapid settlement system—no delays, just dependable speed and security whenever required. Experience lightning-fast transactions you can rely on.
+                Transfer and acquire holdings immediately using QFS Trading's rapid settlement system—no delays, just dependable speed and security whenever required. Experience lightning-fast transactions you can rely on.
               </p>
             </div>
           </div>
@@ -277,7 +257,7 @@ function Home() {
                 </span>
               </div>
               <h3 className="text-lg font-bold text-white mb-2">2FA Authentication</h3>
-              <p className="text-sm text-gray-400">Dual-verification security on QuantumLedgerPro provides reinforced access controls through advanced two-step validation protocols. This layered approach ensures comprehensive protection against unauthorized entry, fraud attempts, and security breaches, keeping your holdings completely secure.</p>
+              <p className="text-sm text-gray-400">Dual-verification security on QFS Trading provides reinforced access controls through advanced two-step validation protocols. This layered approach ensures comprehensive protection against unauthorized entry, fraud attempts, and security breaches, keeping your holdings completely secure.</p>
             </div>
 
             <div className="rounded-2xl p-8 text-center security-badge border hover:shadow-cyan-500/40"
@@ -299,7 +279,7 @@ function Home() {
                 </span>
               </div>
               <h3 className="text-lg font-bold text-white mb-2">Cold Storage</h3>
-              <p className="text-sm text-gray-400">Offline-vault storage solutions through QuantumLedgerPro maintain maximum protection by keeping your holdings completely disconnected from online networks. This isolated approach eliminates exposure to digital threats while ensuring long-term preservation and security.</p>
+              <p className="text-sm text-gray-400">Offline-vault storage solutions through QFS Trading maintain maximum protection by keeping your holdings completely disconnected from online networks. This isolated approach eliminates exposure to digital threats while ensuring long-term preservation and security.</p>
             </div>
 
             <div className="rounded-2xl p-8 text-center security-badge border border-cyan-900/40 hover:shadow-cyan-500/40 bg-slate-800/60">
@@ -309,7 +289,7 @@ function Home() {
                 </span>
               </div>
               <h3 className="text-lg font-bold text-white mb-2">Insurance Protected</h3>
-              <p className="text-sm text-gray-400">Holdings maintained on QuantumLedgerPro benefit from insurance-backed security protocols that provide additional safeguards for your assets. This comprehensive protection framework ensures your digital portfolio maintains maximum security and peace of mind.</p>
+              <p className="text-sm text-gray-400">Holdings maintained on QFS Trading benefit from insurance-backed security protocols that provide additional safeguards for your assets. This comprehensive protection framework ensures your digital portfolio maintains maximum security and peace of mind.</p>
             </div>
           </div>
         </div>
