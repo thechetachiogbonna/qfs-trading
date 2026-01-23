@@ -1,16 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { Search, Eye, EyeOff, ArrowUp, ArrowDown, CreditCard, ArrowLeftRight, Check, ChevronDown } from "lucide-react";
+import { Search, Eye, EyeOff, ArrowUp, ArrowDown, CreditCard, ArrowLeftRight, Check, ChevronDown, ArrowRight } from "lucide-react";
 import { SendModal } from "@/components/modals/send-modal";
 import { ReceiveModal } from "@/components/modals/receive-modal";
 import Link from "next/link";
 import CryptoCoins from "@/components/crypto-coins";
 import { User } from "@/lib/auth";
-import connectUserWallet from "@/actions/wallet.action";
-import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
-import { Button } from "../ui/button";
+import { Button, buttonVariants } from "../ui/button";
+import { Badge } from "../ui/badge";
 
 function DashboardClient({ coinData, user }: { coinData: CryptoData[], user: User }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -28,6 +27,8 @@ function DashboardClient({ coinData, user }: { coinData: CryptoData[], user: Use
     maximumFractionDigits: 2,
   });
 
+  const kycStatus = user.kyc.status;
+
   return (
     <main className="p-2 px-4 pb-24 md:pb-4">
       {/* Search Bar */}
@@ -44,14 +45,49 @@ function DashboardClient({ coinData, user }: { coinData: CryptoData[], user: Use
 
       {/* Account Name with Dropdown */}
       <div className="mt-6">
-        <div className="flex justify-start items-center space-x-2">
-          <button className="flex items-center space-x-2 hover:text-gray-700 dark:hover:text-gray-300">
-            <span className="text-lg font-semibold">
+        <div className="flex justify-between items-center sm:justify-start sm:space-x-4">
+          <button className="flex items-center space-x-2 hover:text-gray-700 dark:hover:text-gray-300 transition-colors">
+            <span className="text-lg font-semibold truncate max-w-[150px] sm:max-w-xs">
               {user.name}
             </span>
             <ChevronDown className="text-sm w-4 h-4" />
           </button>
+
+          <Badge
+            variant={
+              kycStatus === "approved" ? "approved" :
+                kycStatus === "pending" ? "pending" :
+                  kycStatus === "rejected" ? "rejected" : "secondary"
+            }
+            className="capitalize"
+          >
+            {kycStatus === "none" ? "Unverified" : kycStatus}
+          </Badge>
         </div>
+
+        {(kycStatus === "none" || kycStatus === "rejected") && (
+          <div className="mt-4 p-4 rounded-xl bg-linear-to-r from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20 border border-blue-100 dark:border-blue-900/30 relative overflow-hidden group">
+            <div className="relative z-10 flex items-center justify-between">
+              <div>
+                <h3 className="text-sm font-semibold text-blue-900 dark:text-blue-100">
+                  {kycStatus === "rejected" ? "Verification Failed" : "Verify Your Identity"}
+                </h3>
+                <p className="text-xs text-blue-700 dark:text-blue-300 mt-1">
+                  {kycStatus === "rejected"
+                    ? "Please update your documents to remove limits."
+                    : "Unlock higher limits and features."}
+                </p>
+              </div>
+              <Link
+                href="/kyc"
+                className={buttonVariants({ variant: "default", size: "sm" })}
+              >
+                {kycStatus === "rejected" ? "Retry" : "Verify"}
+                <ArrowRight className="w-3 h-3 ml-1" />
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Balance Display */}
