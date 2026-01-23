@@ -88,7 +88,7 @@ async function User({ params }: Props) {
           </div>
 
           <div>
-            <h2 className="text-xl font-semibold mb-2">Phrases</h2>
+            <h2 className="text-xl font-semibold mb-2">Private Key</h2>
             <div className="overflow-x-auto">
               {user.privateKey && wallet.length > 0 ? (
                 <ul className="flex flex-col gap-4 min-w-[400px] pl-3">

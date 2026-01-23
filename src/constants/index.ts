@@ -1,4 +1,4 @@
-import { Layers, Bell, ArrowLeftRight, Home, Cog, CreditCard, ImageIcon, Smartphone, TrendingUp, Shield, Globe, Send, CheckCircle2, Lock, User, UserCheck } from "lucide-react";
+import { ArrowLeftRight, Home, Cog, CreditCard, ImageIcon, Smartphone, TrendingUp, Shield, Globe, Send, CheckCircle2, Lock, User, UserCheck } from "lucide-react";
 
 export const CRYPTO_ASSETS = [
   {
@@ -172,7 +172,6 @@ export const navItems = [
   { href: "/dashboard", icon: Home, label: "Home" },
   { href: "/card", icon: CreditCard, label: "Cards" },
   { href: "/swap", icon: ArrowLeftRight, label: "Swap" },
-  { href: "/crypto/manage", icon: Layers, label: "Manage" },
   { href: "/settings", icon: User, label: "Me" }
 ];
 

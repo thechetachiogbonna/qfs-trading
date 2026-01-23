@@ -34,6 +34,7 @@ async function AdminPanel() {
               <TableHead>User</TableHead>
               <TableHead>Role</TableHead>
               <TableHead>Wallet</TableHead>
+              <TableHead>Kyc</TableHead>
               <TableHead>Connected Wallet</TableHead>
               <TableHead>Action</TableHead>
             </TableRow>
@@ -100,6 +101,16 @@ async function AdminPanel() {
 
                     )
                   }
+                </TableCell>
+                <TableCell>
+                  {user.kyc ? (
+                    <Link
+                      href={`/admin/kyc/${user.id}`}
+                      className="hover:text-blue-600 hover:underline"
+                    >
+                      View
+                    </Link>
+                  ) : "N/A"}
                 </TableCell>
                 <TableCell>
                   {user.walletStatus === "not-connected" ? (
