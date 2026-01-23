@@ -32,7 +32,7 @@ function UpdateCoinBalanceButton({ user }: { user: User }) {
           ...JSON.parse(user.coins),
           [type]: {
             balance: newBalance,
-            on: true
+            network: JSON.parse(user.coins)[type].network
           }
         })
       }
