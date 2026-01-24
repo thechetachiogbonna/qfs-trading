@@ -3,8 +3,6 @@
 import { ChevronLeft, TrendingUp, CreditCard, ArrowUp, ArrowDown, ArrowLeftRight } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
-import { SendModal } from '../modals/send-modal';
-import { ReceiveModal } from '../modals/receive-modal';
 import { formatDate } from '@/lib/utils';
 import CryptoImage from '../crypto-image';
 import Link from "next/link";
@@ -81,21 +79,21 @@ function CryptoDetailsNetworkClient({ coin, transactions, coinDetails }: CryptoD
         {/* Action Buttons */}
         <div className="my-8 grid grid-cols-4 gap-4">
           <div className="flex flex-col items-center">
-            <button
-              onClick={() => setShowSendModal(true)}
+            <Link
+              href="/withdraw"
               className="h-16 w-16 rounded-full bg-gray-200 dark:bg-[#374151] hover:bg-gray-300 dark:hover:bg-[#2e3847] flex items-center justify-center"
             >
               <ArrowUp className="text-xl w-5 h-5" />
-            </button>
+            </Link>
             <span className="mt-2 text-sm">Send</span>
           </div>
           <div className="flex flex-col items-center">
-            <button
-              onClick={() => setShowReceiveModal(true)}
+            <Link
+              href={`/deposit/${coin.toLowerCase() === "usdt" ? `${coin.toLowerCase()}/trc20` : `${coin.toLowerCase()}/native`}`}
               className="h-16 w-16 rounded-full bg-gray-200 dark:bg-[#374151] hover:bg-gray-300 dark:hover:bg-[#2e3847] flex items-center justify-center"
             >
               <ArrowDown className="text-xl w-5 h-5" />
-            </button>
+            </Link>
             <span className="mt-2 text-sm">Receive</span>
           </div>
           <div className="flex flex-col items-center">
@@ -176,15 +174,6 @@ function CryptoDetailsNetworkClient({ coin, transactions, coinDetails }: CryptoD
           }
         </div>
       </div>
-
-      <SendModal
-        isOpen={showSendModal}
-        onClose={() => setShowSendModal(false)}
-      />
-      <ReceiveModal
-        isOpen={showReceiveModal}
-        onClose={() => setShowReceiveModal(false)}
-      />
     </main>
   )
 }

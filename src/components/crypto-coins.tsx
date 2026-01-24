@@ -7,29 +7,34 @@ import { cn } from "@/lib/utils";
 
 type CryptoCoinsProps = {
   coinData: CryptoData[],
-  page: "dashboard" | "send" | "receive" | "buy",
-  path: "payid" | "external" | undefined
+  page: "dashboard" | "buy" | "deposit" | "withdraw",
 }
 
-function CryptoCoins({ coinData, page, path }: CryptoCoinsProps) {
+const EmptyState = () => (
+  <div className="flex flex-col items-center justify-center py-12 text-center">
+    <p className="text-gray-500 dark:text-gray-400">No assets found</p>
+  </div>
+);
+
+function CryptoCoins({ coinData, page }: CryptoCoinsProps) {
   const pathname = usePathname();
   const isHomePage = pathname === "/dashboard";
-
-  if ((page === "send" || page === "receive") && !path) {
-    throw new Error("Please provide a path")
-  }
 
   const getHref = (asset: CryptoData) => {
     switch (page) {
       case "dashboard":
         return `/crypto/details/${asset.symbol.toLowerCase()}/${asset.network ? asset.network.toLowerCase() : "native"}`
       case "buy":
-        return `/buy/details/${asset.symbol.toLowerCase()}/${asset.network ? asset.network : "native"}`
-      case "send":
-        return `/send/${path}/${asset.symbol.toLowerCase()}/${asset.network ? asset.network : "native"}`
-      case "receive":
-        return `/receive/${path}/${asset.symbol.toLowerCase()}/${asset.network ? asset.network : "native"}`
+        return `/buy/details/${asset.symbol.toLowerCase()}/${asset.network ? asset.network.toLowerCase() : "native"}`
+      case "deposit":
+        return `/deposit/${asset.symbol.toLowerCase()}/${asset.network ? asset.network.toLowerCase() : "native"}`
+      case "withdraw":
+        return `/withdraw/${asset.symbol.toLowerCase()}/${asset.network ? asset.network.toLowerCase() : "native"}`
     }
+  }
+
+  if (coinData.length === 0) {
+    return <EmptyState />;
   }
 
   return (

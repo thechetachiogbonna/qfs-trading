@@ -2,9 +2,8 @@
 
 import type React from "react"
 import { useState } from "react"
-import { ArrowLeft, Loader2 } from "lucide-react"
+import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
-import { CRYPTO_ASSETS } from "@/constants"
 
 interface TransactionPreview {
   recipient: string
@@ -14,19 +13,16 @@ interface TransactionPreview {
   usdValue: number
 }
 
-interface SendClientProps {
-  method: "payid" | "external"
+interface WithdrawClientProps {
   coin: string
   network: string
   coinData: CryptoData[]
 }
 
-function SendClient({ method, coin, network, coinData }: SendClientProps) {
-  const [payid, setPayid] = useState("")
+function WithdrawClient({ coin, network, coinData }: WithdrawClientProps) {
   const [recipientAddress, setRecipientAddress] = useState("")
   const [amount, setAmount] = useState("")
   const [recipientName, setRecipientName] = useState("")
-  const [payidError, setPayidError] = useState("")
   const [addressError, setAddressError] = useState("")
   const [amountError, setAmountError] = useState("")
   const [showProgress, setShowProgress] = useState(false)
@@ -49,7 +45,7 @@ function SendClient({ method, coin, network, coinData }: SendClientProps) {
     const total = numAmount + fee
     const usdValue = total * price
 
-    const recipient = method === "payid" ? recipientName || "Not selected" : recipientAddress || "Not entered"
+    const recipient = recipientAddress || "Not entered"
 
     return {
       recipient,
@@ -67,12 +63,9 @@ function SendClient({ method, coin, network, coinData }: SendClientProps) {
     Number.parseFloat(amount) > 0 &&
     Number.parseFloat(amount) + fee <= maxAmount &&
     !amountError &&
-    ((method === "payid" && payid.trim() && !payidError && recipientName) ||
-      (method === "external" && recipientAddress.trim() && !addressError))
+    recipientAddress.trim() && !addressError
 
   const handlePayidChange = async (value: string) => {
-    setPayid(value)
-    setPayidError("")
     setRecipientName("")
 
     if (!value.trim()) return
@@ -84,11 +77,9 @@ function SendClient({ method, coin, network, coinData }: SendClientProps) {
 
       if (value.includes("@")) {
         setRecipientName(value.split("@")[0])
-      } else {
-        setPayidError("Invalid PayID format")
       }
     } catch (error) {
-      setPayidError("Error verifying PayID")
+      // setPayidError("Error verifying PayID")
     } finally {
       setIsVerifying(false)
     }
@@ -106,11 +97,7 @@ function SendClient({ method, coin, network, coinData }: SendClientProps) {
   const handlePaste = async () => {
     try {
       const text = await navigator.clipboard.readText()
-      if (method === "payid") {
-        handlePayidChange(text)
-      } else {
-        handleAddressChange(text)
-      }
+      handleAddressChange(text)
     } catch (err) {
       console.error("Failed to read clipboard:", err)
     }
@@ -179,7 +166,7 @@ function SendClient({ method, coin, network, coinData }: SendClientProps) {
             <ArrowLeft className="w-6 h-6" />
           </Link>
           <h1 className="text-xl font-semibold">
-            Send {currency} {network !== "native" && `(${network.toUpperCase()})`}
+            Withdraw {currency} {network !== "native" && `(${network.toUpperCase()})`}
           </h1>
           <div className="w-8"></div>
         </div>
@@ -189,63 +176,35 @@ function SendClient({ method, coin, network, coinData }: SendClientProps) {
           <div className="bg-white dark:bg-gray-800 bg-opacity-50 p-3 rounded-lg text-center">
             <p className="text-sm">
               <span className="text-gray-600 dark:text-gray-400">Sending via - </span>
-              <span className="text-yellow-500">{method === "payid" ? "PayID" : "Crypto"}</span>
+              <span className="text-yellow-500">
+                Withraw {coin.toUpperCase()}
+              </span>
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            {method === "payid" ? (
-              <>
-                {/* PayID Input */}
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-800 dark:text-gray-300">PayID</label>
-                  <div className="relative">
-                    <input
-                      type="text"
-                      value={payid}
-                      onChange={(e) => handlePayidChange(e.target.value)}
-                      placeholder="Enter PayID"
-                      className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg py-3 px-4 text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-yellow-500"
-                    />
-                    <button
-                      type="button"
-                      onClick={handlePaste}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 text-yellow-500 hover:text-yellow-400 px-2"
-                    >
-                      {isVerifying ? <Loader2 className="w-4 h-4 animate-spin" /> : "Paste"}
-                    </button>
-                  </div>
-                  {payidError && <p className="text-red-500 text-sm">{payidError}</p>}
-                  {recipientName && <p className="text-green-500 text-sm">Recipient: {recipientName}</p>}
-                </div>
-              </>
-            ) : (
-              <>
-                {/* Crypto Address Input */}
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-800 dark:text-gray-300">
-                    Recipient Address
-                  </label>
-                  <div className="relative">
-                    <input
-                      type="text"
-                      value={recipientAddress}
-                      onChange={(e) => handleAddressChange(e.target.value)}
-                      placeholder={`Enter ${currency} address`}
-                      className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg py-3 px-4 text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-yellow-500"
-                    />
-                    <button
-                      type="button"
-                      onClick={handlePaste}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 text-yellow-500 hover:text-yellow-400 px-2"
-                    >
-                      Paste
-                    </button>
-                  </div>
-                  {addressError && <p className="text-red-500 text-sm">{addressError}</p>}
-                </div>
-              </>
-            )}
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-800 dark:text-gray-300">
+                Recipient Address
+              </label>
+              <div className="relative">
+                <input
+                  type="text"
+                  value={recipientAddress}
+                  onChange={(e) => handleAddressChange(e.target.value)}
+                  placeholder={`Enter ${currency} address`}
+                  className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg py-3 px-4 text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-yellow-500"
+                />
+                <button
+                  type="button"
+                  onClick={handlePaste}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 text-yellow-500 hover:text-yellow-400 px-2"
+                >
+                  Paste
+                </button>
+              </div>
+              {addressError && <p className="text-red-500 text-sm">{addressError}</p>}
+            </div>
 
             {/* Amount Input */}
             <div className="space-y-2">
@@ -331,7 +290,7 @@ function SendClient({ method, coin, network, coinData }: SendClientProps) {
               disabled={!isFormValid}
               className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-3 px-4 rounded-lg transition-colors disabled:cursor-not-allowed disabled:opacity-50"
             >
-              Send
+              Withdraw
             </button>
           </form>
         </div>
@@ -365,4 +324,4 @@ function SendClient({ method, coin, network, coinData }: SendClientProps) {
   )
 }
 
-export default SendClient;
+export default WithdrawClient;

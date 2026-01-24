@@ -5,11 +5,7 @@ import { auth } from "@/lib/auth"
 import { ArrowLeft, Search } from "lucide-react"
 import { headers } from "next/headers"
 import Link from "next/link"
-import { notFound, redirect } from "next/navigation"
-
-type Props = {
-  params: Promise<{ path: "payid" | "external" }>
-}
+import { redirect } from "next/navigation"
 
 const getCryptoAssets = async () => {
   try {
@@ -47,13 +43,7 @@ const getCryptoAssets = async () => {
   }
 }
 
-async function Receive({ params }: Props) {
-  const path = (await params).path
-
-  if (path !== "payid" && path !== "external") {
-    throw notFound()
-  }
-
+async function Withdraw() {
   const [session, cryptoData] = await Promise.all([
     auth.api.getSession({
       headers: await headers()
@@ -70,10 +60,6 @@ async function Receive({ params }: Props) {
     let coinSymbol = ""
     if (coin.symbol === "USDT" && coin.network === "TRC20") {
       coinSymbol = "USDT_TRC20"
-    } else if (coin.symbol === "USDT" && coin.network === "BNB") {
-      coinSymbol = "USDT_BNB"
-    } else if (coin.symbol === "USDT" && coin.network === "ERC20") {
-      coinSymbol = "USDT_ERC20"
     } else {
       coinSymbol = coin.symbol
     }
@@ -95,7 +81,7 @@ async function Receive({ params }: Props) {
           <h1
             className="text-xl font-semibold text-center flex-1"
           >
-            Receive via {path === "payid" ? "PayID" : "Crypto"}
+            Withdraw
           </h1>
           <div className="w-6"></div>
         </div>
@@ -119,14 +105,10 @@ async function Receive({ params }: Props) {
       </div>
 
       <div>
-        <CryptoCoins
-          coinData={coinData}
-          page="receive"
-          path={path}
-        />
+        <CryptoCoins coinData={coinData} page="withdraw" />
       </div>
     </section>
   )
 }
 
-export default Receive
+export default Withdraw

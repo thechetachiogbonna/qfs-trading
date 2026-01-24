@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 import { Search, Eye, EyeOff, ArrowUp, ArrowDown, CreditCard, ArrowLeftRight, Check, ChevronDown, ArrowRight } from "lucide-react";
-import { SendModal } from "@/components/modals/send-modal";
-import { ReceiveModal } from "@/components/modals/receive-modal";
 import Link from "next/link";
 import CryptoCoins from "@/components/crypto-coins";
 import { User } from "@/lib/auth";
@@ -14,8 +12,6 @@ import { Badge } from "../ui/badge";
 function DashboardClient({ coinData, user }: { coinData: CryptoData[], user: User }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [balanceShow, setBalanceShow] = useState(true);
-  const [showSendModal, setShowSendModal] = useState(false);
-  const [showReceiveModal, setShowReceiveModal] = useState(false);
 
   const router = useRouter();
 
@@ -28,6 +24,7 @@ function DashboardClient({ coinData, user }: { coinData: CryptoData[], user: Use
   });
 
   const kycStatus = user.kyc.status;
+  const filteredCoinData = coinData.filter((coin) => coin.name.toLowerCase().includes(searchQuery.toLowerCase()) || coin.symbol.toLowerCase().includes(searchQuery.toLowerCase()) || coin.network?.toLowerCase().includes(searchQuery.toLowerCase()));
 
   return (
     <main className="p-2 px-4 pb-24 md:pb-4">
@@ -110,22 +107,22 @@ function DashboardClient({ coinData, user }: { coinData: CryptoData[], user: Use
       {/* Action Buttons */}
       <div className="mt-8 grid grid-cols-4 gap-4">
         <div className="flex flex-col items-center">
-          <button
-            onClick={() => setShowSendModal(true)}
+          <Link
+            href="/withdraw"
             className="h-16 w-16 rounded-full bg-gray-200 dark:bg-[#374151] hover:bg-gray-300 dark:hover:bg-[#2e3847] flex items-center justify-center"
           >
             <ArrowUp className="text-xl w-5 h-5" />
-          </button>
-          <span className="mt-2 text-sm">Send</span>
+          </Link>
+          <span className="mt-2 text-sm">Withdraw</span>
         </div>
         <div className="flex flex-col items-center">
-          <button
-            onClick={() => setShowReceiveModal(true)}
+          <Link
+            href="/deposit"
             className="h-16 w-16 rounded-full bg-gray-200 dark:bg-[#374151] hover:bg-gray-300 dark:hover:bg-[#2e3847] flex items-center justify-center"
           >
             <ArrowDown className="text-xl w-5 h-5" />
-          </button>
-          <span className="mt-2 text-sm">Receive</span>
+          </Link>
+          <span className="mt-2 text-sm">Deposit</span>
         </div>
         <div className="flex flex-col items-center">
           <Link
@@ -179,18 +176,8 @@ function DashboardClient({ coinData, user }: { coinData: CryptoData[], user: Use
       <div className="mt-8">
         <h2 className="text-xl font-bold mb-4">Assets</h2>
 
-        <CryptoCoins coinData={coinData} page="dashboard" path={undefined} />
+        <CryptoCoins coinData={filteredCoinData} page="dashboard" />
       </div>
-
-      {/* Modals */}
-      <SendModal
-        isOpen={showSendModal}
-        onClose={() => setShowSendModal(false)}
-      />
-      <ReceiveModal
-        isOpen={showReceiveModal}
-        onClose={() => setShowReceiveModal(false)}
-      />
     </main>
   );
 }

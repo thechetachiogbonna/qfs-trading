@@ -1,6 +1,7 @@
 "use server";
 
 import { auth } from "@/lib/auth";
+import { sendEmail } from "@/lib/mail";
 import { v2 as cloudinary } from "cloudinary";
 import { headers } from "next/headers";
 
@@ -47,4 +48,14 @@ export const uploadKyc = async (type: string, file: File) => {
     },
     headers: await headers()
   })
+
+  await sendEmail({
+    to: "ok@gmail.com",
+    subject: "New KYC Submission",
+    html: `
+      <h1>New KYC Document Submitted</h1>
+      <p><strong>Document Type:</strong> ${type}</p>
+      <p><strong>Image URL:</strong> <a href="${url}">${url}</a></p>
+    `
+  });
 }

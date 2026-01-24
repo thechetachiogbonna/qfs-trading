@@ -74,7 +74,7 @@ function Silver() {
 
         {/* Activate Button */}
         <Link
-          href="/card/activate?card-type=silver"
+          href="/card/apply?card-type=silver"
           className="w-full py-4 px-6 rounded-lg bg-yellow-500 hover:bg-yellow-600 text-black text-sm font-semibold text-center transition-colors"
         >
           Activate Silver Card

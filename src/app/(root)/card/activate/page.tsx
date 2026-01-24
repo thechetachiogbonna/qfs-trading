@@ -4,7 +4,6 @@ import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { Suspense } from "react";
 import Link from "next/link";
-import { useModal } from "@/hooks/use-modal";
 import { CRYPTO_ASSETS } from "@/constants";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -12,8 +11,6 @@ import { cn } from "@/lib/utils";
 function ActivateCardContent() {
   const searchParams = useSearchParams();
   const searchParamsValue = searchParams.get("card-type");
-
-  const { openSendModal } = useModal();
 
   if (!searchParamsValue) {
     return toast.error("URL has been modified. Please use the browser back button to go back");
@@ -30,10 +27,6 @@ function ActivateCardContent() {
   }
 
   const depositAmount = searchParamsValue === "silver" ? "$30,000" : "$50,000";
-
-  const handleClick = () => {
-    openSendModal();
-  };
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300 flex flex-col px-2 md:px-4 py-6 pb-20">
@@ -106,12 +99,12 @@ function ActivateCardContent() {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button
-              onClick={handleClick}
+            <Link
+              href="/deposit"
               className="px-8 py-3 bg-yellow-500 hover:bg-yellow-600 text-black font-semibold rounded-lg transition-colors text-center"
             >
               Make a Deposit
-            </button>
+            </Link>
             <Link
               href="/card"
               className="px-8 py-3 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 font-semibold rounded-lg transition-colors text-center"

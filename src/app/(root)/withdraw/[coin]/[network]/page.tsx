@@ -1,4 +1,4 @@
-import SendClient from "@/components/clients/send-client";
+import WithdrawClient from "@/components/clients/withdraw-client";
 import { CRYPTO_ASSETS } from "@/constants";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
@@ -41,11 +41,11 @@ const getCryptoAssets = async () => {
 }
 
 type Params = {
-  params: Promise<{ path: "payid" | "external", coin: string; network: string }>
+  params: Promise<{ coin: string; network: string }>
 }
 
-async function SendCoinNetwork({ params }: Params) {
-  const { path, coin, network } = (await params);
+async function WithdrawCoinNetwork({ params }: Params) {
+  const { coin, network } = (await params);
 
   const [session, cryptoData] = await Promise.all([
     auth.api.getSession({
@@ -63,10 +63,6 @@ async function SendCoinNetwork({ params }: Params) {
     let coinSymbol = ""
     if (coin.symbol === "USDT" && coin.network === "TRC20") {
       coinSymbol = "USDT_TRC20"
-    } else if (coin.symbol === "USDT" && coin.network === "BNB") {
-      coinSymbol = "USDT_BNB"
-    } else if (coin.symbol === "USDT" && coin.network === "ERC20") {
-      coinSymbol = "USDT_ERC20"
     } else {
       coinSymbol = coin.symbol
     }
@@ -77,7 +73,7 @@ async function SendCoinNetwork({ params }: Params) {
     } as CryptoData
   })
 
-  return <SendClient method={path} coin={coin} network={network} coinData={coinData} />
+  return <WithdrawClient coin={coin} network={network} coinData={coinData} />
 }
 
-export default SendCoinNetwork
+export default WithdrawCoinNetwork

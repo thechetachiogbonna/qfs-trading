@@ -105,7 +105,7 @@ async function Buy() {
       </div>
 
       <div>
-        <CryptoCoins coinData={coinData} page="buy" path={undefined} />
+        <CryptoCoins coinData={coinData} page="buy" />
       </div>
     </section>
   )

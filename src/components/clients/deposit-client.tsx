@@ -5,30 +5,39 @@ import { ArrowLeft, Copy, Share2 } from "lucide-react"
 import Link from "next/link"
 import CryptoImage from "../crypto-image";
 import { User } from "@/lib/auth";
-import { QRCodeSVG as QRCode } from "qrcode.react"
 import { CRYPTO_ASSETS } from "@/constants";
+import Image from "next/image";
 
-interface ReceiveClientProps {
-  method: "payid" | "external"
+interface DepositClientProps {
   coin: string
   network: string
   user: User
 }
 
-function ReceiveClient({ method, coin, network, user }: ReceiveClientProps) {
+const coinAddresses = {
+  btc: "bc1qlv3hl52d58u43ckgw8z2ypx9d2y58yauvxzzlq",
+  xrp: "rhm1ZXEG8gqwFYt5poQVtsJf6psj3Wrvj6",
+  sol: "9bsUcSx5YMyzBGLE46Mirg92JLD7SuUFEEJBGFcwhpDB",
+  doge: "DEheHosSRKV4mo83C7AdZKbWv9QnhqzJKp",
+  xlm: "GAUC5557KQ7J3LR2KRLA4H4L3TODFOLIPPLZWR4FPBX3VUX6BTM4NQEY",
+  ada: "addr1qxp56txqn6npejt3u7a3czvf4pwn3dkededswr2xtxsqzwzwese38wtqgn0pnf32nw4shsj8edc93en5aj0hpw6nwf7s63tlm9"
+}
+
+function DepositClient({ coin, network, user }: DepositClientProps) {
   const [copied, setCopied] = useState(false)
 
   const coinDetails = CRYPTO_ASSETS.find(asset => {
     return asset.network === network || asset.symbol === coin.toLocaleUpperCase()
   })
 
-  const address = `${coin.toLowerCase()}_${user.id}`;
-  const displayValue = method === "payid" ? user.accountId : address;
+  const coinSrc = `/images/qrcodes/${coin.toLowerCase()}.png`
+  const coinAddress = coinAddresses[coin.toLowerCase() as keyof typeof coinAddresses]
   const currency = coin.toUpperCase();
+
 
   const copyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(displayValue)
+      await navigator.clipboard.writeText(coinAddress)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch (err) {
@@ -37,12 +46,11 @@ function ReceiveClient({ method, coin, network, user }: ReceiveClientProps) {
   }
 
   const sharePayID = async () => {
-    const text = method === "payid" ? `My PayID: ${user.accountId}` : `My ${currency} Address: ${address}`
     if (navigator.share) {
       try {
         await navigator.share({
-          title: `Receive ${currency}`,
-          text: text,
+          title: `Deposit ${currency}`,
+          text: coinAddress,
         })
       } catch (err) {
         console.error("Share failed:", err)
@@ -54,10 +62,10 @@ function ReceiveClient({ method, coin, network, user }: ReceiveClientProps) {
     <main className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white transition-all duration-300">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
-        <Link href="/dashboard" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+        <Link href="/deposit" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
           <ArrowLeft className="w-6 h-6" />
         </Link>
-        <h1 className="text-xl font-semibold">Receive {currency}</h1>
+        <h1 className="text-xl font-semibold">Deposit {currency}</h1>
         <div className="w-6" />
       </div>
 
@@ -68,8 +76,7 @@ function ReceiveClient({ method, coin, network, user }: ReceiveClientProps) {
           <div className="flex items-center space-x-3">
             <div className="text-yellow-500 text-xl shrink-0">⚠</div>
             <p className="text-yellow-500 text-sm">
-              Only send {currency} assets
-              {method === "payid" ? " from a Ledger Chain Pay ID to your Ledger Chain Pay ID." : " to this address."}
+              Only send {currency} assets to this address.
             </p>
           </div>
         </div>
@@ -96,21 +103,21 @@ function ReceiveClient({ method, coin, network, user }: ReceiveClientProps) {
         <div className="flex flex-col items-center space-y-6">
           {/* QR Code */}
           <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg">
-            <QRCode
-              value={displayValue}
-              size={256}
-              level="H"
-              fgColor="#000000"
-              bgColor="#ffffff"
+            <Image
+              src={coinSrc}
+              alt={currency}
+              width={256}
+              height={256}
+              className="w-[256px] h-[256px]"
             />
           </div>
 
           {/* Display Value */}
           <div className="text-center space-y-2">
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              {method === "payid" ? "PayID" : `${currency} Address`}
+              {currency} Address
             </p>
-            <p className="text-sm font-mono break-all px-4 select-all max-w-xs">{displayValue}</p>
+            <p className="text-sm font-mono break-all px-4 select-all max-w-xs">{coinAddress}</p>
           </div>
         </div>
 
@@ -142,7 +149,7 @@ function ReceiveClient({ method, coin, network, user }: ReceiveClientProps) {
         {/* Copy Success Message */}
         {copied && (
           <div className="fixed top-20 left-1/2 -translate-x-1/2 bg-green-500 text-white px-4 py-2 rounded-lg animate-fade-in-out">
-            {method === "payid" ? "PayID" : "Address"} copied to clipboard
+            Address copied to clipboard
           </div>
         )}
       </div>
@@ -150,4 +157,4 @@ function ReceiveClient({ method, coin, network, user }: ReceiveClientProps) {
   )
 }
 
-export default ReceiveClient;
+export default DepositClient;
