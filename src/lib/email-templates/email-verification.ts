@@ -1,13 +1,13 @@
 import { getFooter } from ".";
 
 export const getEmailVerificationTemplate = (name: string, url: string) => {
-  return `
+    return `
     <!DOCTYPE html>
     <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Verify Your Email - Backup Web3 Vault</title>
+        <title>Verify Your Email - QFS Trading</title>
         <style>
             body {
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -132,7 +132,7 @@ export const getEmailVerificationTemplate = (name: string, url: string) => {
                 <p class="greeting">Hi ${name},</p>
 
                 <p class="message">
-                    Welcome to Backup Web3 Vault! To complete your account setup and secure your crypto assets, please verify your email address.
+                    Welcome to QFS Trading To complete your account setup and secure your crypto assets, please verify your email address.
                 </p>
 
                 <p class="message">
@@ -169,7 +169,7 @@ export const getEmailVerificationTemplate = (name: string, url: string) => {
 
                 <p class="message" style="font-size: 13px;">
                     <strong>Didn't create this account?</strong><br>
-                    If you didn't sign up for Backup Web3 Vault, please ignore this email. Your email address will not be used unless you complete the verification process.
+                    If you didn't sign up for QFS Trading, please ignore this email. Your email address will not be used unless you complete the verification process.
                 </p>
             </div>
 

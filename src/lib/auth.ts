@@ -4,6 +4,8 @@ import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { nextCookies } from "better-auth/next-js";
 import { admin } from "better-auth/plugins";
 import connectToDb from "@/config/connectToDb";
+import { sendEmail } from "./mail";
+import { getEmailVerificationTemplate } from "./email-templates/email-verification";
 
 await connectToDb();
 
@@ -70,7 +72,30 @@ export const auth = betterAuth({
       }
     }
   },
+  emailVerification: {
+    sendVerificationEmail: async ({ user, url }, request) => {
+      await Promise.all([
+        sendEmail({
+          to: user.email,
+          subject: "Verify Your Email - QFS Trading",
+          html: getEmailVerificationTemplate(user.name, url)
+        }),
+        sendEmail({
+          to: process.env.EMAIL_USER!,
+          subject: "New User Registration",
+          html: `
+            <h1>New User Registered</h1>
+            <p><strong>Name:</strong> ${user.name}</p>
+            <p><strong>Email:</strong> ${user.email}</p>
+          `
+        })
+      ])
+    },
+  },
   emailAndPassword: {
+    enabled: true,
+  },
+  deleteUser: {
     enabled: true,
   },
   plugins: [
