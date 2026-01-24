@@ -22,11 +22,9 @@ interface WithdrawClientProps {
 function WithdrawClient({ coin, network, coinData }: WithdrawClientProps) {
   const [recipientAddress, setRecipientAddress] = useState("")
   const [amount, setAmount] = useState("")
-  const [recipientName, setRecipientName] = useState("")
   const [addressError, setAddressError] = useState("")
   const [amountError, setAmountError] = useState("")
   const [showProgress, setShowProgress] = useState(false)
-  const [isVerifying, setIsVerifying] = useState(false)
 
   const coinMap = new Map<string, CryptoData>();
 
@@ -35,7 +33,7 @@ function WithdrawClient({ coin, network, coinData }: WithdrawClientProps) {
     coinMap.set(key, coin);
   });
 
-  const maxAmount = coinMap.get(`${coin.toLocaleUpperCase()}:${network}`)?.balance || 0
+  const maxAmount = coinMap.get(`${coin.toLocaleUpperCase()}:${network === "trc20" ? network.toUpperCase() : network}`)?.balance || 0
   const fee = 0.0
   const price = coinMap.get(`${coin}:${network}`)?.price || 0;
   const currency = coin.toUpperCase()
@@ -64,26 +62,6 @@ function WithdrawClient({ coin, network, coinData }: WithdrawClientProps) {
     Number.parseFloat(amount) + fee <= maxAmount &&
     !amountError &&
     recipientAddress.trim() && !addressError
-
-  const handlePayidChange = async (value: string) => {
-    setRecipientName("")
-
-    if (!value.trim()) return
-
-    setIsVerifying(true)
-    try {
-      // Simulated API call
-      await new Promise((resolve) => setTimeout(resolve, 500))
-
-      if (value.includes("@")) {
-        setRecipientName(value.split("@")[0])
-      }
-    } catch (error) {
-      // setPayidError("Error verifying PayID")
-    } finally {
-      setIsVerifying(false)
-    }
-  }
 
   const handleAddressChange = (value: string) => {
     setRecipientAddress(value)
@@ -137,7 +115,7 @@ function WithdrawClient({ coin, network, coinData }: WithdrawClientProps) {
 
     try {
       // Simulated API call
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+      await new Promise((resolve) => setTimeout(resolve, 5000))
 
       clearInterval(progressInterval)
       const progressBar = document.getElementById("progressBar") as HTMLElement
@@ -162,7 +140,7 @@ function WithdrawClient({ coin, network, coinData }: WithdrawClientProps) {
       <div className="w-full mx-auto py-4 px-6 pb-24 md:pb-4">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
-          <Link href="/send" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
+          <Link href="/withdraw" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
             <ArrowLeft className="w-6 h-6" />
           </Link>
           <h1 className="text-xl font-semibold">
