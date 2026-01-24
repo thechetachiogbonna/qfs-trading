@@ -43,14 +43,6 @@ export const auth = betterAuth({
             balance: 0,
             network: "TRC20"
           },
-          "USDT_BNB": {
-            balance: 0,
-            network: "BNB"
-          },
-          "USDT_ERC20": {
-            balance: 0,
-            network: "ERC20"
-          },
           ADA: {
             balance: 0,
           },

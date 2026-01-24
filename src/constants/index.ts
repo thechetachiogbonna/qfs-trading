@@ -20,24 +20,6 @@ export const CRYPTO_ASSETS = [
     network: "TRC20"
   },
   {
-    symbol: "USDT",
-    name: "Tether",
-    id: "tether",
-    balance: 0,
-    icon_image: "/images/coins/usdt.png",
-    network_image: "/images/coins/bnb.png",
-    network: "BNB"
-  },
-  {
-    symbol: "USDT",
-    name: "Tether",
-    id: "tether",
-    balance: 0,
-    icon_image: "/images/coins/usdt.png",
-    network_image: "/images/coins/eth.png",
-    network: "ERC20"
-  },
-  {
     symbol: "ADA",
     name: "Cardano",
     id: "cardano",

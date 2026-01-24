@@ -28,12 +28,21 @@ function KycClient({ user }: { user: User }) {
     e.preventDefault()
     if (kycType && kycFile) {
       setIsSubmitting(true)
-      await uploadKyc(kycType, kycFile)
-      setShowModal(true)
-      setModalType("success")
-      setKYCStatus("pending")
-      setCurrentStep("approval")
-      setIsSubmitting(false)
+      try {
+        await uploadKyc(kycType, kycFile)
+        setIsSubmitting(false)
+        setShowModal(true)
+        setModalType("success")
+        setKYCStatus("pending")
+        setCurrentStep("approval")
+      } catch (error) {
+        setModalType("error")
+        setErrorMessage("Failed to upload documents")
+        setShowModal(true)
+        return
+      } finally {
+        setIsSubmitting(false)
+      }
     } else {
       setModalType("error")
       setErrorMessage("Please select a document type and upload a file")

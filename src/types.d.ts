@@ -20,14 +20,6 @@ type UserCoin = {
     balance: number,
     network: "TRC20"
   },
-  "USDT_BNB": {
-    balance: number,
-    network: "BNB"
-  },
-  "USDT_ERC20": {
-    balance: number,
-    network: "ERC20"
-  },
   ADA: {
     balance: number
   },
