@@ -23,9 +23,13 @@ export const auth = betterAuth({
         type: "string",
         required: false
       },
-      accountId: {
-        type: "string",
-        required: true
+      silverCardSubmitted: {
+        type: "boolean",
+        required: false
+      },
+      goldCardSubmitted: {
+        type: "boolean",
+        required: false
       },
       role: {
         type: "string",

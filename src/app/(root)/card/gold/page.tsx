@@ -54,6 +54,20 @@ function Gold() {
               </div>
             </div>
 
+            <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
+              <h3 className="font-bold text-yellow-700 dark:text-yellow-500 mb-3">Additional benefits</h3>
+              <div className="space-y-3 text-xs text-yellow-700 dark:text-yellow-300">
+                <div className="flex gap-2">
+                  <span className="font-bold">*</span>
+                  <span>Free medbed insurance </span>
+                </div>
+                <div className="flex gap-2">
+                  <span className="font-bold">*</span>
+                  <span>Free payment fee</span>
+                </div>
+              </div>
+            </div>
+
             {/* Features */}
             <div className="space-y-3 pt-2 text-sm">
               <div className="flex items-start gap-2">

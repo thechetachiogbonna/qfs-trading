@@ -1,5 +1,6 @@
 "use server";
 
+import { getCardApplicationTemplate } from "@/lib/email-templates/card-application";
 import { sendEmail } from "@/lib/mail";
 
 export async function submitCardApplication(formData: FormData) {
@@ -13,20 +14,20 @@ export async function submitCardApplication(formData: FormData) {
   const address = formData.get("address") as string;
   const idNumber = formData.get("idNumber") as string;
 
-  const html = `
-    <h1>New ${cardType.toUpperCase()} Card Application</h1>
-    <p><strong>Full Name:</strong> ${fullName}</p>
-    <p><strong>DOB:</strong> ${dob}</p>
-    <p><strong>Phone:</strong> ${phone}</p>
-    <p><strong>Email:</strong> ${email}</p>
-    <p><strong>Country:</strong> ${country}</p>
-    <p><strong>State:</strong> ${state}</p>
-    <p><strong>Address:</strong> ${address}</p>
-    <p><strong>ID Number:</strong> ${idNumber}</p>
-  `;
+  const html = getCardApplicationTemplate(
+    cardType,
+    fullName,
+    dob,
+    phone,
+    email,
+    country,
+    state,
+    address,
+    idNumber
+  );
 
   await sendEmail({
-    to: "ok@gmail.com",
+    to: process.env.EMAIL_USER!,
     subject: `New ${cardType.toUpperCase()} Card Application`,
     html,
   });

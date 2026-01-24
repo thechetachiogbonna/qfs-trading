@@ -2,7 +2,8 @@
 
 import { submitCardApplication } from "@/actions/card.action";
 import { Card } from "@/components/ui/card";
-import { ArrowLeft } from "lucide-react";
+import { authClient } from "@/lib/auth-client";
+import { ArrowLeft, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState, Suspense } from "react";
@@ -14,16 +15,30 @@ function ApplyPageContent() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const user = authClient.useSession().data?.user
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitting(true);
     const formData = new FormData(event.currentTarget);
+    const dateOfBirth = formData.get("dob") as string;
+    const age = new Date().getFullYear() - new Date(dateOfBirth).getFullYear();
+    if (age < 18) {
+      toast.error("You must be at least 18 years old to apply for a card.");
+      setIsSubmitting(false);
+      return;
+    }
     formData.append("cardType", cardType);
 
     try {
       await submitCardApplication(formData);
       toast.success("Application submitted successfully!");
-      router.push(`/card/activate?card-type=${cardType}`);
+      if (cardType === "gold") {
+        authClient.updateUser({ goldCardSubmitted: true });
+      } else {
+        authClient.updateUser({ silverCardSubmitted: true });
+      }
+      router.refresh();
     } catch (error) {
       console.error(error);
       toast.error("Failed to submit application.");
@@ -31,6 +46,33 @@ function ApplyPageContent() {
       setIsSubmitting(false);
     }
   };
+
+  if ((cardType === "gold" && user?.goldCardSubmitted) || (cardType === "silver" && user?.silverCardSubmitted)) {
+    return (
+      <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white transition-all duration-300 pb-20">
+        <div className="flex items-center justify-between p-4">
+          <button
+            onClick={() => router.back()}
+            className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+          >
+            <ArrowLeft className="w-6 h-6" />
+          </button>
+          <h1 className="text-xl font-semibold text-center flex-1 capitalize">{cardType} Card Application</h1>
+          <div className="w-6"></div>
+        </div>
+        <div className="flex flex-col items-center justify-center mt-6">
+          <CheckCircle2 className="w-12 h-12 text-green-500" />
+          <h2 className="text-xl font-semibold mt-2">Application Submitted Successfully!</h2>
+          <p>Thank you for your application. We will review it as soon as possible.</p>
+          <Link
+            href="/dashboard"
+            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+            Back to Home
+          </Link>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white transition-all duration-300 pb-20">
@@ -103,7 +145,7 @@ function ApplyPageContent() {
           </form>
         </Card>
       </div>
-    </div>
+    </div >
   );
 }
 
