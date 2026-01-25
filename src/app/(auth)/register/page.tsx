@@ -6,7 +6,6 @@ import { Lock, Mail, Plus, ShieldCheck, User, UserPlus, Users } from "lucide-rea
 import Link from "next/link"
 import { authClient } from "@/lib/auth-client"
 import { toast } from "sonner"
-import { sendWelcomeEmail } from "@/actions/auth.action";
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -81,7 +80,6 @@ function Register() {
         toast.error(context.error.message || "An error occured. Please try again.")
       },
       async onSuccess() {
-        await sendWelcomeEmail(formData.email, formData.name);
         setIsLoading(false)
         toast.success("Account created successfully.")
         router.push("/login")

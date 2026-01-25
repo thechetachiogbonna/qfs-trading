@@ -4,14 +4,17 @@ import { useState } from "react";
 import { Search, Eye, EyeOff, ArrowUp, ArrowDown, CreditCard, ArrowLeftRight, Check, ChevronDown, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import CryptoCoins from "@/components/crypto-coins";
+import PreciousMetals from "@/components/precious-metals";
 import { User } from "@/lib/auth";
 import { useRouter } from "next/navigation";
 import { Button, buttonVariants } from "../ui/button";
 import { Badge } from "../ui/badge";
+import { cn } from "@/lib/utils";
 
 function DashboardClient({ coinData, user }: { coinData: CryptoData[], user: User }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [balanceShow, setBalanceShow] = useState(true);
+  const [tab, setTab] = useState<"assets" | "metals">("assets");
 
   const router = useRouter();
 
@@ -25,6 +28,63 @@ function DashboardClient({ coinData, user }: { coinData: CryptoData[], user: Use
 
   const kycStatus = user.kyc.status;
   const filteredCoinData = coinData.filter((coin) => coin.name.toLowerCase().includes(searchQuery.toLowerCase()) || coin.symbol.toLowerCase().includes(searchQuery.toLowerCase()) || coin.network?.toLowerCase().includes(searchQuery.toLowerCase()));
+
+  const metalData: CryptoData[] = [
+    {
+      id: "gold",
+      name: "Gold",
+      symbol: "XAU",
+      balance: 0,
+      icon_image: "/images/coins/gold.png",
+      network_image: null,
+      network: null,
+      price: 2745.20,
+      change24h: 0.45,
+      volume_24h: 0,
+      market_cap: 0
+    },
+    {
+      id: "silver",
+      name: "Silver",
+      symbol: "XAG",
+      balance: 0,
+      icon_image: "/images/coins/silver.png",
+      network_image: null,
+      network: null,
+      price: 33.15,
+      change24h: -0.8,
+      volume_24h: 0,
+      market_cap: 0
+    },
+    {
+      id: "platinum",
+      name: "Platinum",
+      symbol: "XPT",
+      balance: 0,
+      icon_image: "/images/coins/platinum.png",
+      network_image: null,
+      network: null,
+      price: 975.50,
+      change24h: 1.2,
+      volume_24h: 0,
+      market_cap: 0
+    },
+    {
+      id: "palladium",
+      name: "Palladium",
+      symbol: "XPD",
+      balance: 0,
+      icon_image: "/images/coins/palladium.png",
+      network_image: null,
+      network: null,
+      price: 1050.80,
+      change24h: -0.5,
+      volume_24h: 0,
+      market_cap: 0
+    }
+  ];
+
+  const filteredMetalData = metalData.filter((coin) => coin.name.toLowerCase().includes(searchQuery.toLowerCase()) || coin.symbol.toLowerCase().includes(searchQuery.toLowerCase()));
 
   return (
     <main className="p-2 px-4 pb-24 md:pb-4">
@@ -174,9 +234,23 @@ function DashboardClient({ coinData, user }: { coinData: CryptoData[], user: Use
 
       {/* Assets */}
       <div className="mt-8">
-        <h2 className="text-xl font-bold mb-4">Assets</h2>
+        <div className="flex items-center gap-4">
+          <h2
+            onClick={() => setTab("assets")}
+            className={cn("text-sm text-gray-300 font-bold mb-4 bg-gray-200 dark:bg-[#374151] hover:bg-gray-300 dark:hover:bg-[#2e3847] py-2 px-4 rounded-md cursor-pointer", tab === "assets" && "bg-blue-500 text-white")}>
+            Assets
+          </h2>
+          <h2
+            onClick={() => setTab("metals")}
+            className={cn("text-sm text-gray-300 font-bold mb-4 bg-gray-200 dark:bg-[#374151] hover:bg-gray-300 dark:hover:bg-[#2e3847] py-2 px-4 rounded-md cursor-pointer", tab === "metals" && "bg-blue-500 text-white")}>
+            Precious Metals
+          </h2>
+        </div>
 
-        <CryptoCoins coinData={filteredCoinData} page="dashboard" />
+        {tab === "assets"
+          ? <CryptoCoins coinData={filteredCoinData} page="dashboard" />
+          : <PreciousMetals metalData={filteredMetalData} page="dashboard" />
+        }
       </div>
     </main>
   );
