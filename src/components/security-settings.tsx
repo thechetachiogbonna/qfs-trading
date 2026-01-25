@@ -12,7 +12,6 @@ import { User } from "better-auth"
 import { authClient } from "@/lib/auth-client"
 import { toast } from "sonner"
 import { useRouter } from "next/navigation"
-// import sendPasswordChangeConfirmationEmail from "@/app/(user)/profile/action"
 
 function SecuritySettings({ user }: { user: User }) {
   const [showPasswords, setShowPasswords] = useState({ current: false, new: false, confirm: false })
@@ -68,11 +67,6 @@ function SecuritySettings({ user }: { user: User }) {
       onSuccess: () => {
         toast.success("Password changed sucessfully.")
         router.refresh();
-        // sendPasswordChangeConfirmationEmail({
-        //   to: user.email,
-        //   subject: "Your password has been changed",
-        //   name: user.name
-        // })
       },
     }).finally(() => {
       setUpdatingPassword(false)

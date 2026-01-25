@@ -7,7 +7,7 @@ export const getResetPasswordTemplate = (name: string, url: string) => {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Reset Your Password - Backup Web3 Vault</title>
+        <title>Reset Your Password - QFS Trading</title>
         <style>
             body {
                 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -128,7 +128,7 @@ export const getResetPasswordTemplate = (name: string, url: string) => {
                 <p class="greeting">Hi ${name},</p>
 
                 <p class="message">
-                    We received a request to reset the password for your Backup Web3 Vault account. If you didn't make this request, you can safely ignore this email.
+                    We received a request to reset the password for your QFS Trading account. If you didn't make this request, you can safely ignore this email.
                 </p>
 
                 <p class="message">
@@ -149,7 +149,7 @@ export const getResetPasswordTemplate = (name: string, url: string) => {
                 </div>
 
                 <div class="warning">
-                    <strong>🔒 Security Notice:</strong> Never share this link with anyone. Backup Web3 Vault staff will never ask for your password or this link.
+                    <strong>🔒 Security Notice:</strong> Never share this link with anyone. QFS Trading staff will never ask for your password or this link.
                 </div>
 
                 <div class="divider"></div>

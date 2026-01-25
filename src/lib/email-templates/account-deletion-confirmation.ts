@@ -7,7 +7,7 @@ export const getAccountDeletionConfirmationTemplate = (name: string, url: string
       <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Confirm Account Deletion - Backup Web3 Vault</title>
+          <title>Confirm Account Deletion - QFS Trading</title>
           <style>
               body {
                   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -133,7 +133,7 @@ export const getAccountDeletionConfirmationTemplate = (name: string, url: string
                   <p class="greeting">Hi ${name},</p>
 
                   <p class="message">
-                      We received a request to delete your Backup Web3 Vault account. To proceed with the deletion, please confirm by clicking the button below.
+                      We received a request to delete your QFS Trading account. To proceed with the deletion, please confirm by clicking the button below.
                   </p>
 
                   <div class="warning">

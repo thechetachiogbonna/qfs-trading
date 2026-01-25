@@ -6,6 +6,8 @@ import { admin } from "better-auth/plugins";
 import connectToDb from "@/config/connectToDb";
 import { sendEmail } from "./mail";
 import { getEmailVerificationTemplate } from "./email-templates/email-verification";
+import { getResetPasswordTemplate } from "./email-templates/reset-password";
+import { getPasswordChangeConfirmationTemplate } from "./email-templates/password-change-confirmation";
 
 await connectToDb();
 
@@ -94,6 +96,20 @@ export const auth = betterAuth({
   },
   emailAndPassword: {
     enabled: true,
+    sendResetPassword: async ({ user, url }, request) => {
+      await sendEmail({
+        to: user.email,
+        subject: "Reset Your Password - QFS Trading",
+        html: getResetPasswordTemplate(user.name, url)
+      })
+    },
+    onPasswordReset: async (data, request) => {
+      await sendEmail({
+        to: data.user.email,
+        subject: "Your password has been changed",
+        html: getPasswordChangeConfirmationTemplate(data.user.name)
+      })
+    },
   },
   deleteUser: {
     enabled: true,

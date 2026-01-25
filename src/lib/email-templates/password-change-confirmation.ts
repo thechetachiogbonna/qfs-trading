@@ -1,13 +1,13 @@
 import { getFooter } from ".";
 
 export const getPasswordChangeConfirmationTemplate = (name: string) => {
-  return `
+    return `
   <!DOCTYPE html>
     <html lang="en">
       <head>
           <meta charset="UTF-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Password Changed - Backup Web3 Vault</title>
+          <title>Password Changed - QFS Trading</title>
           <style>
               body {
                   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
