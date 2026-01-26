@@ -196,6 +196,16 @@ function SwapClient({ coinData, user }: { coinData: CryptoData[], user: User }) 
     )
   }
 
+  const handleSwapDirection = () => {
+    setCryptoData({
+      ...cryptoData,
+      from: cryptoData.to,
+      to: cryptoData.from,
+    })
+    setFromAmount(toAmount);
+    setToAmount(fromAmount);
+  }
+
   const getDisplayName = (symbol: string, network: string | null) => {
     const key = `${symbol}:${network ?? "native"}`;
     return coinMap.get(key)?.name ?? symbol;
@@ -294,11 +304,13 @@ function SwapClient({ coinData, user }: { coinData: CryptoData[], user: User }) 
 
         {/* Swap Direction */}
         <div className="flex justify-center z-10">
-          <div
+          <button
+            type="button"
+            onClick={handleSwapDirection}
             className="w-10 h-10 rounded-full bg-gray-700 dark:bg-gray-600 flex items-center justify-center hover:bg-gray-600 dark:hover:bg-gray-500 transition-colors"
           >
             <ArrowDown color="#928879" />
-          </div>
+          </button>
         </div>
 
         {/* To Section */}

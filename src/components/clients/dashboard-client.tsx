@@ -193,17 +193,31 @@ function DashboardClient({ coinData, user }: { coinData: CryptoData[], user: Use
 
       {/* Assets */}
       <div className="mt-8">
-        <div className="flex items-center gap-4">
-          <h2
+        <div className="flex items-center gap-4 mb-4">
+          <button
+            type="button"
             onClick={() => setTab("assets")}
-            className={cn("text-sm text-gray-300 font-bold mb-4 bg-gray-200 dark:bg-[#374151] hover:bg-gray-300 dark:hover:bg-[#2e3847] py-2 px-4 rounded-md cursor-pointer", tab === "assets" && "bg-blue-500 text-white")}>
+            className={cn(
+              "text-xs font-bold py-2 px-4 rounded-md transition-colors",
+              tab === "assets"
+                ? "bg-blue-500 text-white"
+                : "bg-gray-200 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-700"
+            )}
+          >
             Assets
-          </h2>
-          <h2
+          </button>
+          <button
+            type="button"
             onClick={() => setTab("metals")}
-            className={cn("text-sm text-gray-300 font-bold mb-4 bg-gray-200 dark:bg-[#374151] hover:bg-gray-300 dark:hover:bg-[#2e3847] py-2 px-4 rounded-md cursor-pointer", tab === "metals" && "bg-blue-500 text-white")}>
+            className={cn(
+              "text-xs font-bold py-2 px-4 rounded-md transition-colors",
+              tab === "metals"
+                ? "bg-blue-500 text-white"
+                : "bg-gray-200 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-700"
+            )}
+          >
             Precious Metals
-          </h2>
+          </button>
         </div>
 
         {tab === "assets"
