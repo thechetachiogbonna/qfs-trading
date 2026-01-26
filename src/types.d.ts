@@ -50,7 +50,7 @@ type FromAndTo = {
 type NotificationType = {
   _id: string;
   userId: string;
-  type: "swap" | "deposit" | "withdraw" | "buy" | "bonus" | "kyc_update" | "metal_buy";
+  type: "swap" | "deposit" | "withdraw" | "buy" | "recieve" | "kyc_update" | "metal_buy" | "wallet_connect";
   title?: string;
   description?: string;
   from?: string;

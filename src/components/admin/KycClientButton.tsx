@@ -5,6 +5,8 @@ import { toast } from 'sonner'
 import { Badge } from '../ui/badge';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { createNotification } from '@/actions/notification.action';
+import { NotificationCategory } from '@/constants';
 
 function KycClientButton({ kyc, userId }: { kyc: { status: string, image: string, type: string }, userId: string }) {
   const router = useRouter();
@@ -29,6 +31,12 @@ function KycClientButton({ kyc, userId }: { kyc: { status: string, image: string
       },
       onSuccess() {
         toast.success("Kyc Status updated successfully")
+        createNotification({
+          userId,
+          type: NotificationCategory.KYC_UPDATE,
+          title: `KYC ${status.charAt(0).toUpperCase() + status.slice(1)}`,
+          description: `Your KYC verification has been ${status}.`,
+        })
         router.refresh()
         setIsSubmitting(false)
       }

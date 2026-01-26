@@ -3,6 +3,8 @@
 import { authClient } from '@/lib/auth-client'
 import { toast } from 'sonner'
 import { Badge } from '../ui/badge';
+import { createNotification } from '@/actions/notification.action';
+import { NotificationCategory } from '@/constants';
 
 function UserClientButton({ walletStatus, userId }: { walletStatus: string, userId: string }) {
   const handleWalletChange = (status: "connected" | "pending" | "not-connected") => {
@@ -16,7 +18,13 @@ function UserClientButton({ walletStatus, userId }: { walletStatus: string, user
         toast.error(context.error.message || "An error occured.")
       },
       onSuccess() {
-        toast.error("User Wallet Status updated successfully")
+        toast.success("User Wallet Status updated successfully")
+        createNotification({
+          userId,
+          type: NotificationCategory.WALLET_CONNECT,
+          title: "Wallet Status Updated",
+          description: `Your wallet connection status has been updated to ${status}.`,
+        })
       }
     })
   }

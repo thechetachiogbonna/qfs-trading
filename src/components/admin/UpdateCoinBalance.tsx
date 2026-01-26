@@ -7,6 +7,8 @@ import Loader from '../Loader';
 import { User } from '@/lib/auth';
 import { authClient } from '@/lib/auth-client';
 import { useRouter } from 'next/navigation';
+import { createNotification } from '@/actions/notification.action';
+import { NotificationCategory } from '@/constants';
 
 function UpdateCoinBalanceButton({ user }: { user: User }) {
   const router = useRouter();
@@ -44,6 +46,14 @@ function UpdateCoinBalanceButton({ user }: { user: User }) {
       onSuccess() {
         setIsSubmitting(false);
         toast.success("User balance updated successfully.")
+        createNotification({
+          userId: user.id,
+          type: NotificationCategory.RECEIVE,
+          title: "Balance Updated",
+          description: `You received ${newBalance} worth of ${type}.`,
+          to: type,
+          toAmount: newBalance
+        })
         setNewBalance(0)
         router.refresh();
       }

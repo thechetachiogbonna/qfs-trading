@@ -19,12 +19,14 @@ const getIcon = (type: string) => {
       return <ArrowUpRight className="w-5 h-5 text-red-500" />
     case "buy":
       return <ShoppingBag className="w-5 h-5 text-yellow-500" />
-    case "bonus":
-      return <Gift className="w-5 h-5 text-purple-500" />
+    case "recieve":
+      return <ArrowDownLeft className="w-5 h-5 text-green-500" />
     case "kyc_update":
       return <ClipboardCheck className="w-5 h-5 text-orange-500" />
     case "metal_buy":
       return <ShoppingBag className="w-5 h-5 text-amber-600" />
+    case "wallet_connect":
+      return <Bell className="w-5 h-5 text-indigo-500" />
     default:
       return <Bell className="w-5 h-5 text-gray-500" />
   }
@@ -93,9 +95,10 @@ function NotificationsClient({ notifications, user }: { notifications: string, u
                           notification.type === "deposit" ? "Deposit" :
                             notification.type === "withdraw" ? "Withdrawal" :
                               notification.type === "buy" ? "Buy Crypto" :
-                                notification.type === "bonus" ? "Bonus" :
+                                notification.type === "recieve" ? "Receive Balance" :
                                   notification.type === "kyc_update" ? "KYC Update" :
-                                    notification.type === "metal_buy" ? "Precious Metal" : "Notification"
+                                    notification.type === "metal_buy" ? "Precious Metal" :
+                                      notification.type === "wallet_connect" ? "Wallet Connected" : "Notification"
                       )}
                     </h3>
                     <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 wrap-break-word">
@@ -110,7 +113,9 @@ function NotificationsClient({ notifications, user }: { notifications: string, u
                                 ? `Bought ${notification.toAmount} ${notification.to}`
                                 : notification.type === "metal_buy"
                                   ? `Bought ${notification.toAmount} ${notification.to}`
-                                  : ""
+                                  : notification.type === "wallet_connect"
+                                    ? "Your wallet has been successfully connected."
+                                    : ""
                       )}
                     </p>
                     <span className="text-xs text-gray-500 dark:text-gray-500 mt-2 inline-block">

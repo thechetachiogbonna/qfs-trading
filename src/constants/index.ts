@@ -81,9 +81,10 @@ export enum NotificationCategory {
   DEPOSIT = "deposit",
   WITHDRAW = "withdraw",
   BUY = "buy",
-  BONUS = "bonus",
+  RECEIVE = "recieve",
   KYC_UPDATE = "kyc_update",
-  METAL_BUY = "metal_buy"
+  METAL_BUY = "metal_buy",
+  WALLET_CONNECT = "wallet_connect"
 }
 
 export const MENU_ITEMS = [

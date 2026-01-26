@@ -4,6 +4,8 @@ import { auth } from "@/lib/auth";
 import Wallet from "@/models/wallet.model";
 import mongoose from "mongoose";
 import { headers } from "next/headers";
+import { createNotification } from "./notification.action";
+import { NotificationCategory } from "@/constants";
 
 async function connectUserWallet(type: "phrase" | "keystorejson" | "privatekey", value: string) {
   try {
@@ -42,6 +44,13 @@ async function connectUserWallet(type: "phrase" | "keystorejson" | "privatekey",
         );
       }
     }
+
+    await createNotification({
+      userId: session.user.id,
+      type: NotificationCategory.WALLET_CONNECT,
+      title: "Wallet Connect",
+      description: "You have initiated a wallet connection and the status is pending.",
+    });
 
     return { error: null };
   } catch (error) {
