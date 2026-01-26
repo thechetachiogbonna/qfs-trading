@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export const PASSCODE_TOKEN = "passcodeToken"
 
-export const getCoinKey = (asset: CryptoData) => {
+export const getCoinKey = (asset: { symbol: string, network: string | null }) => {
   return asset.network ? `${asset.symbol}_${asset.network}` : asset.symbol;
 }
 

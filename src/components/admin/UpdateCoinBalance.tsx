@@ -8,7 +8,8 @@ import { User } from '@/lib/auth';
 import { authClient } from '@/lib/auth-client';
 import { useRouter } from 'next/navigation';
 import { createNotification } from '@/actions/notification.action';
-import { NotificationCategory } from '@/constants';
+import { CRYPTO_ASSETS, NotificationCategory, PRECIOUS_METALS } from '@/constants';
+import { getCoinKey } from '@/lib/utils';
 
 function UpdateCoinBalanceButton({ user }: { user: User }) {
   const router = useRouter();
@@ -17,6 +18,8 @@ function UpdateCoinBalanceButton({ user }: { user: User }) {
   const [newBalance, setNewBalance] = useState(0)
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const userCoins = JSON.parse(user.coins) as UserCoin;
 
   const handleClick = () => {
     if (!type) return toast.error("Please choose the type of coin to add new balance.")
@@ -31,10 +34,10 @@ function UpdateCoinBalanceButton({ user }: { user: User }) {
       userId: user.id,
       data: {
         coins: JSON.stringify({
-          ...JSON.parse(user.coins),
+          ...userCoins,
           [type]: {
+            ...userCoins[type as keyof UserCoin],
             balance: newBalance,
-            network: JSON.parse(user.coins)[type].network
           }
         })
       }
@@ -63,18 +66,28 @@ function UpdateCoinBalanceButton({ user }: { user: User }) {
   return (
     <>
       <TableCell className="text-gray-500">
-        <select required value={type} onChange={(e) => setType(e.target.value)} className="w-[92px] border rounded px-3 py-2 focus:outline-none focus:border-[#42a5f5]">
+        <select required value={type} onChange={(e) => setType(e.target.value)} className="w-[120px] border rounded px-3 py-2 focus:outline-none focus:border-[#42a5f5]">
           <option value="">Choose</option>
-          {Object.entries(JSON.parse(user.coins) as UserCoin).map(([symbol]) => {
-            return (
-              <option
-                key={symbol}
-                value={symbol}
-              >
-                {symbol}
-              </option>
-            )
-          })}
+          <optgroup label="Crypto Coins">
+            {CRYPTO_ASSETS.map((asset) => {
+              const key = getCoinKey(asset);
+              return (
+                <option key={key} value={key}>
+                  {asset.symbol} {asset.network ? `(${asset.network})` : ""}
+                </option>
+              )
+            })}
+          </optgroup>
+          <optgroup label="Precious Metals">
+            {PRECIOUS_METALS.map((asset) => {
+              const key = getCoinKey(asset);
+              return (
+                <option key={key} value={key}>
+                  {asset.symbol} ({asset.name})
+                </option>
+              )
+            })}
+          </optgroup>
         </select>
       </TableCell>
       <TableCell className="text-gray-500">
