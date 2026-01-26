@@ -103,7 +103,7 @@ async function AdminPanel() {
                   }
                 </TableCell>
                 <TableCell>
-                  {user.kyc ? (
+                  {user.kyc.status !== "none" ? (
                     <Link
                       href={`/admin/kyc/${user.id}`}
                       className="hover:text-blue-600 hover:underline"

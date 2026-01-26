@@ -5,7 +5,7 @@ import MobileSidebar from "./MobileSidebar";
 async function AdminHeader({ userName }: { userName: string }) {
 
   return (
-    <header className="absolute top-0 left-0 right-0 flex items-center justify-between px-2 sm:px-6 py-4 border-b bg-black z-100">
+    <header className="fixed top-0 left-0 right-0 flex items-center justify-between px-2 sm:px-6 py-4 border-b bg-black z-100">
       <span className="font-semibold text-sm sm:text-lg text-white capitalized">
         Welcome 👋 {userName}
       </span>

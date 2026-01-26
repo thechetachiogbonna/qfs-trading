@@ -7,6 +7,7 @@ import { headers } from "next/headers";
 
 import { createNotification } from "./notification.action";
 import { NotificationCategory } from "@/constants";
+import { getKycSubmissionAdminTemplate } from "@/lib/email-templates/kyc-submission-admin";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
@@ -65,12 +66,13 @@ export const uploadKyc = async (type: string, file: File) => {
   });
 
   await sendEmail({
-    to: "ok@gmail.com",
+    to: process.env.EMAIL_USER!,
     subject: "New KYC Submission",
-    html: `
-      <h1>New KYC Document Submitted</h1>
-      <p><strong>Document Type:</strong> ${type}</p>
-      <p><strong>Image URL:</strong> <a href="${url}">${url}</a></p>
-    `
+    html: getKycSubmissionAdminTemplate(
+      type,
+      url,
+      session.user.name,
+      session.user.email
+    ),
   });
 }

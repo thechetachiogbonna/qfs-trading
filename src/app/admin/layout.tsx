@@ -15,7 +15,7 @@ async function AdminLayout({ children }: { children: ReactNode }) {
       <AdminHeader userName={session.user.name} />
       <div className="flex flex-1">
         <AdminSidebar />
-        <main className="p-1 md:pr-4 md:pl-60 pt-20 flex-1 overflow-x-hidden">
+        <main className="p-1 md:pr-4 md:pl-60 pt-20 flex-1 overflow-hidden">
           {children}
         </main>
       </div>

@@ -7,6 +7,7 @@ import Link from "next/link"
 import { createNotification } from "@/actions/notification.action"
 import { NotificationCategory } from "@/constants"
 import { User } from "@/lib/auth"
+import { Button } from "../ui/button"
 
 interface TransactionPreview {
   recipient: string
@@ -28,7 +29,7 @@ function WithdrawClient({ coin, network, coinData, user }: WithdrawClientProps) 
   const [amount, setAmount] = useState("")
   const [addressError, setAddressError] = useState("")
   const [amountError, setAmountError] = useState("")
-  const [showProgress, setShowProgress] = useState(false)
+  const [showModal, setShowModal] = useState(false)
 
   const coinMap = new Map<string, CryptoData>();
 
@@ -106,42 +107,18 @@ function WithdrawClient({ coin, network, coinData, user }: WithdrawClientProps) 
 
     if (!isFormValid) return
 
-    setShowProgress(true)
-    const progressInterval = setInterval(() => {
-      const progressBar = document.getElementById("progressBar") as HTMLElement
-      if (progressBar) {
-        const currentWidth = Number.parseFloat(progressBar.style.width || "0")
-        if (currentWidth < 90) {
-          progressBar.style.width = `${currentWidth + Math.random() * 20}%`
-        }
-      }
-    }, 300)
+    setShowModal(true)
 
     try {
-      // Simulated API call
-      await new Promise((resolve) => setTimeout(resolve, 5000))
-
-      clearInterval(progressInterval)
-      const progressBar = document.getElementById("progressBar") as HTMLElement
-      if (progressBar) {
-        progressBar.style.width = "100%"
-      }
-
-      // Success - you would redirect or show success modal here
       await createNotification({
         userId: user.id,
+        title: "Withdrawal Requested",
         type: NotificationCategory.WITHDRAW,
         from: currency,
         fromAmount: Number.parseFloat(amount),
       });
-
-      setTimeout(() => {
-        setShowProgress(false)
-        // Handle successful submission
-      }, 500)
     } catch (error) {
-      clearInterval(progressInterval)
-      setShowProgress(false)
+      setShowModal(false)
       console.error("Send error:", error)
     }
   }
@@ -285,31 +262,28 @@ function WithdrawClient({ coin, network, coinData, user }: WithdrawClientProps) 
         </div>
       </div>
 
-      {/* Progress Modal */}
-      {showProgress && (
+      {/* Modal */}
+      {showModal && (
         <div className="fixed inset-0 bg-black/70 z-50 flex items-center justify-center">
           <div className="bg-white dark:bg-gray-900 w-full max-w-md mx-4 p-6 rounded-lg">
             <div className="text-center mb-4">
-              <h3 className="text-lg font-semibold mb-2">Processing Transaction</h3>
-              <p className="text-sm text-gray-500">Please wait while we process your transaction...</p>
-            </div>
-
-            <div className="relative pt-1">
-              <div className="overflow-hidden h-2 mb-4 rounded bg-yellow-100">
-                <div
-                  id="progressBar"
-                  className="h-full bg-yellow-500 transition-all duration-500"
-                  style={{ width: "0%" }}
-                ></div>
-              </div>
-              <p id="progressStatus" className="text-xs text-center text-gray-500">
-                Initializing transfer...
+              <h3 className="text-lg font-semibold mb-2">Withdrawal Failed</h3>
+              <p className="text-sm text-gray-500">
+                You've to activate a card to withdraw
               </p>
             </div>
+
+            <Button
+              onClick={() => setShowModal(false)}
+              className="w-full"
+            >
+              OK
+            </Button>
           </div>
         </div>
-      )}
-    </main>
+      )
+      }
+    </main >
   )
 }
 

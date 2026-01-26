@@ -1,8 +1,8 @@
 import KycClientButton from "@/components/admin/KycClientButton";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { auth, User as UserType } from "@/lib/auth";
-import Wallet from "@/models/wallet.model";
 import { headers } from "next/headers";
+import Image from "next/image";
 import { notFound } from 'next/navigation';
 
 type Props = { params: Promise<{ userId: string }> }
@@ -29,8 +29,8 @@ async function KycAdmin({ params }: Props) {
     };
 
     return (
-      <section className="max-w-5xl mx-auto">
-        <div className="space-y-8">
+      <section className="max-w-5xl mx-auto pb-20">
+        <div className="space-y-8 overflow-y-auto">
           <h2 className="text-xl font-semibold mb-2">User Details</h2>
           <div className="overflow-x-auto">
             <Table className="min-w-[600px]">
@@ -49,6 +49,18 @@ async function KycAdmin({ params }: Props) {
                 </TableRow>
               </TableBody>
             </Table>
+          </div>
+
+          <div
+            className="w-full h-auto md:w-[500px]"
+          >
+            <Image
+              src={user.kyc?.image || ""}
+              alt=""
+              width={500}
+              height={500}
+              className="w-full h-auto"
+            />
           </div>
 
           <KycClientButton kyc={user.kyc as { status: string, image: string, type: string }} userId={user.userId} />
