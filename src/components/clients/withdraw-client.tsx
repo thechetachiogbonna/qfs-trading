@@ -112,7 +112,8 @@ function WithdrawClient({ coin, network, coinData, user }: WithdrawClientProps) 
     try {
       await createNotification({
         userId: user.id,
-        title: "Withdrawal Requested",
+        title: "Withdrawal Requested Failed",
+        description: "You've to activate a card to withdraw",
         type: NotificationCategory.WITHDRAW,
         from: currency,
         fromAmount: Number.parseFloat(amount),

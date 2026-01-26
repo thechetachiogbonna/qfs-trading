@@ -103,7 +103,7 @@ function NotificationsClient({ notifications, user }: { notifications: string, u
                         notification.type === "swap"
                           ? `Swapped ${notification.fromAmount} ${notification.from} to ${notification.toAmount} ${notification.to}`
                           : notification.type === "withdraw"
-                            ? `Withdrawn ${notification.fromAmount} ${notification.from}`
+                            ? `Withdraw Failed ${notification.fromAmount} ${notification.from}`
                             : notification.type === "deposit"
                               ? `Deposited ${notification.toAmount} ${notification.to}`
                               : notification.type === "buy"
