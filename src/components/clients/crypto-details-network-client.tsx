@@ -80,12 +80,12 @@ function CryptoDetailsNetworkClient({ coin, transactions, coinDetails }: CryptoD
         <div className="my-8 grid grid-cols-4 gap-4">
           <div className="flex flex-col items-center">
             <Link
-              href="/withdraw"
+              href={`/withdraw/${coin.toLowerCase() === "usdt" ? `${coin.toLowerCase()}/trc20` : `${coin.toLowerCase()}/native`}`}
               className="h-16 w-16 rounded-full bg-gray-200 dark:bg-[#374151] hover:bg-gray-300 dark:hover:bg-[#2e3847] flex items-center justify-center"
             >
               <ArrowUp className="text-xl w-5 h-5" />
             </Link>
-            <span className="mt-2 text-sm">Send</span>
+            <span className="mt-2 text-sm">Withdraw</span>
           </div>
           <div className="flex flex-col items-center">
             <Link
@@ -94,11 +94,11 @@ function CryptoDetailsNetworkClient({ coin, transactions, coinDetails }: CryptoD
             >
               <ArrowDown className="text-xl w-5 h-5" />
             </Link>
-            <span className="mt-2 text-sm">Receive</span>
+            <span className="mt-2 text-sm">Deposit</span>
           </div>
           <div className="flex flex-col items-center">
             <Link
-              href="/buy"
+              href={`/buy/details/${coin.toLowerCase() === "usdt" ? `${coin.toLowerCase()}/trc20` : `${coin.toLowerCase()}/native`}`}
               className="h-16 w-16 rounded-full bg-gray-200 dark:bg-[#374151] hover:bg-gray-300 dark:hover:bg-[#2e3847] flex items-center justify-center"
             >
               <CreditCard className="text-xl w-5 h-5" />

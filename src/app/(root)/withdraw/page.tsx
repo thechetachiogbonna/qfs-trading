@@ -1,11 +1,10 @@
-import CryptoCoins from "@/components/crypto-coins"
-import { Badge } from "@/components/ui/badge"
 import { CRYPTO_ASSETS } from "@/constants"
 import { auth } from "@/lib/auth"
-import { ArrowLeft, Search } from "lucide-react"
+import { ArrowLeft } from "lucide-react"
 import { headers } from "next/headers"
 import Link from "next/link"
 import { redirect } from "next/navigation"
+import CryptoListClient from "@/components/clients/crypto-list-client"
 
 const getCryptoAssets = async () => {
   try {
@@ -85,28 +84,12 @@ async function Withdraw() {
           </h1>
           <div className="w-6"></div>
         </div>
-
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-          <input
-            type="text"
-            // value={searchQuery}
-            // onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search"
-            className="w-full bg-transparent border border-gray-300 dark:border-gray-700 rounded-full pl-10 pr-4 py-2 focus:outline-none focus:ring-[0.5px] focus:ring-gray-700"
-          />
-        </div>
-
-        <Badge
-          className="px-5 py-2 bg-transparent border border-gray-300 dark:border-gray-700 text-black dark:text-white"
-        >
-          All Networks
-        </Badge>
       </div>
 
-      <div>
-        <CryptoCoins coinData={coinData} page="withdraw" />
-      </div>
+      <CryptoListClient
+        coinData={coinData}
+        page="withdraw"
+      />
     </section>
   )
 }
