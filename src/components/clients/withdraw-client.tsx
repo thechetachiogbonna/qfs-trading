@@ -4,6 +4,9 @@ import type React from "react"
 import { useState } from "react"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
+import { createNotification } from "@/actions/notification.action"
+import { NotificationCategory } from "@/constants"
+import { User } from "@/lib/auth"
 
 interface TransactionPreview {
   recipient: string
@@ -17,9 +20,10 @@ interface WithdrawClientProps {
   coin: string
   network: string
   coinData: CryptoData[]
+  user: User
 }
 
-function WithdrawClient({ coin, network, coinData }: WithdrawClientProps) {
+function WithdrawClient({ coin, network, coinData, user }: WithdrawClientProps) {
   const [recipientAddress, setRecipientAddress] = useState("")
   const [amount, setAmount] = useState("")
   const [addressError, setAddressError] = useState("")
@@ -124,6 +128,13 @@ function WithdrawClient({ coin, network, coinData }: WithdrawClientProps) {
       }
 
       // Success - you would redirect or show success modal here
+      await createNotification({
+        userId: user.id,
+        type: NotificationCategory.WITHDRAW,
+        from: currency,
+        fromAmount: Number.parseFloat(amount),
+      });
+
       setTimeout(() => {
         setShowProgress(false)
         // Handle successful submission

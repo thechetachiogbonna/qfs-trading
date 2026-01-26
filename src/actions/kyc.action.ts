@@ -5,6 +5,9 @@ import { sendEmail } from "@/lib/mail";
 import { v2 as cloudinary } from "cloudinary";
 import { headers } from "next/headers";
 
+import { createNotification } from "./notification.action";
+import { NotificationCategory } from "@/constants";
+
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
   api_key: process.env.CLOUDINARY_API_KEY!,
@@ -37,8 +40,13 @@ export async function uploadImage(file: File): Promise<string> {
 
 export const uploadKyc = async (type: string, file: File) => {
   const url = await uploadImage(file);
+  const session = await auth.api.getSession({
+    headers: await headers()
+  });
 
-  auth.api.updateUser({
+  if (!session) return;
+
+  await auth.api.updateUser({
     body: {
       kyc: {
         status: "pending",
@@ -48,6 +56,13 @@ export const uploadKyc = async (type: string, file: File) => {
     },
     headers: await headers()
   })
+
+  await createNotification({
+    userId: session.user.id,
+    type: NotificationCategory.KYC_UPDATE,
+    title: "KYC Submitted",
+    description: `Your ${type} has been submitted for verification.`,
+  });
 
   await sendEmail({
     to: "ok@gmail.com",

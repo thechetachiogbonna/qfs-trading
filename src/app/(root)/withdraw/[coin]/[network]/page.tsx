@@ -73,7 +73,7 @@ async function WithdrawCoinNetwork({ params }: Params) {
     } as CryptoData
   })
 
-  return <WithdrawClient coin={coin} network={network} coinData={coinData} />
+  return <WithdrawClient coin={coin} network={network} coinData={coinData} user={session.user} />
 }
 
 export default WithdrawCoinNetwork

@@ -2,26 +2,33 @@
 
 import { Types } from "mongoose";
 import NotificationModel from "@/models/notification.model";
+import { NotificationCategory } from "@/constants";
 
 /* CREATE */
 export const createNotification = async ({
   userId,
   type,
+  title,
+  description,
   from,
   to,
   fromAmount,
   toAmount
 }: {
   userId: string;
-  type: string;
-  from: string;
-  to: string;
-  fromAmount: number;
-  toAmount: number;
+  type: NotificationCategory;
+  title?: string;
+  description?: string;
+  from?: string;
+  to?: string;
+  fromAmount?: number;
+  toAmount?: number;
 }) => {
   await NotificationModel.create({
     userId: new Types.ObjectId(userId),
     type,
+    title,
+    description,
     from,
     to,
     fromAmount,

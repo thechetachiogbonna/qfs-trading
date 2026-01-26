@@ -10,6 +10,7 @@ import { toast } from "sonner"
 import { authClient } from "@/lib/auth-client"
 import { useRouter } from "next/navigation"
 import { createNotification } from "@/actions/notification.action"
+import { NotificationCategory } from "@/constants"
 
 const fromAndTodefault = {
   symbol: "",
@@ -78,7 +79,7 @@ function SwapClient({ coinData, user }: { coinData: CryptoData[], user: User }) 
     setFromAmount(amount)
 
     if (cryptoData.from.price && cryptoData.to.price) {
-      const usdValue = Number.parseFloat(amount) * cryptoData.from.price || 0
+      const usdValue = Number(amount) * cryptoData.from.price || 0
       const calculated = usdValue / cryptoData.to.price
       setToAmount(calculated.toFixed(4))
     }
@@ -183,7 +184,7 @@ function SwapClient({ coinData, user }: { coinData: CryptoData[], user: User }) 
             const description = `Swapped ${fromAmount} ${cryptoData.from.symbol} to ${toAmount} ${cryptoData.to.symbol}`;
             await createNotification({
               userId: user.id,
-              type: "swap",
+              type: NotificationCategory.SWAP,
               from: cryptoData.from.symbol,
               to: cryptoData.to.symbol,
               fromAmount: Number(fromAmount),

@@ -76,6 +76,16 @@ export const enum MenuItems {
   Notification = "Notification"
 }
 
+export enum NotificationCategory {
+  SWAP = "swap",
+  DEPOSIT = "deposit",
+  WITHDRAW = "withdraw",
+  BUY = "buy",
+  BONUS = "bonus",
+  KYC_UPDATE = "kyc_update",
+  METAL_BUY = "metal_buy"
+}
+
 export const MENU_ITEMS = [
   { href: "/dashboard", icon: Home, label: MenuItems.Home },
   { href: "/kyc", icon: UserCheck, label: MenuItems.Kyc },

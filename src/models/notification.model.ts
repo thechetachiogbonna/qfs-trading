@@ -9,25 +9,34 @@ const notificationSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  title: {
+    type: String,
+    required: false
+  },
+  description: {
+    type: String,
+    required: false
+  },
   from: {
     type: String,
-    required: true
+    required: false
   },
   to: {
     type: String,
-    required: true
+    required: false
   },
   fromAmount: {
     type: Number,
-    required: true
+    required: false
   },
   toAmount: {
     type: Number,
-    required: true
+    required: false
   },
   read: {
     type: Boolean,
-    required: true
+    required: true,
+    default: false
   }
 }, { timestamps: true });
 

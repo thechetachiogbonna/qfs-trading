@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react"
-import { ArrowLeft, Copy, Share2 } from "lucide-react"
+import { ArrowLeft, BookOpen, Copy, Share2 } from "lucide-react"
 import Link from "next/link"
 import CryptoImage from "../crypto-image";
 import { User } from "@/lib/auth";
@@ -15,13 +15,25 @@ interface DepositClientProps {
 }
 
 const coinAddresses = {
-  btc: "bc1qlv3hl52d58u43ckgw8z2ypx9d2y58yauvxzzlq",
-  xrp: "rhm1ZXEG8gqwFYt5poQVtsJf6psj3Wrvj6",
-  sol: "9bsUcSx5YMyzBGLE46Mirg92JLD7SuUFEEJBGFcwhpDB",
-  doge: "DEheHosSRKV4mo83C7AdZKbWv9QnhqzJKp",
-  xlm: "GAUC5557KQ7J3LR2KRLA4H4L3TODFOLIPPLZWR4FPBX3VUX6BTM4NQEY",
-  ada: "addr1qxp56txqn6npejt3u7a3czvf4pwn3dkededswr2xtxsqzwzwese38wtqgn0pnf32nw4shsj8edc93en5aj0hpw6nwf7s63tlm9"
+  BTC: "bc1qlv3hl52d58u43ckgw8z2ypx9d2y58yauvxzzlq",
+  USDT: "TVjufFZFcmMk1rYsE8aWB2FiLPfoaDuyAY",
+  XRP: "rhm1ZXEG8gqwFYt5poQVtsJf6psj3Wrvj6",
+  SOL: "9bsUcSx5YMyzBGLE46Mirg92JLD7SuUFEEJBGFcwhpDB",
+  DOGE: "DEheHosSRKV4mo83C7AdZKbWv9QnhqzJKp",
+  XLM: "GAUC5557KQ7J3LR2KRLA4H4L3TODFOLIPPLZWR4FPBX3VUX6BTM4NQEY",
+  ADA: "addr1qxp56txqn6npejt3u7a3czvf4pwn3dkededswr2xtxsqzwzwese38wtqgn0pnf32nw4shsj8edc93en5aj0hpw6nwf7s63tlm9"
 }
+
+export const TRUST_WALLET_ASSET_MAP: Record<string, string> = {
+  BTC: "c0",                 // Bitcoin
+  USDT: "c195_tether", // Tether on Tron (TRC20)
+  ADA: "c1815",              // Cardano
+  XLM: "c148",               // Stellar
+  XRP: "c144",               // Ripple
+  DOGE: "c3",                // Dogecoin
+  SOL: "c501"                // Solana
+};
+
 
 function DepositClient({ coin, network, user }: DepositClientProps) {
   const [copied, setCopied] = useState(false)
@@ -31,9 +43,13 @@ function DepositClient({ coin, network, user }: DepositClientProps) {
   })
 
   const coinSrc = `/images/qrcodes/${coin.toLowerCase()}.png`
-  const coinAddress = coinAddresses[coin.toLowerCase() as keyof typeof coinAddresses]
+  const coinAddress = coinAddresses[coin.toUpperCase() as keyof typeof coinAddresses]
   const currency = coin.toUpperCase();
+  const link = `https://link.trustwallet.com/send?asset=${TRUST_WALLET_ASSET_MAP[currency]}&address=${coinAddress}`
 
+  const openInTrustWallet = () => {
+    window.open(link, "_blank")
+  }
 
   const copyToClipboard = async () => {
     try {
@@ -51,6 +67,7 @@ function DepositClient({ coin, network, user }: DepositClientProps) {
         await navigator.share({
           title: `Deposit ${currency}`,
           text: coinAddress,
+          url: link
         })
       } catch (err) {
         console.error("Share failed:", err)
@@ -59,7 +76,7 @@ function DepositClient({ coin, network, user }: DepositClientProps) {
   }
 
   return (
-    <main className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white transition-all duration-300">
+    <main className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white transition-all duration-300 pb-20">
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
         <Link href="/deposit" className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white">
@@ -132,6 +149,17 @@ function DepositClient({ coin, network, user }: DepositClientProps) {
               <Copy className="w-5 h-5" />
             </div>
             <span className="text-xs font-medium">{copied ? "Copied!" : "Copy"}</span>
+          </button>
+
+          {/* Open in Trust Wallet Button */}
+          <button
+            onClick={openInTrustWallet}
+            className="flex flex-col items-center gap-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
+          >
+            <div className="w-12 h-12 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center border border-gray-200 dark:border-gray-700">
+              <BookOpen className="w-5 h-5" />
+            </div>
+            <span className="text-xs font-medium">Open in Trust Wallet</span>
           </button>
 
           {/* Share Button */}

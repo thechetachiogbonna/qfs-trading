@@ -73,7 +73,7 @@ async function BuyCoinNetwork({ params }: Params) {
     } as CryptoData
   })
 
-  return <BuyDetailsClient coin={coin} network={network} coinData={coinData} />
+  return <BuyDetailsClient coin={coin} network={network} coinData={coinData} user={session.user} />
 }
 
 export default BuyCoinNetwork

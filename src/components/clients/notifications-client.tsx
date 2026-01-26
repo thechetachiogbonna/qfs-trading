@@ -1,13 +1,34 @@
 "use client"
 
 import { useRouter } from "next/navigation"
-import { Eye, Trash2, Bell, ArrowLeft } from "lucide-react"
+import { Eye, Trash2, Bell, ArrowLeft, ArrowUpRight, ArrowDownLeft, ClipboardCheck, ShoppingBag, Gift, ArrowLeftRight } from "lucide-react"
 import {
   markNotificationAsRead,
   deleteNotification,
   markAllNotificationsAsRead,
 } from "@/actions/notification.action";
 import { User } from "@/lib/auth";
+
+const getIcon = (type: string) => {
+  switch (type) {
+    case "swap":
+      return <ArrowLeftRight className="w-5 h-5 text-blue-500" />
+    case "deposit":
+      return <ArrowDownLeft className="w-5 h-5 text-green-500" />
+    case "withdraw":
+      return <ArrowUpRight className="w-5 h-5 text-red-500" />
+    case "buy":
+      return <ShoppingBag className="w-5 h-5 text-yellow-500" />
+    case "bonus":
+      return <Gift className="w-5 h-5 text-purple-500" />
+    case "kyc_update":
+      return <ClipboardCheck className="w-5 h-5 text-orange-500" />
+    case "metal_buy":
+      return <ShoppingBag className="w-5 h-5 text-amber-600" />
+    default:
+      return <Bell className="w-5 h-5 text-gray-500" />
+  }
+}
 
 function NotificationsClient({ notifications, user }: { notifications: string, user: User }) {
   const router = useRouter();
@@ -60,23 +81,40 @@ function NotificationsClient({ notifications, user }: { notifications: string, u
                   {/* Icon */}
                   <div className="shrink-0">
                     <div className="w-10 h-10 flex items-center justify-center">
-                      <Bell className="w-5 h-5 text-blue-500" />
+                      {getIcon(notification.type)}
                     </div>
                   </div>
 
                   {/* Text Content */}
                   <div className="flex-1 min-w-0">
                     <h3 className="font-semibold text-gray-900 dark:text-white">
-                      {notification.type === "swap" ? "Crypto Swap" : null}
+                      {notification.title || (
+                        notification.type === "swap" ? "Crypto Swap" :
+                          notification.type === "deposit" ? "Deposit" :
+                            notification.type === "withdraw" ? "Withdrawal" :
+                              notification.type === "buy" ? "Buy Crypto" :
+                                notification.type === "bonus" ? "Bonus" :
+                                  notification.type === "kyc_update" ? "KYC Update" :
+                                    notification.type === "metal_buy" ? "Precious Metal" : "Notification"
+                      )}
                     </h3>
                     <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 wrap-break-word">
-                      {notification.type === "swap"
-                        ? `Swapped ${notification.fromAmount} ${notification.from} to ${notification.toAmount} ${notification.to}`
-                        : null
-                      }
+                      {notification.description || (
+                        notification.type === "swap"
+                          ? `Swapped ${notification.fromAmount} ${notification.from} to ${notification.toAmount} ${notification.to}`
+                          : notification.type === "withdraw"
+                            ? `Withdrawn ${notification.fromAmount} ${notification.from}`
+                            : notification.type === "deposit"
+                              ? `Deposited ${notification.toAmount} ${notification.to}`
+                              : notification.type === "buy"
+                                ? `Bought ${notification.toAmount} ${notification.to}`
+                                : notification.type === "metal_buy"
+                                  ? `Bought ${notification.toAmount} ${notification.to}`
+                                  : ""
+                      )}
                     </p>
                     <span className="text-xs text-gray-500 dark:text-gray-500 mt-2 inline-block">
-                      {notification.createdAt}
+                      {new Date(notification.createdAt).toLocaleString()}
                     </span>
                   </div>
                 </div>

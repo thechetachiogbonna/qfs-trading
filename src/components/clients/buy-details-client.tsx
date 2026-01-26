@@ -5,10 +5,15 @@ import { ArrowLeft, ChevronRight, Computer, Phone, X } from "lucide-react"
 import Link from "next/link"
 import { toast } from "sonner"
 
+import { createNotification } from "@/actions/notification.action"
+import { NotificationCategory } from "@/constants"
+import { User } from "@/lib/auth"
+
 interface BuyDetailsClientProps {
   coin: string
   network: string
   coinData: CryptoData[]
+  user: User
 }
 
 const PAYMENT_PROVIDERS = [
@@ -24,8 +29,7 @@ const PAYMENT_PROVIDERS = [
   { id: "bitpay", name: "BitPay", href: "bitpay.com" }
 ];
 
-
-function BuyDetailsClient({ coin, network, coinData }: BuyDetailsClientProps) {
+function BuyDetailsClient({ coin, network, coinData, user }: BuyDetailsClientProps) {
   const [usdAmount, setUsdAmount] = useState("150")
   const [cryptoAmount, setCryptoAmount] = useState("0")
   const [selectedProvider, setSelectedProvider] = useState<(typeof PAYMENT_PROVIDERS)[0] | null>(null)
@@ -55,6 +59,15 @@ function BuyDetailsClient({ coin, network, coinData }: BuyDetailsClientProps) {
     if (!selectedProvider) {
       return toast.error("Please select a payment method");
     }
+
+    await createNotification({
+      userId: user.id,
+      type: NotificationCategory.BUY,
+      to: displayCoin,
+      toAmount: Number.parseFloat(cryptoAmount),
+      title: "Buy Order Initiated",
+      description: `You are being redirected to ${selectedProvider.name} to complete your purchase of ${cryptoAmount} ${displayCoin}.`,
+    });
 
     window.open(
       `https://${selectedProvider.href}`,
