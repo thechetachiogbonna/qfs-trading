@@ -65,6 +65,18 @@ export const auth = betterAuth({
           },
           SOL: {
             balance: 0,
+          },
+          XAU: {
+            balance: 0,
+          },
+          XAG: {
+            balance: 0,
+          },
+          XPT: {
+            balance: 0,
+          },
+          XPD: {
+            balance: 0,
           }
         }),
       },

@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { Button, buttonVariants } from "../ui/button";
 import { Badge } from "../ui/badge";
 import { cn } from "@/lib/utils";
+import { PRECIOUS_METALS, METAL_PRICES } from "@/constants";
 
 function DashboardClient({ coinData, user }: { coinData: CryptoData[], user: User }) {
   const [searchQuery, setSearchQuery] = useState("");
@@ -18,71 +19,29 @@ function DashboardClient({ coinData, user }: { coinData: CryptoData[], user: Use
 
   const router = useRouter();
 
-  const totalBalanceOn = coinData
-    .reduce((sum, coin) => sum + coin.balance * coin.price, 0);
+  const userCoins = JSON.parse(user.coins) as UserCoin;
 
-  const balance = totalBalanceOn.toLocaleString(undefined, {
+  const metalData: CryptoData[] = PRECIOUS_METALS.map((metal) => ({
+    ...metal,
+    balance: Number(userCoins[metal.symbol as keyof UserCoin]?.balance || 0),
+    price: METAL_PRICES[metal.symbol] || 0,
+    change24h: 0,
+    volume_24h: 0,
+    market_cap: 0
+  }));
+
+  const totalMetalsBalance = metalData.reduce((sum, metal) => sum + metal.balance * metal.price, 0);
+  const totalCryptoBalance = coinData.reduce((sum, coin) => sum + coin.balance * coin.price, 0);
+
+  const totalBalance = totalCryptoBalance + totalMetalsBalance;
+
+  const balance = totalBalance.toLocaleString(undefined, {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
 
   const kycStatus = user.kyc.status;
   const filteredCoinData = coinData.filter((coin) => coin.name.toLowerCase().includes(searchQuery.toLowerCase()) || coin.symbol.toLowerCase().includes(searchQuery.toLowerCase()) || coin.network?.toLowerCase().includes(searchQuery.toLowerCase()));
-
-  const metalData: CryptoData[] = [
-    {
-      id: "gold",
-      name: "Gold",
-      symbol: "XAU",
-      balance: 0,
-      icon_image: "/images/coins/gold.png",
-      network_image: null,
-      network: null,
-      price: 2745.20,
-      change24h: 0.45,
-      volume_24h: 0,
-      market_cap: 0
-    },
-    {
-      id: "silver",
-      name: "Silver",
-      symbol: "XAG",
-      balance: 0,
-      icon_image: "/images/coins/silver.png",
-      network_image: null,
-      network: null,
-      price: 33.15,
-      change24h: -0.8,
-      volume_24h: 0,
-      market_cap: 0
-    },
-    {
-      id: "platinum",
-      name: "Platinum",
-      symbol: "XPT",
-      balance: 0,
-      icon_image: "/images/coins/platinum.png",
-      network_image: null,
-      network: null,
-      price: 975.50,
-      change24h: 1.2,
-      volume_24h: 0,
-      market_cap: 0
-    },
-    {
-      id: "palladium",
-      name: "Palladium",
-      symbol: "XPD",
-      balance: 0,
-      icon_image: "/images/coins/palladium.png",
-      network_image: null,
-      network: null,
-      price: 1050.80,
-      change24h: -0.5,
-      volume_24h: 0,
-      market_cap: 0
-    }
-  ];
 
   const filteredMetalData = metalData.filter((coin) => coin.name.toLowerCase().includes(searchQuery.toLowerCase()) || coin.symbol.toLowerCase().includes(searchQuery.toLowerCase()));
 
@@ -249,7 +208,7 @@ function DashboardClient({ coinData, user }: { coinData: CryptoData[], user: Use
 
         {tab === "assets"
           ? <CryptoCoins coinData={filteredCoinData} page="dashboard" />
-          : <PreciousMetals metalData={filteredMetalData} page="dashboard" />
+          : <PreciousMetals metalData={filteredMetalData} />
         }
       </div>
     </main>

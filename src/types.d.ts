@@ -34,6 +34,18 @@ type UserCoin = {
   },
   SOL: {
     balance: number
+  },
+  XAU: {
+    balance: number
+  },
+  XAG: {
+    balance: number
+  },
+  XPT: {
+    balance: number
+  },
+  XPD: {
+    balance: number
   }
 }
 

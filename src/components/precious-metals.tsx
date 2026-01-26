@@ -1,13 +1,11 @@
 "use client";
 
-import Link from "next/link";
 import CryptoImage from "./crypto-image";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 type PreciousMetalsProps = {
   metalData: CryptoData[],
-  page: "dashboard" | "buy" | "deposit" | "withdraw",
 }
 
 const EmptyState = () => (
@@ -16,22 +14,9 @@ const EmptyState = () => (
   </div>
 );
 
-function PreciousMetals({ metalData, page }: PreciousMetalsProps) {
+function PreciousMetals({ metalData }: PreciousMetalsProps) {
   const pathname = usePathname();
   const isHomePage = pathname === "/dashboard";
-
-  const getHref = (asset: CryptoData) => {
-    switch (page) {
-      case "dashboard":
-        return `/metals/details/${asset.symbol.toLowerCase()}`
-      case "buy":
-        return `/buy/metals/${asset.symbol.toLowerCase()}`
-      case "deposit":
-        return `/deposit/metals/${asset.symbol.toLowerCase()}`
-      case "withdraw":
-        return `/withdraw/metals/${asset.symbol.toLowerCase()}`
-    }
-  }
 
   if (!metalData || metalData.length === 0) {
     return <EmptyState />;
@@ -40,14 +25,11 @@ function PreciousMetals({ metalData, page }: PreciousMetalsProps) {
   return (
     <div className={cn("space-y-4", !isHomePage && "space-y-2")}>
       {metalData.map((asset) => {
-        const href = getHref(asset);
-
         const isPositive = asset.change24h >= 0;
 
         return (
-          <Link
+          <div
             key={asset.id}
-            href={href}
             className="block"
           >
             <div
@@ -65,19 +47,13 @@ function PreciousMetals({ metalData, page }: PreciousMetalsProps) {
                 />
                 <div>
                   <div className="flex items-center space-x-2">
-                    <span className="font-semibold text-sm">{asset.symbol}</span>
+                    <span className="font-semibold text-sm">{asset.symbol} ({asset.name})</span>
                   </div>
                   <div className="text-xs text-gray-600 dark:text-gray-400">
                     ${asset.price.toLocaleString(undefined, {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
-                    })}{" "}
-                    <span
-                      className={isPositive ? "text-green-500" : "text-red-500"}
-                    >
-                      {isPositive ? "+" : ""}
-                      {asset.change24h.toFixed(2)}%
-                    </span>
+                    })}
                   </div>
                 </div>
               </div>
@@ -90,7 +66,7 @@ function PreciousMetals({ metalData, page }: PreciousMetalsProps) {
                 </div>
               </div>
             </div>
-          </Link>
+          </div>
         );
       })}
     </div>

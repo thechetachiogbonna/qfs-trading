@@ -145,26 +145,22 @@ function SwapClient({ coinData, user }: { coinData: CryptoData[], user: User }) 
 
     const currentCoins = JSON.parse(user.coins) as UserCoin
 
-    if (!currentCoins[fromKey] || !currentCoins[toKey]) {
-      setErrorMessage("Invalid wallet state")
-      setResultType("error")
-      setShowResultModal(true)
-      return
-    }
-
     setIsLoading(true)
 
     const receivedAmount = Number.parseFloat(toAmount)
 
+    const fromCoin = currentCoins[fromKey] || { balance: 0 };
+    const toCoin = currentCoins[toKey] || { balance: 0 };
+
     const updatedCoins: UserCoin = {
       ...currentCoins,
       [fromKey]: {
-        ...currentCoins[fromKey],
-        balance: currentCoins[fromKey].balance - amount
+        ...fromCoin,
+        balance: fromCoin.balance - amount
       },
       [toKey]: {
-        ...currentCoins[toKey],
-        balance: currentCoins[toKey].balance + receivedAmount
+        ...toCoin,
+        balance: toCoin.balance + receivedAmount
       },
     }
 
@@ -392,8 +388,6 @@ function SwapClient({ coinData, user }: { coinData: CryptoData[], user: User }) 
         from={cryptoData.from}
         to={cryptoData.to}
         currentSelector={currentSelector}
-        setFromAmount={setFromAmount}
-        setToAmount={setToAmount}
       />
 
       {/* Result Modal */}

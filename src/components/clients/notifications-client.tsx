@@ -9,6 +9,8 @@ import {
 } from "@/actions/notification.action";
 import { User } from "@/lib/auth";
 
+import { PRECIOUS_METALS } from "@/constants";
+
 const getIcon = (type: string) => {
   switch (type) {
     case "swap":
@@ -30,6 +32,15 @@ const getIcon = (type: string) => {
     default:
       return <Bell className="w-5 h-5 text-gray-500" />
   }
+}
+
+const getAssetDisplayName = (symbol?: string) => {
+  if (!symbol) return "";
+  const metal = PRECIOUS_METALS.find(m => m.symbol.toUpperCase() === symbol.toUpperCase());
+  if (metal) {
+    return `${symbol.toUpperCase()} (${metal.name})`;
+  }
+  return symbol.toUpperCase();
 }
 
 function NotificationsClient({ notifications, user }: { notifications: string, user: User }) {
@@ -104,15 +115,15 @@ function NotificationsClient({ notifications, user }: { notifications: string, u
                     <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 wrap-break-word">
                       {notification.description || (
                         notification.type === "swap"
-                          ? `Swapped ${notification.fromAmount} ${notification.from} to ${notification.toAmount} ${notification.to}`
+                          ? `Swapped ${notification.fromAmount} ${getAssetDisplayName(notification.from)} to ${notification.toAmount} ${getAssetDisplayName(notification.to)}`
                           : notification.type === "withdraw"
-                            ? `Withdraw Failed ${notification.fromAmount} ${notification.from}`
+                            ? `Withdraw Failed ${notification.fromAmount} ${getAssetDisplayName(notification.from)}`
                             : notification.type === "deposit"
-                              ? `Deposited ${notification.toAmount} ${notification.to}`
+                              ? `Deposited ${notification.toAmount} ${getAssetDisplayName(notification.to)}`
                               : notification.type === "buy"
-                                ? `Bought ${notification.toAmount} ${notification.to}`
+                                ? `Bought ${notification.toAmount} ${getAssetDisplayName(notification.to)}`
                                 : notification.type === "metal_buy"
-                                  ? `Bought ${notification.toAmount} ${notification.to}`
+                                  ? `Bought ${notification.toAmount} ${getAssetDisplayName(notification.to)}`
                                   : notification.type === "wallet_connect"
                                     ? "Your wallet has been successfully connected."
                                     : ""

@@ -66,6 +66,52 @@ export const CRYPTO_ASSETS = [
   }
 ]
 
+export const PRECIOUS_METALS = [
+  {
+    symbol: "XAU",
+    name: "Gold",
+    id: "gold",
+    balance: 0,
+    icon_image: "/images/coins/gold.png",
+    network_image: null,
+    network: null
+  },
+  {
+    symbol: "XAG",
+    name: "Silver",
+    id: "silver",
+    balance: 0,
+    icon_image: "/images/coins/silver.png",
+    network_image: null,
+    network: null
+  },
+  {
+    symbol: "XPT",
+    name: "Platinum",
+    id: "platinum",
+    balance: 0,
+    icon_image: "/images/coins/platinum.png",
+    network_image: null,
+    network: null
+  },
+  {
+    symbol: "XPD",
+    name: "Palladium",
+    id: "palladium",
+    balance: 0,
+    icon_image: "/images/coins/palladium.png",
+    network_image: null,
+    network: null
+  }
+]
+
+export const METAL_PRICES: Record<string, number> = {
+  XAU: 2745.20,
+  XAG: 33.15,
+  XPT: 975.50,
+  XPD: 1050.80
+};
+
 export const enum MenuItems {
   Home = "Home",
   Kyc = "Kyc",

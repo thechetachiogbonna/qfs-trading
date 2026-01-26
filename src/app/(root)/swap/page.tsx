@@ -1,5 +1,5 @@
 import SwapClient from "@/components/clients/swap-client";
-import { CRYPTO_ASSETS } from "@/constants";
+import { CRYPTO_ASSETS, PRECIOUS_METALS, METAL_PRICES } from "@/constants";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
@@ -33,7 +33,15 @@ const getCryptoAssets = async () => {
       }
     })
 
-    return coinData;
+    const metalData = PRECIOUS_METALS.map((metal) => ({
+      ...metal,
+      price: METAL_PRICES[metal.symbol] || 0,
+      change24h: 0,
+      volume_24h: 0,
+      market_cap: 0
+    }));
+
+    return [...coinData, ...metalData] as CryptoData[];
   } catch (err) {
     console.error("Error fetching crypto data:", err)
     return []
@@ -67,7 +75,7 @@ async function Swap() {
 
     return {
       ...coin,
-      balance: Number(userCoins[coinSymbol as keyof typeof userCoins].balance)
+      balance: Number(userCoins[coinSymbol as keyof typeof userCoins]?.balance || 0)
     } as CryptoData
   })
 

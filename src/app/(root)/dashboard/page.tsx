@@ -57,17 +57,13 @@ async function Dashboard() {
     let coinSymbol = ""
     if (coin.symbol === "USDT" && coin.network === "TRC20") {
       coinSymbol = "USDT_TRC20"
-    } else if (coin.symbol === "USDT" && coin.network === "BNB") {
-      coinSymbol = "USDT_BNB"
-    } else if (coin.symbol === "USDT" && coin.network === "ERC20") {
-      coinSymbol = "USDT_ERC20"
     } else {
       coinSymbol = coin.symbol
     }
 
     return {
       ...coin,
-      balance: Number(userCoins[coinSymbol as keyof typeof userCoins].balance)
+      balance: Number(userCoins[coinSymbol as keyof typeof userCoins]?.balance || 0)
     }
   })
 
