@@ -270,7 +270,7 @@ function WithdrawClient({ coin, network, coinData, user }: WithdrawClientProps) 
             <div className="text-center mb-4">
               <h3 className="text-lg font-semibold mb-2">Withdrawal Failed</h3>
               <p className="text-sm text-gray-500">
-                You've to activate a card to withdraw
+                You've to activate your QFS Trading card to withdraw
               </p>
             </div>
 
@@ -278,7 +278,9 @@ function WithdrawClient({ coin, network, coinData, user }: WithdrawClientProps) 
               onClick={() => setShowModal(false)}
               className="w-full"
             >
-              OK
+              <Link href="/card">
+                Activate
+              </Link>
             </Button>
           </div>
         </div>
