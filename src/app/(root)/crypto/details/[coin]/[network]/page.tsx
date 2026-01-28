@@ -5,26 +5,7 @@ import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { notFound, redirect } from 'next/navigation';
 
-const getCoinPrice = async (coinId: string) => {
-  try {
-    const response = await fetch(
-      `https://api.coingecko.com/api/v3/simple/price?ids=${coinId}&vs_currencies=usd`,
-    )
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch crypto data")
-    }
-
-    const data = await response.json()
-
-    return {
-      usd: data[coinId].usd
-    };
-  } catch (err) {
-    console.error("Error fetching crypto data:", err)
-    return {}
-  }
-}
+import { getAssetsData } from '@/lib/assets';
 
 type Params = {
   params: Promise<{ coin: string, network: string }>
@@ -39,12 +20,17 @@ async function CryptoDetailsNetwork({ params }: Params) {
     throw notFound();
   }
 
-  const [session, coinPrice] = await Promise.all([
+  const [session, assets] = await Promise.all([
     auth.api.getSession({
       headers: await headers()
     }),
-    getCoinPrice(asset.id)
+    getAssetsData()
   ])
+
+  const { coinData, metalData } = assets;
+  const allAssets = [...coinData, ...metalData];
+  const assetData = allAssets.find(a => a.id === asset.id);
+  const coinPrice = assetData ? { usd: assetData.price } : { usd: 0 };
 
   if (!session) {
     throw redirect("/login")

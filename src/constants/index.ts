@@ -106,10 +106,10 @@ export const PRECIOUS_METALS = [
 ]
 
 export const METAL_PRICES: Record<string, number> = {
-  XAU: 2745.20,
-  XAG: 33.15,
-  XPT: 975.50,
-  XPD: 1050.80
+  XAU: 5115.80,
+  XAG: 110.81,
+  XPT: 2898.90,
+  XPD: 2112.30
 };
 
 export const enum MenuItems {
