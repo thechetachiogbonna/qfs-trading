@@ -3,9 +3,11 @@
 import CryptoImage from "./crypto-image";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 type PreciousMetalsProps = {
   metalData: CryptoData[],
+  page: "dashboard" | "buy" | "deposit" | "withdraw"
 }
 
 const EmptyState = () => (
@@ -14,9 +16,22 @@ const EmptyState = () => (
   </div>
 );
 
-function PreciousMetals({ metalData }: PreciousMetalsProps) {
+function PreciousMetals({ metalData, page }: PreciousMetalsProps) {
   const pathname = usePathname();
   const isHomePage = pathname === "/dashboard";
+
+  const getHref = (asset: CryptoData) => {
+    switch (page) {
+      case "dashboard":
+        return `/crypto/details/${asset.symbol.toLowerCase()}/${asset.network ? asset.network.toLowerCase() : "native"}`
+      case "buy":
+        return `/buy/details/${asset.symbol.toLowerCase()}/${asset.network ? asset.network.toLowerCase() : "native"}`
+      case "deposit":
+        return `/deposit/${asset.symbol.toLowerCase()}/${asset.network ? asset.network.toLowerCase() : "native"}`
+      case "withdraw":
+        return `/withdraw/${asset.symbol.toLowerCase()}/${asset.network ? asset.network.toLowerCase() : "native"}`
+    }
+  }
 
   if (!metalData || metalData.length === 0) {
     return <EmptyState />;
@@ -28,9 +43,10 @@ function PreciousMetals({ metalData }: PreciousMetalsProps) {
         const isPositive = asset.change24h >= 0;
 
         return (
-          <div
+          <Link
             key={asset.id}
             className="block"
+            href={getHref(asset)}
           >
             <div
               className={cn(
@@ -66,7 +82,7 @@ function PreciousMetals({ metalData }: PreciousMetalsProps) {
                 </div>
               </div>
             </div>
-          </div>
+          </Link>
         );
       })}
     </div>

@@ -1,6 +1,6 @@
 import { getCoinRelatedTransactions } from '@/actions/notification.action';
 import CryptoDetailsNetworkClient from '@/components/clients/crypto-details-network-client'
-import { CRYPTO_ASSETS } from '@/constants';
+import { CRYPTO_ASSETS, PRECIOUS_METALS } from '@/constants';
 import { auth } from '@/lib/auth';
 import { headers } from 'next/headers';
 import { notFound, redirect } from 'next/navigation';
@@ -14,7 +14,7 @@ type Params = {
 async function CryptoDetailsNetwork({ params }: Params) {
   const { coin, network } = (await params);
 
-  const asset = CRYPTO_ASSETS.filter(asset => asset.symbol === coin.toUpperCase())[0];
+  const asset = [...CRYPTO_ASSETS, ...PRECIOUS_METALS].filter(asset => asset.symbol === coin.toUpperCase())[0];
 
   if (!asset) {
     throw notFound();

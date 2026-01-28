@@ -25,14 +25,12 @@ interface CryptoDetailsNetworkClientProps {
 function CryptoDetailsNetworkClient({ coin, transactions, coinDetails }: CryptoDetailsNetworkClientProps) {
   const router = useRouter();
 
-  const [showSendModal, setShowSendModal] = useState(false)
-  const [showReceiveModal, setShowReceiveModal] = useState(false)
   const [activeTab, setActiveTab] = useState<'transactions' | 'coinmarketcap'>('transactions')
 
   const coinName = coinDetails.coinName
   const coinSymbol = coin.toUpperCase()
-  const balance = coinDetails.coinBalance
-  const usdValue = coinDetails.coinBalance * coinDetails.coinPrice;
+  const balance = coinDetails.coinBalance || 0;
+  const usdValue = balance * coinDetails.coinPrice;
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white pb-24 md:pb-4">

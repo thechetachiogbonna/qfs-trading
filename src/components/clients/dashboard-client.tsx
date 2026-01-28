@@ -222,7 +222,7 @@ function DashboardClient({ coinData, user }: { coinData: CryptoData[], user: Use
 
         {tab === "assets"
           ? <CryptoCoins coinData={filteredCoinData} page="dashboard" />
-          : <PreciousMetals metalData={filteredMetalData} />
+          : <PreciousMetals metalData={filteredMetalData} page="dashboard" />
         }
       </div>
     </main>
