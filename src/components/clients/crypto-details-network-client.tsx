@@ -1,11 +1,12 @@
 "use client";
 
-import { ChevronLeft, TrendingUp, CreditCard, ArrowUp, ArrowDown, ArrowLeftRight } from 'lucide-react'
+import { ChevronLeft, TrendingUp, CreditCard, ArrowUp, ArrowDown, ArrowLeftRight, ExternalLink } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { formatDate } from '@/lib/utils';
 import CryptoImage from '../crypto-image';
 import Link from "next/link";
+import { cn } from '@/lib/utils';
 
 interface CryptoDetailsNetworkClientProps {
   coin: string
@@ -26,6 +27,7 @@ function CryptoDetailsNetworkClient({ coin, transactions, coinDetails }: CryptoD
 
   const [showSendModal, setShowSendModal] = useState(false)
   const [showReceiveModal, setShowReceiveModal] = useState(false)
+  const [activeTab, setActiveTab] = useState<'transactions' | 'coinmarketcap'>('transactions')
 
   const coinName = coinDetails.coinName
   const coinSymbol = coin.toUpperCase()
@@ -116,63 +118,161 @@ function CryptoDetailsNetworkClient({ coin, transactions, coinDetails }: CryptoD
           </div>
         </div>
 
-        {/* Transactions Section */}
+        {/* Tabs Section */}
         <div className="mb-8">
-          <h3 className="text-xl font-semibold text-center pb-4 border-b-2 border-gray-900 dark:border-white">
-            Transactions
-          </h3>
+          <div className="flex items-center gap-4 mb-4">
+            <button
+              type="button"
+              onClick={() => setActiveTab('transactions')}
+              className={cn(
+                "text-sm font-bold py-2 px-4 rounded-md transition-colors flex-1",
+                activeTab === 'transactions'
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-700"
+              )}
+            >
+              Transactions
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('coinmarketcap')}
+              className={cn(
+                "text-sm font-bold py-2 px-4 rounded-md transition-colors flex-1 flex items-center justify-center gap-2",
+                activeTab === 'coinmarketcap'
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-300 dark:hover:bg-gray-700"
+              )}
+            >
+              <span>CoinMarketCap</span>
+              <ExternalLink className="w-4 h-4" />
+            </button>
+          </div>
         </div>
 
-        {/* Transaction List */}
-        <div className="space-y-4">
-          {(JSON.parse(transactions) as NotificationType[]).length > 0
-            ? (JSON.parse(transactions) as NotificationType[]).map((tx) => {
-              const isPositive = tx.from === coin.toUpperCase();
+        {/* Tab Content */}
+        {activeTab === 'transactions' ? (
+          <div className="space-y-4">
+            {(JSON.parse(transactions) as NotificationType[]).length > 0
+              ? (JSON.parse(transactions) as NotificationType[]).map((tx) => {
+                const isPositive = tx.from === coin.toUpperCase();
 
-              return (
-                <div
-                  key={tx._id}
-                  className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
-                >
-                  <div className="flex items-center gap-4">
-                    {/* Icon */}
-                    <div
-                      className={`w-10 h-10 rounded-full flex items-center justify-center ${isPositive ? "bg-green-500" : "bg-red-500"
-                        }`}
-                    >
-                      {isPositive ? (
-                        <TrendingUp className="text-white" size={20} />
-                      ) : (
-                        <TrendingUp className="text-white rotate-180" size={20} />
-                      )}
+                return (
+                  <div
+                    key={tx._id}
+                    className="flex items-center justify-between p-4 bg-white dark:bg-gray-800 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+                  >
+                    <div className="flex items-center gap-4">
+                      {/* Icon */}
+                      <div
+                        className={`w-10 h-10 rounded-full flex items-center justify-center ${isPositive ? "bg-green-500" : "bg-red-500"
+                          }`}
+                      >
+                        {isPositive ? (
+                          <TrendingUp className="text-white" size={20} />
+                        ) : (
+                          <TrendingUp className="text-white rotate-180" size={20} />
+                        )}
+                      </div>
+
+                      {/* Details */}
+                      <div>
+                        <h4 className="font-semibold">
+                          {isPositive ? `Swapped from ${tx.to}` : `Swapped to ${tx.from}`}
+                        </h4>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                          {formatDate(tx.createdAt)}
+                        </p>
+                      </div>
                     </div>
 
-                    {/* Details */}
-                    <div>
-                      <h4 className="font-semibold">
-                        {isPositive ? `Swapped from ${tx.to}` : `Swapped to ${tx.from}`}
-                      </h4>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">
-                        {formatDate(tx.createdAt)}
+                    {/* Amount */}
+                    <div className="text-right">
+                      <p className={`font-semibold ${isPositive ? "text-green-500" : "text-red-500"}`}>
+                        {isPositive ? `+${tx.fromAmount}` : `-${tx.toAmount}`} {isPositive ? tx.to : tx.from}
                       </p>
                     </div>
                   </div>
-
-                  {/* Amount */}
-                  <div className="text-right">
-                    <p className={`font-semibold ${isPositive ? "text-green-500" : "text-red-500"}`}>
-                      {isPositive ? `+${tx.fromAmount}` : `-${tx.toAmount}`} {isPositive ? tx.to : tx.from}
-                    </p>
-                  </div>
+                )
+              }) : (
+                <div className="text-center text-gray-500 dark:text-gray-400 py-8">
+                  No transactions found
                 </div>
               )
-            }) : (
-              <div>
-
+            }
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {/* CoinMarketCap Info Card */}
+            <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-6 text-white">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <h4 className="text-2xl font-bold">{coinSymbol}</h4>
+                  <p className="text-blue-100">{coinDetails.coinName}</p>
+                </div>
+                <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center">
+                  <CryptoImage
+                    src={coinDetails.src}
+                    alt={coinDetails.alt}
+                    networkSrc={null}
+                    network={null}
+                  />
+                </div>
               </div>
-            )
-          }
-        </div>
+              <p className="text-sm text-blue-100 mb-4">
+                Get real-time price data, market cap, trading volume, and more on CoinMarketCap
+              </p>
+              <a
+                href={`https://coinmarketcap.com/currencies/${coinDetails.coinName.toLowerCase().replace(/\s+/g, '-')}/`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-white text-blue-600 font-semibold px-6 py-3 rounded-lg hover:bg-blue-50 transition-colors w-full justify-center"
+              >
+                <span>View on CoinMarketCap</span>
+                <ExternalLink className="w-5 h-5" />
+              </a>
+            </div>
+
+            {/* Quick Info Cards */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-4">
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Current Price</p>
+                <p className="text-xl font-bold">
+                  ${coinDetails.coinPrice.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
+                </p>
+              </div>
+              <div className="bg-white dark:bg-gray-800 rounded-lg p-4">
+                <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Your Balance</p>
+                <p className="text-xl font-bold">{balance} {coinSymbol}</p>
+              </div>
+            </div>
+
+            {/* Additional Info */}
+            <div className="bg-white dark:bg-gray-800 rounded-lg p-4">
+              <h5 className="font-semibold mb-3">What you can find on CoinMarketCap:</h5>
+              <ul className="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500 mt-1">✓</span>
+                  <span>Real-time price charts and historical data</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500 mt-1">✓</span>
+                  <span>Market capitalization and trading volume</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500 mt-1">✓</span>
+                  <span>Price predictions and market analysis</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-500 mt-1">✓</span>
+                  <span>Latest news and community updates</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        )}
       </div>
     </main>
   )
