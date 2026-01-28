@@ -13,7 +13,7 @@ function Home() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setShowBackToTop(window.scrollY > 400)
+      setShowBackToTop(window.scrollY > 600)
     }
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
@@ -572,6 +572,80 @@ function Home() {
                   <div className="font-bold text-white">David Thompson</div>
                   <div className="text-sm text-cyan-400">Fund Manager</div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Partners Section */}
+      <section className="py-24 bg-dark-bg border-t border-cyan-900/40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="font-display text-4xl md:text-5xl font-black text-white mb-4">
+              Our Partners
+            </h2>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+              Trusted by leading cryptocurrency platforms and exchanges worldwide
+            </p>
+          </div>
+
+          <div className="space-y-8">
+            {/* First row - sliding left */}
+            <div className="partners-slider">
+              <div className="partners-track">
+                {/* First set of logos */}
+                <img src="https://cryptologos.cc/logos/binance-coin-bnb-logo.svg?v=035" alt="Binance" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/ethereum-eth-logo.svg?v=035" alt="Ethereum" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.svg?v=035" alt="Bitcoin" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/uniswap-uni-logo.svg?v=035" alt="Uniswap" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/polygon-matic-logo.svg?v=035" alt="Polygon" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/cardano-ada-logo.svg?v=035" alt="Cardano" className="partner-logo" />
+
+                {/* Second set */}
+                <img src="https://cryptologos.cc/logos/binance-coin-bnb-logo.svg?v=035" alt="Binance" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/ethereum-eth-logo.svg?v=035" alt="Ethereum" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.svg?v=035" alt="Bitcoin" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/uniswap-uni-logo.svg?v=035" alt="Uniswap" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/polygon-matic-logo.svg?v=035" alt="Polygon" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/cardano-ada-logo.svg?v=035" alt="Cardano" className="partner-logo" />
+
+                {/* Third set */}
+                <img src="https://cryptologos.cc/logos/binance-coin-bnb-logo.svg?v=035" alt="Binance" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/ethereum-eth-logo.svg?v=035" alt="Ethereum" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.svg?v=035" alt="Bitcoin" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/uniswap-uni-logo.svg?v=035" alt="Uniswap" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/polygon-matic-logo.svg?v=035" alt="Polygon" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/cardano-ada-logo.svg?v=035" alt="Cardano" className="partner-logo" />
+              </div>
+            </div>
+
+            {/* Second row - sliding right */}
+            <div className="partners-slider">
+              <div className="partners-track-reverse">
+                {/* First set of logos */}
+                <img src="https://cryptologos.cc/logos/solana-sol-logo.svg?v=035" alt="Solana" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/avalanche-avax-logo.svg?v=035" alt="Avalanche" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/chainlink-link-logo.svg?v=035" alt="Chainlink" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/polkadot-new-dot-logo.svg?v=035" alt="Polkadot" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/cosmos-atom-logo.svg?v=035" alt="Cosmos" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/tron-trx-logo.svg?v=035" alt="Tron" className="partner-logo" />
+
+                {/* Second set */}
+                <img src="https://cryptologos.cc/logos/solana-sol-logo.svg?v=035" alt="Solana" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/avalanche-avax-logo.svg?v=035" alt="Avalanche" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/chainlink-link-logo.svg?v=035" alt="Chainlink" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/polkadot-new-dot-logo.svg?v=035" alt="Polkadot" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/cosmos-atom-logo.svg?v=035" alt="Cosmos" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/tron-trx-logo.svg?v=035" alt="Tron" className="partner-logo" />
+
+                {/* Third set */}
+                <img src="https://cryptologos.cc/logos/solana-sol-logo.svg?v=035" alt="Solana" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/avalanche-avax-logo.svg?v=035" alt="Avalanche" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/chainlink-link-logo.svg?v=035" alt="Chainlink" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/polkadot-new-dot-logo.svg?v=035" alt="Polkadot" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/cosmos-atom-logo.svg?v=035" alt="Cosmos" className="partner-logo" />
+                <img src="https://cryptologos.cc/logos/tron-trx-logo.svg?v=035" alt="Tron" className="partner-logo" />
               </div>
             </div>
           </div>

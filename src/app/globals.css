@@ -275,3 +275,64 @@ button {
     box-shadow: 0 0 30px rgba(37, 99, 235, 0.5);
   }
 }
+
+@keyframes slide {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-33.333%);
+  }
+}
+
+@keyframes slide-reverse {
+  0% {
+    transform: translateX(-33.333%);
+  }
+
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.partners-slider {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+}
+
+.partners-track {
+  display: flex;
+  gap: 4rem;
+  animation: slide 40s linear infinite;
+  width: max-content;
+}
+
+.partners-track-reverse {
+  display: flex;
+  gap: 4rem;
+  animation: slide-reverse 40s linear infinite;
+  width: max-content;
+}
+
+.partners-track:hover,
+.partners-track-reverse:hover {
+  animation-play-state: paused;
+}
+
+.partner-logo {
+  flex-shrink: 0;
+  height: 60px;
+  width: auto;
+  object-fit: contain;
+  filter: grayscale(30%) brightness(1.1);
+  transition: all 0.3s ease;
+  opacity: 0.9;
+}
+
+.partner-logo:hover {
+  filter: grayscale(0%) brightness(1.2);
+  opacity: 1;
+  transform: scale(1.1);
+}
