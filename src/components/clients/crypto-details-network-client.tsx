@@ -7,6 +7,7 @@ import { formatDate } from '@/lib/utils';
 import CryptoImage from '../crypto-image';
 import Link from "next/link";
 import { cn } from '@/lib/utils';
+import { PRECIOUS_METALS } from '@/constants';
 
 interface CryptoDetailsNetworkClientProps {
   coin: string
@@ -31,6 +32,11 @@ function CryptoDetailsNetworkClient({ coin, transactions, coinDetails }: CryptoD
   const coinSymbol = coin.toUpperCase()
   const balance = coinDetails.coinBalance || 0;
   const usdValue = balance * coinDetails.coinPrice;
+
+  const getHref = (rootPath: string) => {
+    const instanceOfPreciousMetals = PRECIOUS_METALS.find((coin) => coin.name.toLowerCase() === coinName.toLowerCase())
+    return instanceOfPreciousMetals ? "/swap" : `${rootPath}/${coin.toLowerCase() === "usdt" ? `${coin.toLowerCase()}/trc20` : `${coin.toLowerCase()}/native`}`
+  }
 
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white pb-24 md:pb-4">
@@ -80,7 +86,7 @@ function CryptoDetailsNetworkClient({ coin, transactions, coinDetails }: CryptoD
         <div className="my-8 grid grid-cols-4 gap-4">
           <div className="flex flex-col items-center">
             <Link
-              href={`/withdraw/${coin.toLowerCase() === "usdt" ? `${coin.toLowerCase()}/trc20` : `${coin.toLowerCase()}/native`}`}
+              href={getHref("/withdraw")}
               className="h-16 w-16 rounded-full bg-gray-200 dark:bg-[#374151] hover:bg-gray-300 dark:hover:bg-[#2e3847] flex items-center justify-center"
             >
               <ArrowUp className="text-xl w-5 h-5" />
@@ -89,7 +95,7 @@ function CryptoDetailsNetworkClient({ coin, transactions, coinDetails }: CryptoD
           </div>
           <div className="flex flex-col items-center">
             <Link
-              href={`/deposit/${coin.toLowerCase() === "usdt" ? `${coin.toLowerCase()}/trc20` : `${coin.toLowerCase()}/native`}`}
+              href={getHref("/deposit")}
               className="h-16 w-16 rounded-full bg-gray-200 dark:bg-[#374151] hover:bg-gray-300 dark:hover:bg-[#2e3847] flex items-center justify-center"
             >
               <ArrowDown className="text-xl w-5 h-5" />
@@ -98,7 +104,7 @@ function CryptoDetailsNetworkClient({ coin, transactions, coinDetails }: CryptoD
           </div>
           <div className="flex flex-col items-center">
             <Link
-              href={`/buy/details/${coin.toLowerCase() === "usdt" ? `${coin.toLowerCase()}/trc20` : `${coin.toLowerCase()}/native`}`}
+              href={getHref("/buy/details")}
               className="h-16 w-16 rounded-full bg-gray-200 dark:bg-[#374151] hover:bg-gray-300 dark:hover:bg-[#2e3847] flex items-center justify-center"
             >
               <CreditCard className="text-xl w-5 h-5" />

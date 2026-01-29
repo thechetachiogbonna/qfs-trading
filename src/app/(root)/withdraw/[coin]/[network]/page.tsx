@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getAssetsData } from "@/lib/assets";
+import { PRECIOUS_METALS } from "@/constants";
 
 type Params = {
   params: Promise<{ coin: string; network: string }>
@@ -38,6 +39,10 @@ async function WithdrawCoinNetwork({ params }: Params) {
       balance: Number(userCoins[coinSymbol as keyof typeof userCoins]?.balance || 0)
     } as CryptoData
   })
+
+  if (PRECIOUS_METALS.find((cn) => cn.symbol.toLowerCase() === coin.toLowerCase())) {
+    throw redirect("/swap")
+  }
 
   return <WithdrawClient coin={coin} network={network} coinData={processedCoinData} user={session.user} />
 }

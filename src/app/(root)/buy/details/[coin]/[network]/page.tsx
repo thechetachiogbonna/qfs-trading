@@ -3,6 +3,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getAssetsData } from "@/lib/assets";
+import { PRECIOUS_METALS } from "@/constants";
 
 type Params = {
   params: Promise<{ coin: string; network: string }>
@@ -20,6 +21,10 @@ async function BuyCoinNetwork({ params }: Params) {
 
   if (!session) {
     throw redirect("/login")
+  }
+
+  if (PRECIOUS_METALS.find((cn) => cn.symbol.toLowerCase() === coin.toLowerCase())) {
+    throw redirect("/swap")
   }
 
   const { coinData } = assets;
