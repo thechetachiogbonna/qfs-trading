@@ -3,6 +3,9 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { auth } from "@/lib/auth";
+import { headers } from "next/headers";
+import HomeHeader from "@/components/home-header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -12,11 +15,15 @@ export const metadata: Metadata = {
   manifest: "/manifest.json"
 };
 
-export default function RootLayout({
+export default async function Layout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth.api.getSession({
+    headers: await headers()
+  });
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
@@ -26,6 +33,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <HomeHeader user={session?.user} />
           {children}
 
           <Toaster position="top-right" />

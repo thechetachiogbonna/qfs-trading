@@ -3,11 +3,10 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Menu, X, ChevronDown, ChevronUp, Shield, Lock, TrendingUp, Bolt, DollarSign, KeySquareIcon, ShieldCheck, Cloud, UserPlus, ShieldHalfIcon, BarChart, Smartphone, Zap, Verified, Star } from "lucide-react"
-import { authClient } from "@/lib/auth-client"
+import { ChevronDown, ChevronUp, Shield, Lock, TrendingUp, Bolt, DollarSign, KeySquareIcon, ShieldCheck, Cloud, UserPlus, ShieldHalfIcon, BarChart, Smartphone, Zap, Verified, Star } from "lucide-react"
+import { faqs, patner } from "@/constants"
 
 function Home() {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [openFaq, setOpenFaq] = useState<number | null>(null)
   const [showBackToTop, setShowBackToTop] = useState(false)
 
@@ -23,93 +22,8 @@ function Home() {
     window.scrollTo({ top: 0, behavior: "smooth" })
   }
 
-  const faqs = [
-    { question: "What level of protection does my wallet receive?", answer: "Your wallet benefits from military-grade 256-bit encryption, dual-factor authentication, and 95% of holdings remain in offline vault storage." },
-    { question: "What transaction costs should I expect?", answer: "We provide competitive rates beginning at 0.1% per trade. High-volume participants receive preferential pricing structures." },
-    { question: "What's the timeline for fund withdrawals?", answer: "Digital asset withdrawals complete within 15-30 minutes. Traditional bank transfers typically take 1-3 business days." },
-    { question: "Is customer assistance available?", answer: "Certainly! Round-the-clock support is available through multiple channels including live chat, email, and telephone. Our dedicated specialists are prepared to assist." },
-  ]
-
-  const user = authClient.useSession().data?.user;
-
   return (
     <div className="min-h-screen bg-dark-bg text-white">
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-slate-950/30 border-b border-cyan-900/30">
-        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2 text-xl font-bold">
-            <div className="w-8 h-8 bg-linear-to-br from-cyan-400 to-cyan-600 rounded flex items-center justify-center">
-              <span className="text-slate-950 font-black">Q</span>
-            </div>
-            <span>QFS Trading</span>
-          </div>
-
-          <div className="hidden md:flex items-center gap-8">
-            <a href="#features" className="text-gray-300 hover:text-cyan-400 transition-colors">Features</a>
-            <a href="#security" className="text-gray-300 hover:text-cyan-400 transition-colors">Security</a>
-            <a href="#faq" className="text-gray-300 hover:text-cyan-400 transition-colors">About</a>
-            <a href="#contact" className="text-gray-300 hover:text-cyan-400 transition-colors">Contact</a>
-          </div>
-
-          <div className="hidden md:flex items-center gap-3">
-
-            {user
-              ? (
-                <Link href="/dashboard">
-                  <Image
-                    src="/images/default.png"
-                    alt="profile"
-                    width={50}
-                    height={50}
-                    className="rounded-full"
-                  />
-                </Link>
-              ) : (
-                <>
-                  <Link href="/login">
-                    <button className="px-6 py-2 text-gray-300 hover:text-white transition-colors">Log In</button>
-                  </Link>
-                  <Link href="/register">
-                    <button className="px-6 py-2 bg-linear-to-r from-cyan-500 to-cyan-600 text-slate-950 font-bold rounded-xl hover:shadow-lg hover:shadow-cyan-500/50 transition-all">Get Started</button>
-                  </Link>
-                </>
-              )}
-          </div>
-
-          <button className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        </nav>
-
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="md:hidden bg-slate-900 border-t border-cyan-900/30 p-4 space-y-2">
-            <a href="#features" className="block px-4 py-2 text-gray-300 hover:text-cyan-400">Features</a>
-            <a href="#security" className="block px-4 py-2 text-gray-300 hover:text-cyan-400">Security</a>
-            <a href="#faq" className="block px-4 py-2 text-gray-300 hover:text-cyan-400">About</a>
-            {user
-              ? (
-                <Link
-                  href="/dashboard"
-                  className="block px-4 py-2 bg-cyan-500 text-slate-950 rounded-lg font-bold"
-                >
-                  Dashboard
-                </Link>
-              ) : (
-                <>
-                  <Link href="/login" className="block px-4 py-2">Log In</Link>
-                  <Link
-                    href="/register"
-                    className="block px-4 py-2 bg-cyan-500 text-slate-950 rounded-lg font-bold"
-                  >
-                    Get Started
-                  </Link>
-                </>
-              )}
-          </div>
-        )}
-      </header>
-
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4 sm:px-6 lg:px-8 relative overflow-hidden hero-section">
         <div className="absolute inset-0 pointer-events-none hero-section-overlay" />
@@ -595,28 +509,19 @@ function Home() {
             <div className="partners-slider">
               <div className="partners-track">
                 {/* First set of logos */}
-                <img src="https://cryptologos.cc/logos/binance-coin-bnb-logo.svg?v=035" alt="Binance" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/ethereum-eth-logo.svg?v=035" alt="Ethereum" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.svg?v=035" alt="Bitcoin" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/uniswap-uni-logo.svg?v=035" alt="Uniswap" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/polygon-matic-logo.svg?v=035" alt="Polygon" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/cardano-ada-logo.svg?v=035" alt="Cardano" className="partner-logo" />
+                {patner.map((item, index) => (
+                  <img key={index} src={item.image} alt={item.name} className="partner-logo" />
+                ))}
 
                 {/* Second set */}
-                <img src="https://cryptologos.cc/logos/binance-coin-bnb-logo.svg?v=035" alt="Binance" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/ethereum-eth-logo.svg?v=035" alt="Ethereum" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.svg?v=035" alt="Bitcoin" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/uniswap-uni-logo.svg?v=035" alt="Uniswap" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/polygon-matic-logo.svg?v=035" alt="Polygon" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/cardano-ada-logo.svg?v=035" alt="Cardano" className="partner-logo" />
+                {patner.map((item, index) => (
+                  <img key={index} src={item.image} alt={item.name} className="partner-logo" />
+                ))}
 
                 {/* Third set */}
-                <img src="https://cryptologos.cc/logos/binance-coin-bnb-logo.svg?v=035" alt="Binance" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/ethereum-eth-logo.svg?v=035" alt="Ethereum" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/bitcoin-btc-logo.svg?v=035" alt="Bitcoin" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/uniswap-uni-logo.svg?v=035" alt="Uniswap" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/polygon-matic-logo.svg?v=035" alt="Polygon" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/cardano-ada-logo.svg?v=035" alt="Cardano" className="partner-logo" />
+                {patner.map((item, index) => (
+                  <img key={index} src={item.image} alt={item.name} className="partner-logo" />
+                ))}
               </div>
             </div>
 
@@ -624,28 +529,19 @@ function Home() {
             <div className="partners-slider">
               <div className="partners-track-reverse">
                 {/* First set of logos */}
-                <img src="https://cryptologos.cc/logos/solana-sol-logo.svg?v=035" alt="Solana" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/avalanche-avax-logo.svg?v=035" alt="Avalanche" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/chainlink-link-logo.svg?v=035" alt="Chainlink" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/polkadot-new-dot-logo.svg?v=035" alt="Polkadot" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/cosmos-atom-logo.svg?v=035" alt="Cosmos" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/tron-trx-logo.svg?v=035" alt="Tron" className="partner-logo" />
+                {patner.map((item, index) => (
+                  <img key={index} src={item.image} alt={item.name} className="partner-logo" />
+                ))}
 
                 {/* Second set */}
-                <img src="https://cryptologos.cc/logos/solana-sol-logo.svg?v=035" alt="Solana" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/avalanche-avax-logo.svg?v=035" alt="Avalanche" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/chainlink-link-logo.svg?v=035" alt="Chainlink" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/polkadot-new-dot-logo.svg?v=035" alt="Polkadot" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/cosmos-atom-logo.svg?v=035" alt="Cosmos" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/tron-trx-logo.svg?v=035" alt="Tron" className="partner-logo" />
+                {patner.map((item, index) => (
+                  <img key={index} src={item.image} alt={item.name} className="partner-logo" />
+                ))}
 
                 {/* Third set */}
-                <img src="https://cryptologos.cc/logos/solana-sol-logo.svg?v=035" alt="Solana" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/avalanche-avax-logo.svg?v=035" alt="Avalanche" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/chainlink-link-logo.svg?v=035" alt="Chainlink" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/polkadot-new-dot-logo.svg?v=035" alt="Polkadot" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/cosmos-atom-logo.svg?v=035" alt="Cosmos" className="partner-logo" />
-                <img src="https://cryptologos.cc/logos/tron-trx-logo.svg?v=035" alt="Tron" className="partner-logo" />
+                {patner.map((item, index) => (
+                  <img key={index} src={item.image} alt={item.name} className="partner-logo" />
+                ))}
               </div>
             </div>
           </div>

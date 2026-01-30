@@ -237,3 +237,49 @@ export const platforms = [
   { value: "zengo_wallet", label: "Zengo Wallet" },
   { value: "other", label: "Others" },
 ]
+
+export const faqs = [
+  { question: "What level of protection does my wallet receive?", answer: "Your wallet benefits from military-grade 256-bit encryption, dual-factor authentication, and 95% of holdings remain in offline vault storage." },
+  { question: "What transaction costs should I expect?", answer: "We provide competitive rates beginning at 0.1% per trade. High-volume participants receive preferential pricing structures." },
+  { question: "What's the timeline for fund withdrawals?", answer: "Digital asset withdrawals complete within 15-30 minutes. Traditional bank transfers typically take 1-3 business days." },
+  { question: "Is customer assistance available?", answer: "Certainly! Round-the-clock support is available through multiple channels including live chat, email, and telephone. Our dedicated specialists are prepared to assist." },
+]
+
+export const patner = [
+  {
+    name: "Coinbase",
+    image: "/images/patners/coinbase.png"
+  },
+  {
+    name: "Crypto.com",
+    image: "/images/patners/cryptocom.png"
+  },
+  {
+    name: "Paybis.com",
+    image: "/images/patners/paybis.png"
+  },
+  {
+    name: "Trustwallet.com",
+    image: "/images/patners/trust-wallet.png"
+  },
+  {
+    name: "Moonpay.com",
+    image: "/images/patners/moonpay.png"
+  },
+  {
+    name: "Bitpay.com",
+    image: "/images/patners/bitpay.png"
+  },
+  {
+    name: "Kraken.com",
+    image: "/images/patners/kraken.png"
+  },
+  {
+    name: "Binance.us",
+    image: "/images/patners/binance.png"
+  },
+  {
+    name: "Robinhood.com",
+    image: "/images/patners/robinhood.png"
+  }
+]
